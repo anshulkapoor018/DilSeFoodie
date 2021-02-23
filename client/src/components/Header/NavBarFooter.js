@@ -21,5 +21,21 @@ const NavBar = () => {
         </div>
     )
 };
+// TODO: lets add a footer and export it later
+// const Footer = () => {
+//     return (
+
+
+//        //footdesign will go in here
+//     )
+// };
+
+
+
 
 export default NavBar;
+
+
+//TODO: export for navbar and footer
+
+// export {NavBar, Footer};

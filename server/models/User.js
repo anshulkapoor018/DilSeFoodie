@@ -5,8 +5,13 @@ const UserSchema = new mongoose.Schema({
         type: String,
         default: ''
     },
-
+    
     lastName: {
+        type: String,
+        default: ''
+    },
+
+    email: {
         type: String,
         default: ''
     },
@@ -14,6 +19,11 @@ const UserSchema = new mongoose.Schema({
     password: {
         type: String,
         default: ''
+    },
+
+    isDeleted: {
+        type: Boolean,
+        default: false
     }
 });
 
