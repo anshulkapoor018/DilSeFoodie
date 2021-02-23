@@ -14,15 +14,28 @@ const NavBar = () => {
             <div className = "nav-items">
                 <Link className = "nav-link" to='/Home'>Home</Link>
                 <Link className = "nav-link" to='/Register'>Extra Page</Link>
-                <a className = "nav-link" target='_blank' rel="noopener noreferrer" href="https://reactjs.org/docs/getting-started.html">
-                    React Docs
-                </a>
-                <a className = "nav-link" target="_blank" rel="noopener noreferrer" href="https://reactjs.org/tutorial/tutorial.html">React Tutorial</a>
-                <a className = "nav-link" target="_blank" rel="noopener norefferer" href="https://nodejs.org/en/docs/">Node Docs</a>
+                <Link className = "nav-link" to='/Signup'>Sign Up</Link>
+                
             </div>
 
         </div>
     )
 };
+// TODO: lets add a footer and export it later
+// const Footer = () => {
+//     return (
+
+
+//        //footdesign will go in here
+//     )
+// };
+
+
+
 
 export default NavBar;
+
+
+//TODO: export for navbar and footer
+
+// export {NavBar, Footer};
