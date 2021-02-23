@@ -3,19 +3,22 @@ const path = require('path'),
     mongoose = require('mongoose'),
     morgan = require('morgan'),
     bodyParser = require('body-parser'),
+    chalk = require('chalk');
     exampleRouter = require('../routes/examples.server.routes');
 
 module.exports.init = () => {
-    /* 
-        connect to database
-        - reference README for db uri
-    */
-    mongoose.connect(process.env.DB_URI || require('./config').db.uri, {
-        useNewUrlParser: true,
-        useUnifiedTopology: true
-    });
+   // Connect to MongoDB
     mongoose.set('useCreateIndex', true);
-    mongoose.set('useFindAndModify', false);
+    mongoose
+    .connect(process.env.DB_URI || require('./config').db.uri, {
+        useNewUrlParser: true,
+        useUnifiedTopology: true,
+        useFindAndModify: false
+    })
+    .then(() =>
+        console.log(`${chalk.green('✓')} ${chalk.blue('MongoDB Connected!')}`)
+    )
+    .catch(err => console.log(err));
 
     // initialize app
     const app = express();
