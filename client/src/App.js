@@ -4,19 +4,21 @@ import Home from "./views/Home/Home";
 import Signup from "./views/auth/user_signup";
 import NotFound from "./views/NotFound";
 import NavBar from "./components/Header/NavBarFooter";
+import Footer from './Common/Footer';
 
 const App = () => {
   return (
     <div>
-      <NavBar />
+      <NavBar/>
       <Switch>
         <Route exact path="/Home" component={Home} />
         <Route exact path="/Signup" component={Signup} />
         <Route exact path="/">
-          <Redirect to="/Home" />
+          <Redirect to="/Home"/>
         </Route>
         <Route component={NotFound}/>
       </Switch>
+      <Footer />
     </div>
   );
 }
