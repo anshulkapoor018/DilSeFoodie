@@ -3,6 +3,7 @@ import { Route, Switch, Redirect  } from 'react-router-dom';
 import Home from "./views/Home/Home";
 import Signup from "./views/auth/user_signup";
 import NotFound from "./views/NotFound";
+
 import NavBar from "./components/Header/NavBarFooter";
 import Footer from './Common/Footer';
 
