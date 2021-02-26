@@ -35,7 +35,7 @@ Open [http://localhost:3000](http://localhost:3000) to view the client in the br
 Runs just the server in development mode.<br>
 
 ## File structure
-<!-- #### `client` - Holds the client application -->
+#### `Project Wireframes` - This holds all of our Design Files
 #### `public` - This holds all of our static files
 #### `src`
 - #### `assets` - This folder holds assets such as images, docs, and fonts
