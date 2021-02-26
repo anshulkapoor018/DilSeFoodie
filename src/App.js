@@ -2,6 +2,7 @@ import React from 'react';
 import "bootstrap/dist/css/bootstrap.min.css";
 import { BrowserRouter as Router, Route, Redirect} from "react-router-dom";
 
+import Footer from "./Static/Footer"
 import Navbar from "./components/navbar.component"
 import CreateUser from "./components/create-user.component";
 import Home from "./views/Home/Home";
@@ -18,6 +19,7 @@ function App() {
         <Route exact path="/">
             <Redirect to="/Home"/>
         </Route>
+        <Footer/>
         {/* <Route component={NotFound}/> */}
       </div>
     </Router>
