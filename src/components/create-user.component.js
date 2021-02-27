@@ -3,49 +3,12 @@ import axios from 'axios';
 import "../styles/_loginSty.scss";
 
 export default class AuthCredentials extends Component {
-// export default class CreateUser extends Component {
-  // constructor(props) {
-  //   super(props);
-  //   this.state = {
-  //     username: ''
-  //   }
 
-  //   this.onChangeUsername = this.onChangeUsername.bind(this);
-  //   this.onSubmit = this.onSubmit.bind(this);
-
-   
-  // }
-
-  // onChangeUsername(e) {
-  //   const target = e.target;
-  //   const value = target.value;
-  //   const name = target.name
-  //   this.setState({
-  //     username: value
-  //   })
-  // }
-
-  // onSubmit(e) {
-  //   e.preventDefault();
-
-  //   const user = {
-  //     username: this.state.username
-  //   }
-
-  //   console.log(user);
-
-  //   axios.post('http://localhost:5000/user', user)
-  //     .then(res => console.log(res.data));
-
-  //   this.setState({
-  //     username: ''
-  //   })
-  // }
   constructor(props) {
     super(props);
     this.state = {
-      isLoginOpen: true,
-      isRegisterOpen: false
+      isLoginOpen: false,
+      isRegisterOpen: true,
     };
   }
 
@@ -89,34 +52,6 @@ export default class AuthCredentials extends Component {
       </div>
 
     )
-    
-    // return (
-    //   <div>
-    //     <h3>Sign Up Form</h3>
-    //     <form onSubmit={this.onSubmit}>
-    //       <div className="form-group"> 
-    //         <label>Username: </label>
-    //         <input  type="text"
-    //             required
-    //             name = "username"
-    //             className="form-control"
-    //             value={this.state.username}
-    //             onChange={this.onChangeUsername}
-    //           />
-    //         <input  type="text"
-    //             required
-    //             name = "username"
-    //             className="form-control"
-    //             value={this.state.username}
-    //             onChange={this.onChangeUsername}
-    //           />
-    //       </div>
-    //       <div className="form-group">
-    //         <input type="submit" value="Create User" className="btn btn-primary" />
-    //       </div>
-    //     </form>
-    //   </div>
-    // )
   }
 }
 
@@ -173,10 +108,74 @@ class RegisterBox extends React.Component {
 
   constructor(props) {
     super(props);
-    this.state = {};
+    this.state = {
+      firstName: "",
+      lastName: "",
+      email: "",
+      password: ""
+    };
+
+    this.onChangeFirstName = this.onChangeFirstName.bind(this);
+    this.onChangeLastName = this.onChangeLastName.bind(this);
+    this.onChangeEmail = this.onChangeEmail.bind(this);
+    this.onChangePassword = this.onChangePassword.bind(this);
+    this.submitRegister = this.submitRegister.bind(this);
   }
 
-  submitRegister(e) {}
+  onChangeFirstName(e){
+    const target = e.target;
+    const value = target.value;
+    const name = target.name; 
+    this.setState({
+      firstName: value,
+    })
+  }
+  onChangeLastName(e){
+    const target = e.target;
+    const value = target.value;
+    const name = target.name; 
+    this.setState({
+      lastName: value,
+    })
+  }
+  onChangeEmail(e){
+    const target = e.target;
+    const value = target.value;
+    const name = target.name; 
+    this.setState({
+      email: value,
+    })
+  }
+  onChangePassword(e){
+    const target = e.target;
+    const value = target.value;
+    const name = target.name; 
+    this.setState({
+      password: value,
+    })
+  }
+
+  submitRegister(e) {
+    e.preventDefault();
+
+    const user = {
+      firstName: this.state.firstName,
+      lastName: this.state.lastName,
+      email: this.state.email,
+      password: this.state.password
+    }
+
+    console.log(user)
+    axios.post('http://localhost:5000/user', user)
+    .then(res => console.log(res.data));
+
+    this.setState({
+      firstName: '',
+      LastName: '',
+      email: '',
+      password: ''
+    })
+  }
 
   render() {
     return (
@@ -185,44 +184,52 @@ class RegisterBox extends React.Component {
           Register
         </div>
         <div className="box">
+          <form submitRegister={this.submitRegister}>
+            <div className="input-group">
+              <label htmlFor="firstName">First Name</label>
+              <input
+                type="text"
+                name="firstName"
+                className="login-input"
+                value={this.state.firstName}
+                onChange={this.onChangeFirstName}
+                placeholder="First Name"/>
+            </div>
+            <div className="input-group">
+              <label htmlFor="lastName">Last Name</label>
+              <input
+                type="text"
+                name="lastName"
+                className="login-input"
+                value={this.state.lastName}
+                onChange={this.onChangeLastName}
+                placeholder="Last Name"/>
+            </div>
 
-          <div className="input-group">
-            <label htmlFor="firstName">First Name</label>
-            <input
-              type="text"
-              name="firstName"
-              className="login-input"
-              placeholder="First Name"/>
-          </div>
-          <div className="input-group">
-            <label htmlFor="lastName">Last Name</label>
-            <input
-              type="text"
-              name="lastName"
-              className="login-input"
-              placeholder="Last Name"/>
-          </div>
+            <div className="input-group">
+              <label htmlFor="email">Email</label>
+              <input type="text" name="email" className="login-input" value={this.state.email}
+                onChange={this.onChangeEmail}placeholder="Email"/>
+            </div>
 
-          <div className="input-group">
-            <label htmlFor="email">Email</label>
-            <input type="text" name="email" className="login-input" placeholder="Email"/>
-          </div>
-
-          <div className="input-group">
-            <label htmlFor="password">Password</label>
-            <input
-              type="password"
-              name="password"
-              className="login-input"
-              placeholder="Password"/>
-          </div>
-          <button
-            type="button"
-            className="login-btn"
-            onClick={this
-            .submitRegister
-            .bind(this)}>Register</button>
-        </div>
+            <div className="input-group">
+              <label htmlFor="password">Password</label>
+              <input
+                type="password"
+                name="password"
+                className="login-input"
+                value={this.state.password}
+                onChange={this.onChangePassword}
+                placeholder="Password"/>
+            </div>
+            <button
+              type="submit"
+              className="login-btn"
+              onClick={this
+              .submitRegister
+              .bind(this)}>Register</button>
+          </form>
+        </div>   
       </div>
     );
   }
