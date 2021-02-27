@@ -4,18 +4,22 @@ import axios from 'axios';
 export default class CreateUser extends Component {
   constructor(props) {
     super(props);
+    this.state = {
+      username: ''
+    }
 
     this.onChangeUsername = this.onChangeUsername.bind(this);
     this.onSubmit = this.onSubmit.bind(this);
 
-    this.state = {
-      username: ''
-    }
+   
   }
 
   onChangeUsername(e) {
+    const target = e.target;
+    const value = target.value;
+    const name = target.name
     this.setState({
-      username: e.target.value
+      username: value
     })
   }
 
@@ -28,7 +32,7 @@ export default class CreateUser extends Component {
 
     console.log(user);
 
-    axios.post('http://localhost:5000/users/add', user)
+    axios.post('http://localhost:5000/user', user)
       .then(res => console.log(res.data));
 
     this.setState({
@@ -45,6 +49,7 @@ export default class CreateUser extends Component {
             <label>Username: </label>
             <input  type="text"
                 required
+                name = "username"
                 className="form-control"
                 value={this.state.username}
                 onChange={this.onChangeUsername}
