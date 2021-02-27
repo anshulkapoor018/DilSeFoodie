@@ -60,10 +60,52 @@ class LoginBox extends React.Component {
 
   constructor(props) {
     super(props);
-    this.state = {};
+    this.state = {
+      email: "",
+      password: ""
+    };
+
+    this.onChangeEmail = this.onChangeEmail.bind(this);
+    this.onChangePassword = this.onChangePassword.bind(this);
+    this.submitLogin = this.submitLogin.bind(this);
   }
 
-  submitLogin(e) {}
+  onChangeEmail(e){
+    const target = e.target;
+    const value = target.value;
+    const name = target.name; 
+    this.setState({
+      email: value
+    })
+  }
+  onChangePassword(e){
+    const target = e.target;
+    const value = target.value;
+    const name = target.name; 
+    this.setState({
+      password: value
+    })
+  }
+  
+  submitLogin(e) {
+    e.preventDefault();
+
+    const user = {
+      
+      email: this.state.email,
+      password: this.state.password
+    }
+
+    console.log(user)
+    axios.post('http://localhost:5000/user/profile', user)
+    .then(res => console.log(res.data));
+
+    this.setState({
+      email: '',
+      password: ''
+    })
+
+  }
 
   render() {
     return (
@@ -72,31 +114,31 @@ class LoginBox extends React.Component {
           Login
         </div>
         <div className="box">
+          <form submitRegister={this.submitLogin}>
+            <div className="input-group">
+              <label htmlFor="email">Email</label>
+              <input type="text" name="email" className="login-input" value={this.state.email}
+                onChange={this.onChangeEmail}placeholder="Email"/>
+            </div>
 
-          <div className="input-group">
-            <label htmlFor="username">Email</label>
-            <input
-              type="text"
-              name="email"
-              className="login-input"
-              placeholder="Email"/>
-          </div>
+            <div className="input-group">
+              <label htmlFor="password">Password</label>
+              <input
+                type="password"
+                name="password"
+                className="login-input"
+                value={this.state.password}
+                onChange={this.onChangePassword}
+                placeholder="Password"/>
+            </div>
 
-          <div className="input-group">
-            <label htmlFor="password">Password</label>
-            <input
-              type="password"
-              name="password"
-              className="login-input"
-              placeholder="Password"/>
-          </div>
-
-          <button
-            type="button"
-            className="login-btn"
-            onClick={this
-            .submitLogin
-            .bind(this)}>Login</button>
+            <button
+              type="submit"
+              className="login-btn"
+              onClick={this
+              .submitLogin
+              .bind(this)}>Login</button>
+          </form>
         </div>
       </div>
     );
