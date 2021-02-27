@@ -1,10 +1,10 @@
 import React from 'react';
 import "bootstrap/dist/css/bootstrap.min.css";
 import { BrowserRouter as Router, Route, Redirect} from "react-router-dom";
-
+import ReactDOM from 'react-dom';
 import Footer from "./Static/Footer"
 import Navbar from "./components/navbar.component"
-import CreateUser from "./components/create-user.component";
+import AuthCredentials from "./components/create-user.component";
 import Home from "./views/Home/Home";
 // import NotFound from "./views/NotFound";
 
@@ -15,7 +15,7 @@ function App() {
         <Navbar />
         <br/>
         <Route exact path="/Home" component={Home} />
-        <Route path="/user" component={CreateUser} />
+        <Route path="/user" component={AuthCredentials} />
         <Route exact path="/">
             <Redirect to="/Home"/>
         </Route>
