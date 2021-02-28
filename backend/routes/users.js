@@ -15,6 +15,7 @@ app.use(require("express-session")({
   resave: false, 
   saveUninitialized: false
 }));
+
 // router.route('/profile').get((req, res) => {
 //   return res.send("Welcome to dashboard!");
 // });
@@ -35,8 +36,6 @@ router.post('/profile',
 
     email = email.toLowerCase();
 
-
-
     // TODO: perform checks for email length and characters and all
     if(!email){
       return res.send({
@@ -53,8 +52,6 @@ router.post('/profile',
     }
 
     email = email.toLowerCase();
-
-
 
     User.findOne({email: email,
     }, (err, user) => {
@@ -85,31 +82,8 @@ router.post('/profile',
         message: "Error: wrong password"
       })
 
-
-      // console.log("Signed In")
-      // return res.redirect('/user/profile');
-
     })
 });
-
-// //Handling user login 
-// app.post("/profile", passport.authenticate("local", { 
-//   successRedirect: "/profile", 
-//   failureRedirect: "/"
-// }), function (req, res) { 
-//   console.log(req.body)
-// }); 
-
-// //Handling user logout  
-// app.get("/logout", function (req, res) { 
-//   req.logout(); 
-//   res.redirect("/"); 
-// }); 
-
-// function isLoggedIn(req, res, next) { 
-//   if (req.isAuthenticated()) return next(); 
-//   res.redirect("/"); 
-// } 
 
 //Sending POST data to the DB
 router.route('/').post((req, res) => {
