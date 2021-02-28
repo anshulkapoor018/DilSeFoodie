@@ -3,7 +3,7 @@ let User = require('../models/user.model');
 const mongoose = require("mongoose");
 const passport = require("passport");
 const bodyParser = require("body-parser");
-const LocalStrategy = require("passport-local");
+const LocalStrategy = require("passport-local").Strategy;
 const passportLocalMongoose =  require("passport-local-mongoose");
 
 const express = require("express");
@@ -15,64 +15,81 @@ app.use(require("express-session")({
   resave: false, 
   saveUninitialized: false
 }));
-
-app.use(passport.initialize()); 
-app.use(passport.session()); 
-
-// use static authenticate method of model in LocalStrategy
-passport.use(new LocalStrategy(User.authenticate())); 
-// passport.use(User.createStrategy());
-
-// use static serialize and deserialize of model for passport session support
-passport.serializeUser(User.serializeUser()); 
-passport.deserializeUser(User.deserializeUser()); 
-
-// Showing Profile page 
-app.get("/profile", isLoggedIn, function (req, res) { 
-  res.render("secret"); 
-}); 
-
-// //Fetching
-// router.route('/').get((req, res) => {
-//   User.find()
-//     .then(users => res.json(users))
-//     .catch(err => res.status(400).json('Error: ' + err));
+// router.route('/profile').get((req, res) => {
+//   return res.send("Welcome to dashboard!");
 // });
 
 //Sending POST data to the DB to check user data
-router.post('/profile', function(req, res){
-  console.log(req.body)
-  const {body} = req
+router.post('/profile', 
+  function(req, res){
 
-  // console.log(req.body)
-  const {
-    password,
-  } = body; 
+    const {body} = req
+    console.log(req.body)
+    const {
+      password,
+    } = body; 
 
-  let {
-    email
-  } = body;
+    let {
+      email
+    } = body;
 
-  // TODO: perform checks for email length and characters and all
-  if(!email){
-    return res.send({
-      success: false,
-      message: 'Error: Email cannot be blank.'
-    });
-  }
-
-  if(!password){
-    return res.send({
-      success: false,
-      message: 'Error: Password cannot be blank.'
-    });
-  }
+    email = email.toLowerCase();
 
 
 
+    // TODO: perform checks for email length and characters and all
+    if(!email){
+      return res.send({
+        success: false,
+        message: 'Error: Email cannot be blank.'
+      });
+    }
+
+    if(!password){
+      return res.send({
+        success: false,
+        message: 'Error: Password cannot be blank.'
+      });
+    }
+
+    email = email.toLowerCase();
 
 
 
+    User.findOne({email: email,
+    }, (err, user) => {
+      if(err){
+        console.log(err)
+        return res.send({
+          success: false,
+          message: 'Error: Server Error.'
+        });
+      }else if (!user){
+        console.log("wrong email or password")
+        return
+                         
+      }
+
+      // const users = user[0];
+      // console.log(user)
+      if(!user.validPassword(password)){
+        console.log("Wrong combination")
+        return res.send({
+          success: false,
+          message: "Error: wrong password"
+        })
+      }
+      console.log("signed in")
+      return res.send({
+        success: false,
+        message: "Error: wrong password"
+      })
+
+
+      // console.log("Signed In")
+      // return res.redirect('/user/profile');
+
+    })
 });
 
 // //Handling user login 
@@ -83,16 +100,16 @@ router.post('/profile', function(req, res){
 //   console.log(req.body)
 // }); 
 
-//Handling user logout  
-app.get("/logout", function (req, res) { 
-  req.logout(); 
-  res.redirect("/"); 
-}); 
+// //Handling user logout  
+// app.get("/logout", function (req, res) { 
+//   req.logout(); 
+//   res.redirect("/"); 
+// }); 
 
-function isLoggedIn(req, res, next) { 
-  if (req.isAuthenticated()) return next(); 
-  res.redirect("/"); 
-} 
+// function isLoggedIn(req, res, next) { 
+//   if (req.isAuthenticated()) return next(); 
+//   res.redirect("/"); 
+// } 
 
 //Sending POST data to the DB
 router.route('/').post((req, res) => {

@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import axios from 'axios';
 import "../styles/_loginSty.scss";
+// import {getFromStorage, setInStorage} from '../../utils/storage'
 
 export default class AuthCredentials extends Component {
 
@@ -65,11 +66,12 @@ class LoginBox extends React.Component {
       password: ""
     };
 
+
     this.onChangeEmail = this.onChangeEmail.bind(this);
     this.onChangePassword = this.onChangePassword.bind(this);
     this.submitLogin = this.submitLogin.bind(this);
   }
-
+  
   onChangeEmail(e){
     const target = e.target;
     const value = target.value;
@@ -98,7 +100,7 @@ class LoginBox extends React.Component {
 
     console.log(user)
     axios.post('http://localhost:5000/user/profile', user)
-    .then(res => console.log(res.data));
+    .then(res => console.log("me"));
 
     this.setState({
       email: '',
