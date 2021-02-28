@@ -49,9 +49,7 @@ export default class AuthCredentials extends Component {
           {this.state.isLoginOpen && <LoginBox/>}
           {this.state.isRegisterOpen && <RegisterBox/>}
         </div>
-
       </div>
-
     )
   }
 }
@@ -93,28 +91,32 @@ class LoginBox extends React.Component {
     e.preventDefault();
 
     const user = {
-      
       email: this.state.email,
       password: this.state.password
     }
 
     console.log(user)
-    axios.post('http://localhost:5000/user/profile', user)
-    .then(res => console.log("me"));
+    axios.post('http://localhost:5000/user/login', user)
+    .then(function (response) {
+      if (response.data.redirect === '/') {
+          window.location = "/profile"
+      } else if (response.data.redirect === '/login'){
+          window.location = "/login"
+      }
+    })
+    .catch(function(error) {
+        window.location = "/login"
+    })
 
     this.setState({
       email: '',
       password: ''
     })
-
   }
 
   render() {
     return (
       <div className="inner-container">
-        <div className="header">
-          Login
-        </div>
         <div className="box">
           <form submitRegister={this.submitLogin}>
             <div className="input-group">
@@ -210,7 +212,7 @@ class RegisterBox extends React.Component {
     }
 
     console.log(user)
-    axios.post('http://localhost:5000/user', user)
+    axios.post('http://localhost:5000/user/signup', user)
     .then(res => console.log(res.data));
 
     this.setState({
@@ -224,9 +226,6 @@ class RegisterBox extends React.Component {
   render() {
     return (
       <div className="inner-container">
-        <div className="header">
-          Register
-        </div>
         <div className="box">
           <form submitRegister={this.submitRegister}>
             <div className="input-group">
