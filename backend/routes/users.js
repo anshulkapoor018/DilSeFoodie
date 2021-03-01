@@ -34,7 +34,7 @@ router.post('/login',
       email
     } = body;
 
-    email = email.toLowerCase();
+  
 
     // TODO: perform checks for email length and characters and all
     if(!email || email.length === ""){
