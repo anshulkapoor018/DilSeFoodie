@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import axios from 'axios';
 import "../styles/_loginSty.scss";
-// import {getFromStorage, setInStorage} from '../../utils/storage'
 
 export default class AuthCredentials extends Component {
 
@@ -95,23 +94,33 @@ class LoginBox extends React.Component {
       password: this.state.password
     }
 
-    console.log(user)
-    axios.post('http://localhost:5000/user/login', user)
-    .then(function (response) {
-      if (response.data.redirect === '/') {
+    
+
+    //Changing to an async function
+    const SendLoginRequest = async function(user){
+      try{
+        // sending login data to the /login end point 
+        const response = await axios.post('http://localhost:5000/user/login', user);
+        if (response.data.redirect === '/profile') {
           window.location = "/profile"
-      } else if (response.data.redirect === '/login'){
+        } 
+        else if (response.data.redirect === '/login'){
           window.location = "/login"
+        }
       }
-    })
-    .catch(function(error) {
+      catch(err){
         window.location = "/login"
-    })
+      }
+
+    }
+    // passing the user form data into the axios call
+    SendLoginRequest(user);
 
     this.setState({
       email: '',
       password: ''
     })
+
   }
 
   render() {

@@ -10,14 +10,30 @@ const express = require("express");
 var app = express(); 
 
 app.use(bodyParser.urlencoded({ extended: true })); 
+
+// setting up the session
 app.use(require("express-session")({ 
   secret: "DogeCoin", 
-  resave: false, 
-  saveUninitialized: false
+  name: 'uniqueSessionID',
+  saveUninitialized: false,
 }));
 
-// router.route('/profile').get((req, res) => {
-//   return res.send("Welcome to dashboard!");
+router.route('/').get((req, res) => {
+  if(req.session.loggedIn) res.redirect('/profile')
+    
+});
+
+// // //Sending POST data to the DB to check user data
+// router.get('/profile', function(req, res){
+//   if(req.session.loggedIn){
+//     console.log(req.session.email)
+//     res.write('Welcome '+req.session.email+' to your dashboard')
+//     res.end()
+//   }
+//   else{
+//     res.redirect('/login')
+//   }
+
 // });
 
 //Sending POST data to the DB to check user data
@@ -34,6 +50,8 @@ router.post('/login',
       email
     } = body;
 
+    
+
   
 
     // TODO: perform checks for email length and characters and all
@@ -43,7 +61,7 @@ router.post('/login',
       //   success: false,
       //   message: 'Error: Email cannot be blank.'
       // });
-      var redir = { redirect: '/login'};
+      var redir = { redirect: '/'};
       return res.json(redir);
     }
 
@@ -53,7 +71,7 @@ router.post('/login',
       //   success: false,
       //   message: 'Error: Password cannot be blank.'
       // });
-      redir = { redirect: '/login'};
+      redir = { redirect: '/'};
       return res.json(redir);
     }
 
@@ -62,17 +80,12 @@ router.post('/login',
     User.findOne({email: email,
     }, (err, user) => {
       if(err){
-        console.log(err)
-        // return res.send({
-        //   success: false,
-        //   message: 'Error: Server Error.'
-        // });
-        var redir = { redirect: '/login'};
+        var redir = { redirect: '/'};
         return res.json(redir);
       }else if (!user){
         // console.log("wrong email or password")
         // return             
-        redir = { redirect: '/login'};
+        redir = { redirect: '/'};
         return res.json(redir);
       } else{
         console.log("User Found!");
@@ -80,17 +93,22 @@ router.post('/login',
 
         if(user.password !== password){
           console.log("Wrong Password!")
-          redir = { redirect: '/login'};
+          redir = { redirect: '/'};
           return res.json(redir);
-          // return res.send({
-          //   success: false,
-          //   message: "Error: wrong password"
-          // })
-        } else {
+
+        } 
+        else{
+          req.session.loggedIn = true
+          req.session.cookie.path = "/profile"
+          req.session.email = req.body.email
+          console.log(req.session)
           console.log("Signed in Successfully!");
-          redir = { redirect: "/" };
-          return res.json(redir);
+
+          // trying to get the session data to the profile page 
+          redir = { redirect: "/profile", status:  req.session.loggedIn, email: req.session.email};
+          res.json(redir);
         }
+       
       }
     })
 });

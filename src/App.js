@@ -9,6 +9,16 @@ import Home from "./views/Home/Home";
 import Profile from "./views/Profile/Profile";
 // import NotFound from "./views/NotFound";
 
+export function onEnter(nextState, transition, callback) {
+  const { pathname } = nextState.location
+  const isLoggedIn = sessionStorage.getItem('loggedIn') === 'true'
+  if (pathname === '/user' && isLoggedIn) {
+    transition('/user/profile') //redirect to Home component
+  }
+  return callback() // go as it is.
+}
+
+
 function App() {
   return (
     <Router>
@@ -17,7 +27,7 @@ function App() {
         <br/>
         <Route exact path="/Home" component={Home} />
         <Route path="/user" component={AuthCredentials} />
-        <Route exact path="/profile" component={Profile} />
+        <Route exact path="/user/profile" component={Profile} onEnter={onEnter} />
         <Route exact path="/">
             <Redirect to="/Home"/>
         </Route>
