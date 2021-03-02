@@ -1,4 +1,5 @@
 const router = require('express').Router();
+const session = require('express-session');
 let User = require('../models/user.model');
 const mongoose = require("mongoose");
 const passport = require("passport");
@@ -12,15 +13,16 @@ var app = express();
 app.use(bodyParser.urlencoded({ extended: true })); 
 
 // setting up the session
-app.use(require("express-session")({ 
-  secret: "DogeCoin", 
-  name: 'uniqueSessionID',
-  saveUninitialized: false,
-}));
-
+app.use(
+  session({
+      name: 'AuthCookie',
+      secret: 'uniqueSessionID',
+      resave: false,
+      saveUninitialized: true
+  })
+);
 router.route('/').get((req, res) => {
   if(req.session.loggedIn) res.redirect('/profile')
-    
 });
 
 // // //Sending POST data to the DB to check user data
@@ -39,9 +41,8 @@ router.route('/').get((req, res) => {
 //Sending POST data to the DB to check user data
 router.post('/login', 
   function(req, res){
-
     const {body} = req
-    // console.log(req.body)
+
     const {
       password,
     } = body; 
@@ -50,28 +51,16 @@ router.post('/login',
       email
     } = body;
 
-    
-
-  
-
     // TODO: perform checks for email length and characters and all
     if(!email || email.length === ""){
       console.log('Error: Email cannot be blank.');
-      // return res.send({
-      //   success: false,
-      //   message: 'Error: Email cannot be blank.'
-      // });
-      var redir = { redirect: '/'};
+      var redir = { redirect: '/login'};
       return res.json(redir);
     }
 
     if(!password || password.length === ""){
       console.log('Error: Password cannot be blank.');
-      // return res.send({
-      //   success: false,
-      //   message: 'Error: Password cannot be blank.'
-      // });
-      redir = { redirect: '/'};
+      redir = { redirect: '/login'};
       return res.json(redir);
     }
 
@@ -80,35 +69,29 @@ router.post('/login',
     User.findOne({email: email,
     }, (err, user) => {
       if(err){
-        var redir = { redirect: '/'};
+        var redir = { redirect: '/login'};
         return res.json(redir);
       }else if (!user){
-        // console.log("wrong email or password")
-        // return             
-        redir = { redirect: '/'};
+        redir = { redirect: '/login'};
         return res.json(redir);
-      } else{
+      } else {
         console.log("User Found!");
-        // console.log(user);
-
         if(user.password !== password){
           console.log("Wrong Password!")
-          redir = { redirect: '/'};
+          redir = { redirect: '/login'};
           return res.json(redir);
-
-        } 
-        else{
-          req.session.loggedIn = true
-          req.session.cookie.path = "/profile"
-          req.session.email = req.body.email
-          console.log(req.session)
+        } else{
+          req.session.loggedIn = true;
+          req.session.cookie.path = "/profile";
+          req.session.email = req.body.email;
+          req.session.user = user;
+          // console.log(user);
           console.log("Signed in Successfully!");
-
+          console.log(req.session.user);
           // trying to get the session data to the profile page 
-          redir = { redirect: "/profile", status:  req.session.loggedIn, email: req.session.email};
-          res.json(redir);
+          redir = { redirect: "/", status: true, userDetails: user};
+          return res.json(redir);
         }
-       
       }
     })
 });
