@@ -25,18 +25,28 @@ router.route('/').get((req, res) => {
   if(req.session.loggedIn) res.redirect('/profile')
 });
 
-// // //Sending POST data to the DB to check user data
-// router.get('/profile', function(req, res){
-//   if(req.session.loggedIn){
-//     console.log(req.session.email)
-//     res.write('Welcome '+req.session.email+' to your dashboard')
-//     res.end()
-//   }
-//   else{
-//     res.redirect('/login')
-//   }
+// Block Profile if not authenticated
+router.route('/profile').get((req, res) => {
+  if(!req.session.loggedIn) res.redirect('/user')
+});
+// Logout
+router.get('/logout', function(req, res){
+  let {user} = req
+  console.log(user)
 
-// });
+  console.log("its getting to logout API")
+  req.session.destroy()
+  res.redirect('/user')
+  // if(req.session.loggedIn){
+  //   console.log(req.session.email)
+  //   res.write('Welcome '+req.session.email+' to your dashboard')
+  //   res.end()
+  // }
+  // else{
+  //   res.redirect('/login')
+  // }
+
+});
 
 //Sending POST data to the DB to check user data
 router.post('/login', 
@@ -78,7 +88,7 @@ router.post('/login',
         console.log("User Found!");
         if(user.password !== password){
           console.log("Wrong Password!")
-          redir = { redirect: '/login'};
+          redir = { redirect: '/user'};
           return res.json(redir);
         } else{
           req.session.loggedIn = true;

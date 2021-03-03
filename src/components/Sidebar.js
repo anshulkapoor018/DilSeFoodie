@@ -6,6 +6,7 @@ import * as AiIcons from 'react-icons/ai';
 import { SidebarData } from './SidebarData';
 import SubMenu from './SubMenu';
 import { IconContext } from 'react-icons/lib';
+import Header from "../views/Header/Header";
 
 const Nav = styled.div`
   background: #15171c;
@@ -58,6 +59,7 @@ const Sidebar = () => {
             {SidebarData.map((item, index) => {
               return <SubMenu item={item} key={index} />;
             })}
+            <Header/>
           </SidebarWrap>
         </SidebarNav>
       </IconContext.Provider>
