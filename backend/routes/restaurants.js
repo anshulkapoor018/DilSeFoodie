@@ -17,7 +17,17 @@ app.use(require("express-session")({
 
 router.get('/all',
     function(req, res){
-        
+      const {body} = req
+      Restaurant.findAll((err, user) => {
+        if(err){
+          console.log(err);
+          var redir = { redirect: '/'};
+          return res.json(redir);
+        }
+        else{
+          redir
+          return res.json(redir);
+        }
     });
 
 

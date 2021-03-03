@@ -28,7 +28,7 @@ const usersRouter = require('./routes/users');
 // app.use('/exercises', exercisesRouter);
 app.use('/user', usersRouter);
 // app.use('/order', ordersRouter);
-// app.use('/restaurent', restaurentsRouter);
+app.use('/restaurent', restaurentsRouter);
 // app.use('/review', reviewsRouter);
 
 
