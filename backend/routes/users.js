@@ -1,4 +1,5 @@
 const router = require('express').Router();
+const session = require('express-session');
 let User = require('../models/user.model');
 const mongoose = require("mongoose");
 const passport = require("passport");
@@ -10,22 +11,48 @@ const express = require("express");
 var app = express(); 
 
 app.use(bodyParser.urlencoded({ extended: true })); 
-app.use(require("express-session")({ 
-  secret: "DogeCoin", 
-  resave: false, 
-  saveUninitialized: false
-}));
 
-// router.route('/profile').get((req, res) => {
-//   return res.send("Welcome to dashboard!");
-// });
+// setting up the session
+app.use(
+  session({
+      name: 'AuthCookie',
+      secret: 'uniqueSessionID',
+      resave: false,
+      saveUninitialized: true
+  })
+);
+router.route('/').get((req, res) => {
+  if(req.session.loggedIn) res.redirect('/profile')
+});
+
+// Block Profile if not authenticated
+router.route('/profile').get((req, res) => {
+  if(!req.session.loggedIn) res.redirect('/user')
+});
+// Logout
+router.get('/logout', function(req, res){
+  let {user} = req
+  console.log(user)
+
+  console.log("its getting to logout API")
+  req.session.destroy()
+  res.redirect('/user')
+  // if(req.session.loggedIn){
+  //   console.log(req.session.email)
+  //   res.write('Welcome '+req.session.email+' to your dashboard')
+  //   res.end()
+  // }
+  // else{
+  //   res.redirect('/login')
+  // }
+
+});
 
 //Sending POST data to the DB to check user data
 router.post('/login', 
   function(req, res){
-
     const {body} = req
-    // console.log(req.body)
+
     const {
       password,
     } = body; 
@@ -34,25 +61,15 @@ router.post('/login',
       email
     } = body;
 
-  
-
     // TODO: perform checks for email length and characters and all
     if(!email || email.length === ""){
       console.log('Error: Email cannot be blank.');
-      // return res.send({
-      //   success: false,
-      //   message: 'Error: Email cannot be blank.'
-      // });
       var redir = { redirect: '/login'};
       return res.json(redir);
     }
 
     if(!password || password.length === ""){
       console.log('Error: Password cannot be blank.');
-      // return res.send({
-      //   success: false,
-      //   message: 'Error: Password cannot be blank.'
-      // });
       redir = { redirect: '/login'};
       return res.json(redir);
     }
@@ -62,33 +79,27 @@ router.post('/login',
     User.findOne({email: email,
     }, (err, user) => {
       if(err){
-        console.log(err)
-        // return res.send({
-        //   success: false,
-        //   message: 'Error: Server Error.'
-        // });
         var redir = { redirect: '/login'};
         return res.json(redir);
       }else if (!user){
-        // console.log("wrong email or password")
-        // return             
         redir = { redirect: '/login'};
         return res.json(redir);
-      } else{
+      } else {
         console.log("User Found!");
-        // console.log(user);
-
         if(user.password !== password){
           console.log("Wrong Password!")
-          redir = { redirect: '/login'};
+          redir = { redirect: '/user'};
           return res.json(redir);
-          // return res.send({
-          //   success: false,
-          //   message: "Error: wrong password"
-          // })
-        } else {
+        } else{
+          req.session.loggedIn = true;
+          req.session.cookie.path = "/profile";
+          req.session.email = req.body.email;
+          req.session.user = user;
+          // console.log(user);
           console.log("Signed in Successfully!");
-          redir = { redirect: "/" };
+          console.log(req.session.user);
+          // trying to get the session data to the profile page 
+          redir = { redirect: "/", status: true, userDetails: user};
           return res.json(redir);
         }
       }

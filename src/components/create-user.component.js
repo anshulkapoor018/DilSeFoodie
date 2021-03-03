@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import axios from 'axios';
 import "../styles/_loginSty.scss";
-// import {getFromStorage, setInStorage} from '../../utils/storage'
 
 export default class AuthCredentials extends Component {
 
@@ -64,7 +63,6 @@ class LoginBox extends React.Component {
       password: ""
     };
 
-
     this.onChangeEmail = this.onChangeEmail.bind(this);
     this.onChangePassword = this.onChangePassword.bind(this);
     this.submitLogin = this.submitLogin.bind(this);
@@ -73,7 +71,7 @@ class LoginBox extends React.Component {
   onChangeEmail(e){
     const target = e.target;
     const value = target.value;
-    const name = target.name; 
+    // const name = target.name; 
     this.setState({
       email: value
     })
@@ -81,12 +79,12 @@ class LoginBox extends React.Component {
   onChangePassword(e){
     const target = e.target;
     const value = target.value;
-    const name = target.name; 
+    // const name = target.name; 
     this.setState({
       password: value
     })
   }
-  
+
   submitLogin(e) {
     e.preventDefault();
 
@@ -94,14 +92,14 @@ class LoginBox extends React.Component {
       email: this.state.email,
       password: this.state.password
     }
-
-    console.log(user)
     axios.post('http://localhost:5000/user/login', user)
     .then(function (response) {
       if (response.data.redirect === '/') {
-          window.location = "/profile"
+        window.sessionStorage.setItem('isLoggedIn', response.data.status);
+        window.sessionStorage.setItem('userDetails', JSON.stringify(response.data.userDetails));
+        window.location = "/profile"
       } else if (response.data.redirect === '/login'){
-          window.location = "/login"
+        window.location = "/login"
       }
     })
     .catch(function(error) {
@@ -118,7 +116,7 @@ class LoginBox extends React.Component {
     return (
       <div className="inner-container">
         <div className="box">
-          <form submitRegister={this.submitLogin}>
+          <form submitregister={this.submitLogin}>
             <div className="input-group">
               <label htmlFor="email">Email</label>
               <input type="text" name="email" className="login-input" value={this.state.email}
@@ -165,7 +163,7 @@ class RegisterBox extends React.Component {
     this.onChangeLastName = this.onChangeLastName.bind(this);
     this.onChangeEmail = this.onChangeEmail.bind(this);
     this.onChangePassword = this.onChangePassword.bind(this);
-    this.submitRegister = this.submitRegister.bind(this);
+    this.submitregister = this.submitregister.bind(this);
   }
 
   onChangeFirstName(e){
@@ -201,7 +199,7 @@ class RegisterBox extends React.Component {
     })
   }
 
-  submitRegister(e) {
+  submitregister(e) {
     e.preventDefault();
 
     const user = {
@@ -227,7 +225,7 @@ class RegisterBox extends React.Component {
     return (
       <div className="inner-container">
         <div className="box">
-          <form submitRegister={this.submitRegister}>
+          <form submitregister={this.submitregister}>
             <div className="input-group">
               <label htmlFor="firstName">First Name</label>
               <input
@@ -269,7 +267,7 @@ class RegisterBox extends React.Component {
               type="submit"
               className="login-btn"
               onClick={this
-              .submitRegister
+              .submitregister
               .bind(this)}>Register</button>
           </form>
         </div>   
