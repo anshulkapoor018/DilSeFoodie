@@ -6,7 +6,7 @@ import Footer from "./Static/Footer"
 import Navbar from "./components/navbar.component"
 import AuthCredentials from "./components/create-user.component";
 import Home from "./views/Home/Home";
-import Profile from "./views/Home/Profile";
+import Profile from "./views/Profile/Profile";
 // import NotFound from "./views/NotFound";
 
 function App() {
@@ -17,7 +17,7 @@ function App() {
         <br/>
         <Route exact path="/Home" component={Home} />
         <Route path="/user" component={AuthCredentials} />
-        <Route exact path="/user/profile" component={Profile} />
+        <Route exact path="/profile" component={Profile} />
         <Route exact path="/">
             <Redirect to="/Home"/>
         </Route>

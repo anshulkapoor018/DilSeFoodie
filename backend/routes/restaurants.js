@@ -13,3 +13,22 @@ app.use(require("express-session")({
   resave: false, 
   saveUninitialized: false
 }));
+
+
+router.get('/all',
+    function(req, res){
+        
+    });
+
+
+
+
+
+
+router.get('/:id',
+    function(req, res){
+        
+    });
+
+
+module.exports = router;

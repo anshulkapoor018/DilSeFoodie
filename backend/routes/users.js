@@ -21,11 +21,11 @@ app.use(require("express-session")({
 // });
 
 //Sending POST data to the DB to check user data
-router.post('/profile', 
+router.post('/login', 
   function(req, res){
 
     const {body} = req
-    console.log(req.body)
+    // console.log(req.body)
     const {
       password,
     } = body; 
@@ -34,21 +34,27 @@ router.post('/profile',
       email
     } = body;
 
-    email = email.toLowerCase();
+  
 
     // TODO: perform checks for email length and characters and all
-    if(!email){
-      return res.send({
-        success: false,
-        message: 'Error: Email cannot be blank.'
-      });
+    if(!email || email.length === ""){
+      console.log('Error: Email cannot be blank.');
+      // return res.send({
+      //   success: false,
+      //   message: 'Error: Email cannot be blank.'
+      // });
+      var redir = { redirect: '/login'};
+      return res.json(redir);
     }
 
-    if(!password){
-      return res.send({
-        success: false,
-        message: 'Error: Password cannot be blank.'
-      });
+    if(!password || password.length === ""){
+      console.log('Error: Password cannot be blank.');
+      // return res.send({
+      //   success: false,
+      //   message: 'Error: Password cannot be blank.'
+      // });
+      redir = { redirect: '/login'};
+      return res.json(redir);
     }
 
     email = email.toLowerCase();
@@ -57,38 +63,41 @@ router.post('/profile',
     }, (err, user) => {
       if(err){
         console.log(err)
-        return res.send({
-          success: false,
-          message: 'Error: Server Error.'
-        });
+        // return res.send({
+        //   success: false,
+        //   message: 'Error: Server Error.'
+        // });
+        var redir = { redirect: '/login'};
+        return res.json(redir);
       }else if (!user){
-        console.log("wrong email or password")
-        return
-                         
-      }
+        // console.log("wrong email or password")
+        // return             
+        redir = { redirect: '/login'};
+        return res.json(redir);
+      } else{
+        console.log("User Found!");
+        // console.log(user);
 
-      // const users = user[0];
-      // console.log(user)
-      if(!user.validPassword(password)){
-        console.log("Wrong combination")
-        return res.send({
-          success: false,
-          message: "Error: wrong password"
-        })
+        if(user.password !== password){
+          console.log("Wrong Password!")
+          redir = { redirect: '/login'};
+          return res.json(redir);
+          // return res.send({
+          //   success: false,
+          //   message: "Error: wrong password"
+          // })
+        } else {
+          console.log("Signed in Successfully!");
+          redir = { redirect: "/" };
+          return res.json(redir);
+        }
       }
-      console.log("signed in")
-      return res.send({
-        success: false,
-        message: "Error: wrong password"
-      })
-
     })
 });
 
 //Sending POST data to the DB
-router.route('/').post((req, res) => {
+router.route('/signup').post((req, res) => {
   const {body} = req
-
   // console.log(req.body)
   const {
     firstName,
