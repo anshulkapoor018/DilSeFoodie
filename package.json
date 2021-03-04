@@ -42,7 +42,7 @@
     "eject": "react-scripts eject",
     "install-all": "concurrently \"npm install\" \"cd backend && npm install\"",
     "client": "cd client && npm start",
-    "server": "nodemon server/server.js",
+    "server": "cd backend && nodemon server.js",
     "dev": "concurrently \"cd backend && nodemon server.js\" \"npm run start\""
   },
   "eslintConfig": {

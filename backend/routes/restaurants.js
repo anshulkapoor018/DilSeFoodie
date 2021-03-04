@@ -16,19 +16,28 @@ app.use(require("express-session")({
 
 
 router.get('/all',
-    function(req, res){
-        
+  function(req, res){
+    Restaurant.find({}, function(err, restaurants) {
+      var restaurantMap = {};
+  
+      restaurants.forEach(function(restaurant) {
+        restaurantMap[restaurant._id] = restaurant;
+      });
+  
+      res.send(restaurantMap);  
     });
-
-
-
-
-
+});
 
 router.get('/:id',
-    function(req, res){
-        
-    });
-
+  function(req, res){
+    Restaurant.findById(req.params.id, function (err, docs) { 
+      if (err){
+        console.log(err); 
+      } else{
+        console.log("Result : ", docs);
+        res.send(docs)
+      } 
+  }); 
+});
 
 module.exports = router;
