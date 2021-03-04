@@ -1,11 +1,11 @@
 import React from 'react';
 import "bootstrap/dist/css/bootstrap.min.css";
-import { BrowserRouter as Router,Switch, Route, Redirect} from "react-router-dom";
+import { BrowserRouter as Router, Route, Redirect} from "react-router-dom";
 import Footer from "./Static/Footer"
 import Navbar from "./components/navbar.component"
 import AuthCredentials from "./components/create-user.component";
 import Home from "./views/Home/Home";
-import Header from "./views/Header/Header";
+// import Header from "./views/Header/Header";
 import Profile from "./views/Profile/Profile";
 import Restaurants from "./components/restaurant-all.component";
 
