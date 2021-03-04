@@ -14,7 +14,7 @@ const NavBar = () => {
                 {/* Page Links */}
                 <div className = "nav-items">
                     <Link className = "nav-link" to='/Home'>Home</Link>
-                    <Link className = "nav-link" to='/Restaurant'>Restaurant</Link>
+                    <Link className = "nav-link" to='/restaurants'>Restaurants</Link>
                     <Link className = "nav-link" to='/user'>Signup</Link>
                 </div>
             </div>

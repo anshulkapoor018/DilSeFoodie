@@ -7,6 +7,8 @@ import AuthCredentials from "./components/create-user.component";
 import Home from "./views/Home/Home";
 import Header from "./views/Header/Header";
 import Profile from "./views/Profile/Profile";
+import Restaurants from "./components/restaurant-all.component";
+
 // import NotFound from "./views/NotFound";
 
 export function onEnter(nextState, transition, callback) {
@@ -28,6 +30,7 @@ function App() {
         <br/>
         <Route exact path="/Home" component={Home} />
         <Route path="/user" component={AuthCredentials} />
+        <Route path="/restaurants" component={Restaurants} />
         <Route exact path="/profile" component={Profile} onEnter={onEnter} />
         <Route exact path="/">
             <Redirect to="/Home"/>
