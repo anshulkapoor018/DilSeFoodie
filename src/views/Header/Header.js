@@ -5,6 +5,7 @@ class Header extends Component {
     logout = () => {
         sessionStorage.removeItem("userToken");
         sessionStorage.clear(); 
+        window.sessionStorage.setItem('isLoggedIn', "false")
         window.location = "/user"
     }
     

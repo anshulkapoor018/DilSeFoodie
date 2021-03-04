@@ -21,46 +21,23 @@ app.use(
       saveUninitialized: true
   })
 );
-router.route('/').get((req, res) => {
-  if(req.session.loggedIn) res.redirect('/profile')
-});
-
-// Block Profile if not authenticated
-router.route('/profile').get((req, res) => {
-  if(!req.session.loggedIn) res.redirect('/user')
-});
-// Logout
-router.get('/logout', function(req, res){
-  let {user} = req
-  console.log(user)
-
-  console.log("its getting to logout API")
-  req.session.destroy()
-  res.redirect('/user')
-  // if(req.session.loggedIn){
-  //   console.log(req.session.email)
-  //   res.write('Welcome '+req.session.email+' to your dashboard')
-  //   res.end()
-  // }
-  // else{
-  //   res.redirect('/login')
-  // }
-
-});
-
-router.get('/overview',
-  function(req, res){
-    if (window.sessionStorage.getItem('isLoggedIn') === null || window.sessionStorage.getItem('isLoggedIn') === 'false'){
-      window.location = "/user"
-    } 
-    else{
-      console.log(req.session.user)
-
-    }
 
 
-  }
-)
+
+// router.get('/overview',
+//   function(req, res){
+//     console.log(req.body)
+//     if (window.sessionStorage.getItem('isLoggedIn') === null || window.sessionStorage.getItem('isLoggedIn') === 'false'){
+//       window.location = "/user"
+//     } 
+//     else{
+//       console.log(req.session.user)
+
+//     }
+
+
+//   }
+// )
 
 //Sending POST data to the DB to check user data
 router.post('/login', 
@@ -111,7 +88,7 @@ router.post('/login',
           req.session.user = user;
           // console.log(user);
           console.log("Signed in Successfully!");
-          console.log(req.session.user);
+          // console.log(req.session.user);
           // trying to get the session data to the profile page 
           redir = { redirect: "/", status: true, userDetails: user};
           return res.json(redir);
@@ -119,6 +96,28 @@ router.post('/login',
       }
     })
 });
+//update_profile
+// Update Profile data
+router.route('/update_profile').post((req, res) => {
+  const {body} = req
+  const {
+    profilePicture,
+    firstName,
+    lastName,
+    city,
+    state,
+    age,
+    password,
+    email
+  } = body
+
+
+  User.findOneAndUpdate(
+    {email: email},
+    {$set:{profilePicture: profilePicture, firstName:firstName, lastName:lastName, city: city, state: state, age: age, password: password}}
+  )
+
+})
 
 //Sending POST data to the DB
 router.route('/signup').post((req, res) => {

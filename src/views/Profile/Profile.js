@@ -11,26 +11,32 @@ import React from 'react';
 
 
 function Profile() {
-  
-  if (window.sessionStorage.getItem('isLoggedIn') === null || window.sessionStorage.getItem('isLoggedIn') === 'false'){
+  //not the issue
+  if (window.sessionStorage.getItem('isLoggedIn') === 'true'){
+    return (
+      <Router>
+        <Sidebar />
+        {/* <Profile2/> */}
+        <Switch>
+          <Route path='/profile' exact component={Profile2} />
+          <Route path='/reports' exact component={Reports} />
+          <Route path='/reports/reports1' exact component={ReportsOne} />
+          <Route path='/reports/reports2' exact component={ReportsTwo} />
+          <Route path='/reports/reports3' exact component={ReportsThree} />
+          <Route path='/team' exact component={Team} />
+        </Switch>
+       
+      </Router>
+    );
+    
+  }
+  else{
+    // window.sessionStorage.setItem('isLoggedIn', "false")
     window.location = "/user"
+
   }
   
-  return (
-    <Router>
-      <Sidebar />
-      <Profile2/>
-      <Switch>
-        <Route path='/overview' exact component={EditUserProfile} />
-        <Route path='/reports' exact component={Reports} />
-        <Route path='/reports/reports1' exact component={ReportsOne} />
-        <Route path='/reports/reports2' exact component={ReportsTwo} />
-        <Route path='/reports/reports3' exact component={ReportsThree} />
-        <Route path='/team' exact component={Team} />
-      </Switch>
-     
-    </Router>
-  );
+  
 }
 
 // export default Profile;
@@ -47,7 +53,13 @@ class Profile2 extends React.PureComponent {
         {/* <form action={onEnter}>
           <button type="submit" onClick={onEnter}>Logout</button>
         </form> */}
+
+
+        <EditUserProfile/>
+
       </div>
+
+      
     );
   }
 }

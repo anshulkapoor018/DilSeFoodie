@@ -3,11 +3,11 @@ import axios from 'axios';
 
 var userObject = JSON.parse(window.sessionStorage.getItem("userDetails"));
 // This makes sure that a user is authenticated before seeing this page
-function CheckSession(){
-    if (window.sessionStorage.getItem('isLoggedIn') === null || window.sessionStorage.getItem('isLoggedIn') === 'false'){
-        window.location = "/user"
-    }
-}
+// function CheckSession(){
+//     if (window.sessionStorage.getItem('isLoggedIn') === null || window.sessionStorage.getItem('isLoggedIn') === 'false'){
+//         window.location = "/user"
+//     }
+// }
 
 
 
@@ -120,6 +120,23 @@ class EditUserProfile extends React.Component {
             state: this.state.state,
             age: this.state.age,
         }
+
+        axios.post('http://localhost:5000/user/update_profile', user)
+        .then(res => console.log(res.data));
+
+
+        this.setState({
+            firstName: "",
+            lastName: "",
+            email: "",
+            password: "",
+            profilePicture: "",
+            city: "",
+            state: "",
+            age: "",
+        })
+
+
 
     }
 
