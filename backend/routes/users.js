@@ -48,6 +48,20 @@ router.get('/logout', function(req, res){
 
 });
 
+router.get('/overview',
+  function(req, res){
+    if (window.sessionStorage.getItem('isLoggedIn') === null || window.sessionStorage.getItem('isLoggedIn') === 'false'){
+      window.location = "/user"
+    } 
+    else{
+      console.log(req.session.user)
+
+    }
+
+
+  }
+)
+
 //Sending POST data to the DB to check user data
 router.post('/login', 
   function(req, res){
