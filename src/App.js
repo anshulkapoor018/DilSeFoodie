@@ -1,12 +1,16 @@
 import React from 'react';
 import "bootstrap/dist/css/bootstrap.min.css";
-import { BrowserRouter as Router,Switch, Route, Redirect} from "react-router-dom";
+import { BrowserRouter as Router, Route, Redirect} from "react-router-dom";
 import Footer from "./Static/Footer"
 import Navbar from "./components/navbar.component"
 import AuthCredentials from "./components/create-user.component";
 import Home from "./views/Home/Home";
-import Header from "./views/Header/Header";
+// import Header from "./views/Header/Header";
 import Profile from "./views/Profile/Profile";
+import Restaurants from "./components/restaurant-all.component";
+import RestaurantsPage from "./components/restaurant-single.component";
+
+
 // import NotFound from "./views/NotFound";
 
 export function onEnter(nextState, transition, callback) {
@@ -28,11 +32,13 @@ function App() {
         <br/>
         <Route exact path="/Home" component={Home} />
         <Route path="/user" component={AuthCredentials} />
+        <Route path="/restaurants" component={Restaurants} />
+        <Route path='/restaurant/:id' component={RestaurantsPage} />
         <Route exact path="/profile" component={Profile} onEnter={onEnter} />
         <Route exact path="/">
             <Redirect to="/Home"/>
         </Route>
-        <Footer/>
+        {/* <Footer/> */}
         {/* <Route component={NotFound}/> */}
       </div>
     </Router>

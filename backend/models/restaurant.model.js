@@ -11,7 +11,7 @@ const restaurantSchema = new mongoose.Schema({
   zip: { type: String, required: true },
   latitude: { type: Number, required: true },
   longitude: { type: Number, required: true },
-  rating: { type:Number}
+  rating: { type: Number}
 },{
   timestamps: true,
 });

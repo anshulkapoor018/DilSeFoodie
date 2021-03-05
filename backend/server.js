@@ -29,16 +29,16 @@ connection.once('open', () => {
   console.log(`${chalk.green('✓')} ${chalk.blue('MongoDB Connected!')}`)
 })
 
-const exercisesRouter = require('./routes/exercises');
+// const exercisesRouter = require('./routes/exercises');
 const usersRouter = require('./routes/users');
 // const ordersRouter = require('./routes/orders');
-// const restaurentsRouter = require('./routes/restaurants');
+const restaurentsRouter = require('./routes/restaurants');
 // const reviewsRouter = require('./routes/reviews');
 
 // app.use('/exercises', exercisesRouter);
 app.use('/user', usersRouter);
 // app.use('/order', ordersRouter);
-// app.use('/restaurent', restaurentsRouter);
+app.use('/restaurant', restaurentsRouter);
 // app.use('/review', reviewsRouter);
 
 
