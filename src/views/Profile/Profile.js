@@ -6,9 +6,7 @@ import { Reports, ReportsOne, ReportsTwo, ReportsThree } from '../../pages/Repor
 import Team from '../../pages/Team';
 import axios from 'axios';
 import Header from "../../views/Header/Header";
-
 import React from 'react';
-
 
 function Profile() {
   //not the issue

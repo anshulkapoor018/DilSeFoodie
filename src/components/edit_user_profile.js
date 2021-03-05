@@ -2,6 +2,7 @@ import React from 'react';
 import axios from 'axios';
 
 var userObject = JSON.parse(window.sessionStorage.getItem("userDetails"));
+
 // This makes sure that a user is authenticated before seeing this page
 // function CheckSession(){
 //     if (window.sessionStorage.getItem('isLoggedIn') === null || window.sessionStorage.getItem('isLoggedIn') === 'false'){
@@ -122,19 +123,23 @@ class EditUserProfile extends React.Component {
         }
 
         axios.post('http://localhost:5000/user/update_profile', user)
-        .then(res => console.log(res.data));
-
+        .then(function (response) {
+            if (response.data.redirect === '/profile') {
+                window.location.href = "/profile"
+            }
+          })
 
         this.setState({
-            firstName: "",
-            lastName: "",
-            email: "",
-            password: "",
-            profilePicture: "",
-            city: "",
-            state: "",
-            age: "",
+            profilePicture: userObject['profilePicture'],
+            firstName: userObject['firstName'],
+            lastName: userObject['lastName'],
+            email: userObject['email'],
+            city: userObject['city'],
+            state: userObject['state'],
+            age: userObject['age'],
+            password: userObject['password'],
         })
+        window.location.reload()
 
 
 
@@ -220,6 +225,7 @@ class EditUserProfile extends React.Component {
                 
                 
                 <button
+                    id="btn"
                     type="submit"
                     className="login-btn"
                     onClick={this
@@ -231,4 +237,6 @@ class EditUserProfile extends React.Component {
       );
     }
 }
+
+
 export default EditUserProfile;
