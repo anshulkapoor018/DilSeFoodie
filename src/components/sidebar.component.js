@@ -3,8 +3,8 @@ import styled from 'styled-components';
 import { Link } from 'react-router-dom';
 import * as FaIcons from 'react-icons/fa';
 import * as AiIcons from 'react-icons/ai';
-import { SidebarData } from './SidebarData';
-import SubMenu from './SubMenu';
+import { SidebarData } from './sidebarData.component';
+import SubMenu from './subMenu.component';
 import { IconContext } from 'react-icons/lib';
 import Header from "../views/Header/Header";
 
