@@ -14,7 +14,6 @@ app.use(require("express-session")({
   saveUninitialized: false
 }));
 
-
 router.get('/all',
   function(req, res){
     Restaurant.find({}, function(err, restaurants) {
@@ -24,19 +23,18 @@ router.get('/all',
         restaurantMap.push(restaurant);
       });
   
-      // res.send(restaurantMap);  
+      console.log(restaurantMap);  
       return res.json(restaurantMap);
     });
 });
 
 router.get('/:id',
   function(req, res){
-    Restaurant.findById(req.params.id, function (err, docs) { 
+    Restaurant.findById(req.params.id, function (err, restaurant) { 
       if (err){
         console.log(err); 
       } else{
-        console.log("Result : ", docs);
-        res.send(docs)
+        return res.json(restaurant)
       } 
   }); 
 });
