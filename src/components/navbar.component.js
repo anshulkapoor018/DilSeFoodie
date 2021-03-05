@@ -25,7 +25,7 @@ const NavBar = () => {
             {/* Page Links */}
             <div className = "nav-items">
                 <Link className = "nav-link" to='/Home'>Home</Link>
-                <Link className = "nav-link" to='/Restaurant'>Restaurant</Link>
+                <Link className = "nav-link" to='/restaurants'>Restaurant</Link>
                 <Link className = "nav-link" to={path}>{name}</Link>
             </div>
         </div>
