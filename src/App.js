@@ -38,7 +38,7 @@ function App() {
         <Route exact path="/">
             <Redirect to="/Home"/>
         </Route>
-        <Footer/>
+        {/* <Footer/> */}
         {/* <Route component={NotFound}/> */}
       </div>
     </Router>

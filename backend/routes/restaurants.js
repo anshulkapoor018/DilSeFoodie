@@ -23,7 +23,7 @@ router.get('/all',
         restaurantMap.push(restaurant);
       });
   
-      console.log(restaurantMap);  
+      // console.log(restaurantMap);  
       return res.json(restaurantMap);
     });
 });
