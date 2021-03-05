@@ -6,6 +6,8 @@ const passport = require("passport");
 const bodyParser = require("body-parser");
 const LocalStrategy = require("passport-local").Strategy;
 const passportLocalMongoose =  require("passport-local-mongoose");
+// Used to Encrypt Password
+const bcrypt = require('bcrypt');
 
 const express = require("express");
 var app = express(); 
@@ -21,32 +23,7 @@ app.use(
       saveUninitialized: true
   })
 );
-router.route('/').get((req, res) => {
-  if(req.session.loggedIn) res.redirect('/profile')
-});
 
-// Block Profile if not authenticated
-router.route('/profile').get((req, res) => {
-  if(!req.session.loggedIn) res.redirect('/user')
-});
-// Logout
-router.get('/logout', function(req, res){
-  let {user} = req
-  console.log(user)
-
-  console.log("its getting to logout API")
-  req.session.destroy()
-  res.redirect('/user')
-  // if(req.session.loggedIn){
-  //   console.log(req.session.email)
-  //   res.write('Welcome '+req.session.email+' to your dashboard')
-  //   res.end()
-  // }
-  // else{
-  //   res.redirect('/login')
-  // }
-
-});
 
 //Sending POST data to the DB to check user data
 router.post('/login', 
@@ -86,18 +63,20 @@ router.post('/login',
         return res.json(redir);
       } else {
         console.log("User Found!");
-        if(user.password !== password){
+        
+        
+        if(!bcrypt.compareSync(password, user.password)){
           console.log("Wrong Password!")
           redir = { redirect: '/user'};
           return res.json(redir);
-        } else{
+        } else if(bcrypt.compareSync(password, user.password)){
           req.session.loggedIn = true;
           req.session.cookie.path = "/profile";
           req.session.email = req.body.email;
           req.session.user = user;
           // console.log(user);
           console.log("Signed in Successfully!");
-          console.log(req.session.user);
+          // console.log(req.session.user);
           // trying to get the session data to the profile page 
           redir = { redirect: "/", status: true, userDetails: user};
           return res.json(redir);
@@ -105,6 +84,45 @@ router.post('/login',
       }
     })
 });
+
+// Update Profile data
+router.route('/update_profile').post((req, res) => {
+  const {body} = req
+
+  console.log(req.body)
+  const {
+    profilePicture,
+    firstName,
+    lastName,
+    city,
+    state,
+    age,
+    password,
+    email
+  } = body
+ 
+  // Updating the user Profile 
+  User.updateOne(
+    {email: email}, 
+    {$set: req.body }, 
+    function(err, doc) {
+      if(err){
+        console.log(`Can't update document due too: ${err}`)
+        return
+      }
+      console.log("Updated Successfully, view documents below")
+      console.log(doc)
+      if (doc){
+        req.session.loggedIn = true;
+        req.session.cookie.path = "/profile";
+        redir = { redirect: '/profile', status: "true", userDetails: req.body};
+        return res.json(redir);
+      }
+      
+      
+    }
+);
+})
 
 //Sending POST data to the DB
 router.route('/signup').post((req, res) => {
@@ -169,27 +187,42 @@ router.route('/signup').post((req, res) => {
       });
     }
     
-    //Save the new user
-    const newUser = new User();
-    newUser.email = email;
-    newUser.firstName = firstName;
-    newUser.lastName = lastName;
-    newUser.password = password;
-    
-    newUser.save((err, newUser) => {
-      console.log(err)
+    // Encryption level, the longer the better to crack
+    saltRounds = 10;
+
+    // Encryption algorithm to hash password
+    bcrypt.hash(password, saltRounds, (err, hash) => {
       if(err){
-        return res.send({
-          success: false,
-          message: 'Error: Server error here.'
-        });
+        console.log(`The password could not be hashed because of ${err}`)
+        return
       }
-      console.log("Works")
-      return res.send({
-        success: true,
-        message: 'Signed up.'
+      const newUser = new User();
+      newUser.email = email;
+      newUser.firstName = firstName;
+      newUser.lastName = lastName;
+      newUser.password = hash;
+
+      // Saving the user to the DB
+      newUser.save((err, newUser) => {
+        console.log(err)
+        if(err){
+          return res.send({
+            success: false,
+            message: 'Error: Server error here.'
+          });
+        }
+        console.log("Works")
+        return res.send({
+          success: true,
+          message: 'Signed up.'
+        });
       });
+     
+      
     });
+    
+    
+
   })
 })
   

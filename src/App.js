@@ -13,7 +13,7 @@ export function onEnter(nextState, transition, callback) {
   const { pathname } = nextState.location
   const isLoggedIn = sessionStorage.getItem('loggedIn') === 'true'
   if (pathname === '/user' && isLoggedIn) {
-    transition('/profile') //redirect to Home component
+    window.location = "/profile" //redirect to Home component
   }
   return callback() // go as it is.
 }

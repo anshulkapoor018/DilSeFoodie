@@ -3,6 +3,8 @@ import { Link } from 'react-router-dom';
 import './navbar.component.css';
 
 const NavBar = () => {
+
+    // const 
     if (window.sessionStorage.getItem('isLoggedIn') === null || window.sessionStorage.getItem('isLoggedIn') === 'false'){
         return (
             <div className = "header">

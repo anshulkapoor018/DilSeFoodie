@@ -21,35 +21,42 @@ export default class AuthCredentials extends Component {
   }
 
   render() {
-    return(
-      <div className="root-container">
+    if (window.sessionStorage.getItem('isLoggedIn') === 'true'){
+      window.location = "/profile"
+    }
+    else{
+      return(
+        <div className="root-container">
+  
+          <div className="box-controller">
+            <div
+              className={"controller " + (this.state.isLoginOpen
+              ? "selected-controller"
+              : "")}
+              onClick={this
+              .showLoginBox
+              .bind(this)}>
+              Login
+            </div>
+            <div
+              className={"controller " + (this.state.isRegisterOpen
+              ? "selected-controller"
+              : "")}
+              onClick={this
+              .showRegisterBox
+              .bind(this)}>
+              Register
+            </div>
+          </div>
+          <div className="box-container">
+            {this.state.isLoginOpen && <LoginBox/>}
+            {this.state.isRegisterOpen && <RegisterBox/>}
+          </div>
+        </div>
+      )
 
-        <div className="box-controller">
-          <div
-            className={"controller " + (this.state.isLoginOpen
-            ? "selected-controller"
-            : "")}
-            onClick={this
-            .showLoginBox
-            .bind(this)}>
-            Login
-          </div>
-          <div
-            className={"controller " + (this.state.isRegisterOpen
-            ? "selected-controller"
-            : "")}
-            onClick={this
-            .showRegisterBox
-            .bind(this)}>
-            Register
-          </div>
-        </div>
-        <div className="box-container">
-          {this.state.isLoginOpen && <LoginBox/>}
-          {this.state.isRegisterOpen && <RegisterBox/>}
-        </div>
-      </div>
-    )
+    }
+    
   }
 }
 
