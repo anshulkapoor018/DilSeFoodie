@@ -10166,7 +10166,7 @@
     "regenerator-runtime" "^0.13.7"
     "whatwg-fetch" "^3.4.1"
 
-"react-bootstrap@^1.5.1":
+"react-bootstrap@1.5.1":
   "integrity" "sha512-jbJNGx9n4JvKgxlvT8DLKSeF3VcqnPJXS9LFdzoZusiZCCGoYecZ9qSCBH5n2A+kjmuura9JkvxI9l7HD+bIdQ=="
   "resolved" "https://registry.npmjs.org/react-bootstrap/-/react-bootstrap-1.5.1.tgz"
   "version" "1.5.1"
