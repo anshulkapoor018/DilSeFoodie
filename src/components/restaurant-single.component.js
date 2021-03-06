@@ -2,6 +2,7 @@ import React from 'react';
 // import {Row} from 'reactstrap';
 import axios from 'axios';
 // import Card from 'react-bootstrap/Card'
+import './restaurant-single.component.css'
 
 export default class RestaurantsPage extends React.Component {
   constructor(props) {
@@ -28,11 +29,16 @@ export default class RestaurantsPage extends React.Component {
   }
 
   render(){
-    const currentRestaurant = this.state.restaurantDetails;
+    const restaurant = this.state.restaurantDetails;
     return(
-      <div className='content'>
-        <h1>{currentRestaurant.name}</h1>
-      </div>
+      <div class="card-wide" id ="sticky">
+        <h1>{restaurant.name}</h1>
+        <p class = "category">{restaurant.category}</p>
+        <p>{restaurant.address}</p>
+        <p>{restaurant.city}, {restaurant.state} {restaurant.zip}</p>
+        {/* <p><a href="">More Info!</a></p> */}
+        <div id="gmap"></div>
+    </div>
     )
   }
 }
