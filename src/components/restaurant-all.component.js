@@ -1,7 +1,5 @@
 import React from 'react';
-import {Row, Col} from 'reactstrap';
 import axios from 'axios';
-import Card from 'react-bootstrap/Card'
 import './restaurant-all.component.css'
 
 export default class Restaurants extends React.Component {
@@ -49,19 +47,6 @@ export default class Restaurants extends React.Component {
     return(
       <div className='container_res'>
         {this.state.restaurantList.map((item, index) => (
-        // <Row className='flex-row'>
-        //   <Col>
-            // <Card key = {index} onClick={this.handleClick(item)}>
-            //   <Card.Img variant="top" src="res_clip.png" />
-            //   <Card.Body>
-            //     <Card.Title>{item.name}</Card.Title>
-            //     <Card.Text>
-            //       {item.address}, {item.city}, {item.state}
-            //     </Card.Text>
-            //   </Card.Body>
-            // </Card>
-        //   </Col>
-        // </Row>
           <div className = "card" onClick={this.handleClick(item)}>
               <h2>{item.name}</h2>
               <p>{item.address}</p>
