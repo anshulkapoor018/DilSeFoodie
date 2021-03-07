@@ -1,8 +1,7 @@
 import React from 'react';
-// import {Row} from 'reactstrap';
 import axios from 'axios';
-// import Card from 'react-bootstrap/Card'
-import './restaurant-single.component.css'
+import './restaurant-single.component.css';
+import MapSection from '../Static/GoogleMaps';
 
 export default class RestaurantsPage extends React.Component {
   constructor(props) {
@@ -30,15 +29,28 @@ export default class RestaurantsPage extends React.Component {
 
   render(){
     const restaurant = this.state.restaurantDetails;
+    const location = {
+      address: restaurant.name,
+      lat: restaurant.latitude,
+      lng: restaurant.longitude,
+    }
+    const divStyle = {
+      height: '800px',
+    };
     return(
-      <div class="card-wide" id ="sticky">
-        <h1>{restaurant.name}</h1>
-        <p class = "category">{restaurant.category}</p>
-        <p>{restaurant.address}</p>
-        <p>{restaurant.city}, {restaurant.state} {restaurant.zip}</p>
-        {/* <p><a href="">More Info!</a></p> */}
-        <div id="gmap"></div>
-    </div>
+      <div className='homepage'>
+        <div style ={divStyle} className="card-wide" id ="left">
+          <h1>{restaurant.name}</h1>
+          <p className = "category">{restaurant.category}</p>
+          <p>{restaurant.address}</p>
+          <p>{restaurant.city}, {restaurant.state} {restaurant.zip}</p>
+          <br></br>
+          <MapSection location={location} zoomLevel={17} />
+        </div>
+        <div className="card-wide" id="right">
+          <h2>Reviews</h2>
+        </div>
+      </div>
     )
   }
 }
