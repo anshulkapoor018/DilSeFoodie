@@ -3,6 +3,18 @@ import { Link } from 'react-router-dom';
 import './navbar.component.css';
 
 const NavBar = () => {
+    let path = '/user';
+    let name = 'Signup';
+
+    if (window.sessionStorage.getItem('isLoggedIn') === null || window.sessionStorage.getItem('isLoggedIn') === 'false'){
+        path = path;
+        name = name;
+    }
+    else{
+        var userObject = JSON.parse(window.sessionStorage.getItem("userDetails"));
+        path = '/profile';
+        name = userObject['firstName'];
+    }
     return (
         <div className = "header">
             {/* Logo */}
@@ -13,10 +25,9 @@ const NavBar = () => {
             {/* Page Links */}
             <div className = "nav-items">
                 <Link className = "nav-link" to='/Home'>Home</Link>
-                <Link className = "nav-link" to='/Register'>Restaurant</Link>
-                <Link className = "nav-link" to='/user'>Signup</Link>
+                <Link className = "nav-link" to='/restaurants'>Restaurant</Link>
+                <Link className = "nav-link" to={path}>{name}</Link>
             </div>
-
         </div>
     )
 };

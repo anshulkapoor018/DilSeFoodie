@@ -1,31 +1,35 @@
 const router = require('express').Router();
+const session = require('express-session');
 let User = require('../models/user.model');
-const mongoose = require("mongoose");
-const passport = require("passport");
+// const mongoose = require("mongoose");
+// const passport = require("passport");
 const bodyParser = require("body-parser");
 const LocalStrategy = require("passport-local").Strategy;
 const passportLocalMongoose =  require("passport-local-mongoose");
+// Used to Encrypt Password
+const bcrypt = require('bcrypt');
 
 const express = require("express");
 var app = express(); 
 
 app.use(bodyParser.urlencoded({ extended: true })); 
-app.use(require("express-session")({ 
-  secret: "DogeCoin", 
-  resave: false, 
-  saveUninitialized: false
-}));
 
-// router.route('/profile').get((req, res) => {
-//   return res.send("Welcome to dashboard!");
-// });
+// setting up the session
+app.use(
+  session({
+      name: 'AuthCookie',
+      secret: 'uniqueSessionID',
+      resave: false,
+      saveUninitialized: true
+  })
+);
+
 
 //Sending POST data to the DB to check user data
 router.post('/login', 
   function(req, res){
-
     const {body} = req
-    // console.log(req.body)
+
     const {
       password,
     } = body; 
@@ -34,25 +38,15 @@ router.post('/login',
       email
     } = body;
 
-  
-
     // TODO: perform checks for email length and characters and all
     if(!email || email.length === ""){
       console.log('Error: Email cannot be blank.');
-      // return res.send({
-      //   success: false,
-      //   message: 'Error: Email cannot be blank.'
-      // });
       var redir = { redirect: '/login'};
       return res.json(redir);
     }
 
     if(!password || password.length === ""){
       console.log('Error: Password cannot be blank.');
-      // return res.send({
-      //   success: false,
-      //   message: 'Error: Password cannot be blank.'
-      // });
       redir = { redirect: '/login'};
       return res.json(redir);
     }
@@ -62,38 +56,73 @@ router.post('/login',
     User.findOne({email: email,
     }, (err, user) => {
       if(err){
-        console.log(err)
-        // return res.send({
-        //   success: false,
-        //   message: 'Error: Server Error.'
-        // });
         var redir = { redirect: '/login'};
         return res.json(redir);
       }else if (!user){
-        // console.log("wrong email or password")
-        // return             
         redir = { redirect: '/login'};
         return res.json(redir);
-      } else{
+      } else {
         console.log("User Found!");
-        // console.log(user);
-
-        if(user.password !== password){
+        
+        
+        if(!bcrypt.compareSync(password, user.password)){
           console.log("Wrong Password!")
-          redir = { redirect: '/login'};
+          redir = { redirect: '/user'};
           return res.json(redir);
-          // return res.send({
-          //   success: false,
-          //   message: "Error: wrong password"
-          // })
-        } else {
+        } else if(bcrypt.compareSync(password, user.password)){
+          req.session.loggedIn = true;
+          req.session.cookie.path = "/profile";
+          req.session.email = req.body.email;
+          req.session.user = user;
+          // console.log(user);
           console.log("Signed in Successfully!");
-          redir = { redirect: "/" };
+          // console.log(req.session.user);
+          // trying to get the session data to the profile page 
+          redir = { redirect: "/", status: true, userDetails: user};
           return res.json(redir);
         }
       }
     })
 });
+
+// Update Profile data
+router.route('/update_profile').post((req, res) => {
+  const {body} = req
+
+  console.log(req.body)
+  const {
+    profilePicture,
+    firstName,
+    lastName,
+    city,
+    state,
+    age,
+    password,
+    email
+  } = body
+ 
+  // Updating the user Profile 
+  User.updateOne(
+    {email: email}, 
+    {$set: req.body }, 
+    function(err, doc) {
+      if(err){
+        console.log(`Can't update document due too: ${err}`)
+        return
+      }
+      console.log("Updated Successfully, view documents below")
+      console.log(doc)
+      if (doc){
+        req.session.loggedIn = true;
+        req.session.cookie.path = "/profile";
+        redir = { redirect: '/profile', status: "true", userDetails: req.body};
+        return res.json(redir);
+      }
+      
+      
+    }
+);
+})
 
 //Sending POST data to the DB
 router.route('/signup').post((req, res) => {
@@ -158,27 +187,42 @@ router.route('/signup').post((req, res) => {
       });
     }
     
-    //Save the new user
-    const newUser = new User();
-    newUser.email = email;
-    newUser.firstName = firstName;
-    newUser.lastName = lastName;
-    newUser.password = password;
-    
-    newUser.save((err, newUser) => {
-      console.log(err)
+    // Encryption level, the longer the better to crack
+    saltRounds = 10;
+
+    // Encryption algorithm to hash password
+    bcrypt.hash(password, saltRounds, (err, hash) => {
       if(err){
-        return res.send({
-          success: false,
-          message: 'Error: Server error here.'
-        });
+        console.log(`The password could not be hashed because of ${err}`)
+        return
       }
-      console.log("Works")
-      return res.send({
-        success: true,
-        message: 'Signed up.'
+      const newUser = new User();
+      newUser.email = email;
+      newUser.firstName = firstName;
+      newUser.lastName = lastName;
+      newUser.password = hash;
+
+      // Saving the user to the DB
+      newUser.save((err, newUser) => {
+        console.log(err)
+        if(err){
+          return res.send({
+            success: false,
+            message: 'Error: Server error here.'
+          });
+        }
+        console.log("Works")
+        return res.send({
+          success: true,
+          message: 'Signed up.'
+        });
       });
+     
+      
     });
+    
+    
+
   })
 })
   

@@ -7,10 +7,15 @@ const bodyParser = require("body-parser");
 const express = require("express");
 var app = express(); 
 
+app.use(bodyParser.urlencoded({ extended: true })); 
+app.use(require("express-session")({ 
+  secret: "DogeCoin", 
+  resave: false, 
+  saveUninitialized: false
+}));
 
 router.get('/all',
   function(req, res){
-    // Fetch list of all restaurants
     Restaurant.find({}, function(err, restaurants) {
       var restaurantMap = [];
   
@@ -18,20 +23,18 @@ router.get('/all',
         restaurantMap.push(restaurant);
       });
   
-      // res.send(restaurantMap);  
+      // console.log(restaurantMap);  
       return res.json(restaurantMap);
     });
 });
 
 router.get('/:id',
   function(req, res){
-    // Fetch a specific restaurant with its ID
-    Restaurant.findById(req.params.id, function (err, docs) { 
+    Restaurant.findById(req.params.id, function (err, restaurant) { 
       if (err){
         console.log(err); 
       } else{
-        console.log("Result : ", docs);
-        res.send(docs)
+        return res.json(restaurant)
       } 
   }); 
 });
@@ -69,6 +72,5 @@ router.post('/', (req, res)=>{
     }
   })
 });
-
 
 module.exports = router;

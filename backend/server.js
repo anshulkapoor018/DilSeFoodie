@@ -1,4 +1,5 @@
 const express = require('express');
+const session = require('express-session');
 const cors = require('cors');
 const mongoose = require('mongoose');
 const path = require('path');
@@ -10,6 +11,15 @@ const port = process.env.PORT || 5000;
 
 app.use(cors());
 app.use(express.json());
+
+app.use(
+  session({
+      name: 'AuthCookie',
+      secret: 'uniqueSessionID',
+      resave: false,
+      saveUninitialized: true
+  })
+);
 
 const uri = 'mongodb+srv://admin:2zFG0DD5vX8gHBPp@restaurant.gftqs.mongodb.net/capstone';
 mongoose.connect(uri, { useNewUrlParser: true, useCreateIndex: true, useUnifiedTopology: true }
@@ -42,5 +52,8 @@ if (process.env.NODE_ENV === 'production') {
 }
 
 app.listen(port, () => {
-    console.log(`Server is running on port: ${port}`);
+    console.log(`${chalk.green(`Server is running on port: `)} ${chalk.blue((port))}`);
+    if (process && process.send) {
+      process.send({done: true});
+    }
 });
