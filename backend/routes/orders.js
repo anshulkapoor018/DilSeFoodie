@@ -1,13 +1,6 @@
 const router = require('express').Router();
 let Order = require('../models/order.model');
 // const mongoose = require("mongoose");
-const bodyParser = require("body-parser");
-
-
-const express = require("express");
-var app = express(); 
-
-
 
 router.get('/:id',
   function(req, res){
@@ -55,7 +48,7 @@ router.get('/user/:id',
 router.post('/', (req, res)=>{
   // Adding an order to the DB
 
-  newOrder = new Order();
+  const newOrder = new Order();
 
   newOrder.restaurantId = req.body.restaurantId
   newOrder.userId = req.body.userId
