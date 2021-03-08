@@ -6,14 +6,28 @@ let User = require('../models/user.model');
 const bodyParser = require("body-parser");
 const LocalStrategy = require("passport-local").Strategy;
 const passportLocalMongoose =  require("passport-local-mongoose");
+var nodemailer = require('nodemailer');
 // Used to Encrypt Password
 const bcrypt = require('bcrypt');
+// Image upload 
+const upload = require('../../uploader/multer');
+const cloudinary = require('../../uploader/cloudinary')
+const fs = require('fs')
 
 const express = require("express");
 var app = express(); 
 
 app.use(bodyParser.urlencoded({ extended: true })); 
 
+// Email server and sender setup 
+var transporter = nodemailer.createTransport({
+  service: 'gmail',
+  auth: {
+    user: 'dogefooddelivery@gmail.com',
+    pass: 'doge2021'
+  }
+});
+ 
 // setting up the session
 app.use(
   session({
@@ -23,7 +37,6 @@ app.use(
       saveUninitialized: true
   })
 );
-
 
 //Sending POST data to the DB to check user data
 router.post('/login', 
@@ -153,7 +166,7 @@ router.route('/signup').post((req, res) => {
   }
     
   // TODO: perform checks for email length and characters and all
-  if(!email){
+  if(!email || email == " " || email.length <= 4){
     return res.send({
       success: false,
       message: 'Error: Email cannot be blank.'
@@ -211,6 +224,20 @@ router.route('/signup').post((req, res) => {
             message: 'Error: Server error here.'
           });
         }
+        var mailOptions = {
+          from: 'dogefooddelivery@gmail.com',
+          to: email,
+          subject: 'This is a test email from the Food delivery App',
+          html: `<h1>Welcome ${firstName},</h1><p>Thank you so much for signing up. We will notify you of every service we provide with real time updates.</p><br> <img src="https://images.squarespace-cdn.com/content/v1/56a2785c69a91af45e06a188/1590678823777-3UO1FH17YY3AQOY9XUXR/ke17ZwdGBToddI8pDm48kNvT88LknE-K9M4pGNO0Iqd7gQa3H78H3Y0txjaiv_0fDoOvxcdMmMKkDsyUqMSsMWxHk725yiiHCCLfrh8O1z5QPOohDIaIeljMHgDF5CVlOqpeNLcJ80NK65_fV7S1UbeDbaZv1s3QfpIA4TYnL5Qao8BosUKjCVjCf8TKewJIH3bqxw7fF48mhrq5Ulr0Hg/Restaurant-Safe-Food-Delivery.png?format=2500w">`
+        };
+        
+        transporter.sendMail(mailOptions, function(error, info){
+          if (error) {
+            console.log(error);
+          } else {
+            console.log('Email sent: ' + info.response);
+          }
+        });
         console.log("Works")
         return res.send({
           success: true,

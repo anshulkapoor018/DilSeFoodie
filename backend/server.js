@@ -35,6 +35,34 @@ const usersRouter = require('./routes/users');
 const restaurentsRouter = require('./routes/restaurants');
 // const reviewsRouter = require('./routes/reviews');
 
+ // Uploading images
+const upload = require('../uploader/multer');
+const cloudinary = require('../uploader/cloudinary')
+const fs = require('fs')
+
+app.use('/upload-images',upload.array('images'), async (req,res) => {
+  const uploader = async (path) => await cloudinary.uploads(path, 'Images')
+  if (req.method == 'POST'){
+    const urls = []
+    const files = req.files
+    for (const file of files){
+      const {path} = file
+      const newPath = await uploader(path)
+      urls.push(newPath)
+      fs.unlinkSync(path)
+    }
+    res.status(200).json({
+      message: 'Images Uploaded Successfully',
+      data: useNewUrlParser
+    })
+
+  }else{
+    res.status(405).json({
+      err: "Images not uploaded successfully"
+    })
+  }
+})
+
 // app.use('/exercises', exercisesRouter);
 app.use('/user', usersRouter);
 // app.use('/order', ordersRouter);

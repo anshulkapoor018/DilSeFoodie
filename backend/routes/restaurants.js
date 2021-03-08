@@ -20,7 +20,7 @@ router.get('/all',
       var restaurantMap = [];
   
       restaurants.forEach(function(restaurant) {
-        restaurantMap.push(restaurant);
+        restaurantMap.push(restaurant)
       });
   
       // console.log(restaurantMap);  
