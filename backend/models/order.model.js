@@ -2,7 +2,6 @@ const mongoose = require("mongoose");
 
 // name, website, category, address, city, state, zip, latitude, longitude
 const reviewSchema = new mongoose.Schema({
-  orderId: { type: String, required: true },
   restaurantId: { type: String, required: true },
   userId: { type: String, required: true },
   payment: { type: String, required: true },

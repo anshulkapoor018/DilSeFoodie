@@ -9,7 +9,23 @@ var app = express();
 
 
 
+router.get('/:id',
+  function(req, res){
+    // Fetching orders with the ID of Order
+
+    Order.findById(req.params.id, function (err, docs) { 
+      if (err){
+        console.log(err); 
+      } else{
+        console.log("Result : ", docs);
+        res.send(docs)
+      } 
+  }); 
+});
+
+
 router.get('/restaurant/:id',
+// Fetching orders with the ID of restaurant
   function(req, res){
     Order.find({'restaurantId': req.params.id}, function(err, orders) {
       var ordersMap = [];
@@ -17,13 +33,13 @@ router.get('/restaurant/:id',
       orders.forEach(function(order) {
         ordersMap.push(order);
       });
-      // res.send(restaurantMap);  
       return res.json(ordersMap);
     });
 });
 
 router.get('/user/:id',
   function(req, res){
+    // Fetching orders with the ID of User
     Order.find({'userId': req.params.id}, function(err, orders) {
       var ordersMap = [];
   
@@ -35,34 +51,37 @@ router.get('/user/:id',
     });
 });
 
-router.get('/:id',
-  function(req, res){
-    Order.findById(req.params.id, function (err, docs) { 
-      if (err){
-        console.log(err); 
-      } else{
-        console.log("Result : ", docs);
-        res.send(docs)
-      } 
-  }); 
+
+router.post('/', (req, res)=>{
+  // Adding an order to the DB
+
+  newOrder = new Order();
+
+  newOrder.restaurantId = req.body.restaurantId
+  newOrder.userId = req.body.userId
+  newOrder.payment = req.body.payment
+  newOrder.typeOfOrder = req.body.typeOfOrder
+  newOrder.timeOfOrder = req.body.timeOfOrder
+  newOrder.orderStatus = req.body.orderStatus
+
+
+  newOrder.save((err, newOrder)=> {
+    if(err){
+      console.log(err)
+      return res.send({
+        success: false,
+        message: "Failed to create the Order"
+      })
+    }
+    else{
+      return res.send({
+        success: true,
+        resId: newOrder.id,
+        message: "Successfully placed Order"
+      })
+    }
+  })
 });
 
-router.post('/', 
-  async (req, res)=>{
-
-    let userInfo = req.body;
-    console.log(userInfo);
- 
-    // let {
-    //   email
-    // } = body;
-
-
-    // User.findOne({email: email,
-    // }, (err, user) => {
-
-    //  })
-    res.send(req.body)
-});
 
 module.exports = router;
