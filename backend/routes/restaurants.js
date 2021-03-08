@@ -1,8 +1,6 @@
 const router = require('express').Router();
 let Restaurant = require('../models/restaurant.model');
-// const mongoose = require("mongoose");
 const bodyParser = require("body-parser");
-
 
 const express = require("express");
 var app = express(); 
@@ -18,11 +16,9 @@ router.get('/all',
   function(req, res){
     Restaurant.find({}, function(err, restaurants) {
       var restaurantMap = [];
-  
       restaurants.forEach(function(restaurant) {
         restaurantMap.push(restaurant);
       });
-  
       // console.log(restaurantMap);  
       return res.json(restaurantMap);
     });
@@ -42,7 +38,7 @@ router.get('/:id',
 router.post('/', (req, res)=>{
 // Add a new Restaurant
 
-  newRes = new Restaurant();
+  const newRes = new Restaurant();
 
   newRes.name = req.body.name
   newRes.website = req.body.website

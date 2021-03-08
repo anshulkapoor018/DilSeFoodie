@@ -34,12 +34,10 @@ const ordersRouter = require('./routes/orders');
 const restaurentsRouter = require('./routes/restaurants');
 const reviewsRouter = require('./routes/reviews');
 
-// app.use('/exercises', exercisesRouter);
 app.use('/user', usersRouter);
 app.use('/order', ordersRouter);
-app.use('/restaurent', restaurentsRouter);
+app.use('/restaurant', restaurentsRouter);
 app.use('/review', reviewsRouter);
-
 
 if (process.env.NODE_ENV === 'production') {
   // Serve any static files

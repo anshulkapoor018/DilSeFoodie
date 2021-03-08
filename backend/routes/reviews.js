@@ -1,12 +1,5 @@
 const router = require('express').Router();
 let Review = require('../models/review.model');
-// const mongoose = require("mongoose");
-const bodyParser = require("body-parser");
-
-
-const express = require("express");
-var app = express(); 
-
 
 router.get('/:id',
   function(req, res){
@@ -53,15 +46,12 @@ router.get('/user/:id',
 
 router.post('/', (req, res)=>{
   // Adding a review to a given restaurant.
-  
-  newReview = new Review();
+  const newReview = new Review();
 
   newReview.restaurantId = req.body.restaurantId
   newReview.userId = req.body.userId
   newReview.reviewText = req.body.reviewText
   newReview.rating = req.body.rating
-
-
 
   newReview.save((err, newReview)=> {
     if(err){

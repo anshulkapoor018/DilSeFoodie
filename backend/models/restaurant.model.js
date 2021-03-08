@@ -9,8 +9,8 @@ const restaurantSchema = new mongoose.Schema({
   city: { type: String, required: true },
   state: { type: String, required: true },
   zip: { type: String, required: true },
-  latitude: { type: String, required: false },
-  longitude: { type: String, required: false },
+  latitude: { type: Number, required: false },
+  longitude: { type: Number, required: false },
   rating: { type: String, required: true}
 },{
   timestamps: true,

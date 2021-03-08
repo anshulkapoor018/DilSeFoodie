@@ -5,7 +5,7 @@ const reviewSchema = new mongoose.Schema({
   restaurantId: { type: String, required: true },
   userId: { type: String, required: true },
   reviewText: { type: String, required: true },
-  rating: { type: String, required: true }
+  rating: { type: Number, required: true }
 },{
     timestamps: true,
   });
