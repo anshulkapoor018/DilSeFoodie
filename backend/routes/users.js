@@ -117,10 +117,7 @@ router.route('/update_profile').post((req, res) => {
         const redir = { redirect: '/profile', status: "true", userDetails: req.body};
         return res.json(redir);
       }
-      
-      
-    }
-);
+    });
 })
 
 //Sending POST data to the DB
