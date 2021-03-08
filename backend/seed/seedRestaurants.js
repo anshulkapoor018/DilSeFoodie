@@ -113,6 +113,17 @@ const restaurant = [
     zip: "07307",
     latitude: 40.7459498,
     longitude: -74.0512955
+  }),
+  new Restaurant({
+    name: "Karma Kafe",
+    website: "http://www.karmakafe.com/",
+    category: "Indian",
+    address: "505 Washington St",
+    city: "Hoboken",
+    state: "NJ",
+    zip: "07030",
+    latitude: 40.742402,
+    longitude: -74.0313777
   })
 ]
 
