@@ -4,8 +4,8 @@ let User = require('../models/user.model');
 // const mongoose = require("mongoose");
 // const passport = require("passport");
 const bodyParser = require("body-parser");
-const LocalStrategy = require("passport-local").Strategy;
-const passportLocalMongoose =  require("passport-local-mongoose");
+// const LocalStrategy = require("passport-local").Strategy;
+// const passportLocalMongoose =  require("passport-local-mongoose");
 // Used to Encrypt Password
 const bcrypt = require('bcrypt');
 
@@ -23,7 +23,6 @@ app.use(
       saveUninitialized: true
   })
 );
-
 
 //Sending POST data to the DB to check user data
 router.post('/login', 
@@ -115,7 +114,7 @@ router.route('/update_profile').post((req, res) => {
       if (doc){
         req.session.loggedIn = true;
         req.session.cookie.path = "/profile";
-        redir = { redirect: '/profile', status: "true", userDetails: req.body};
+        const redir = { redirect: '/profile', status: "true", userDetails: req.body};
         return res.json(redir);
       }
       
@@ -188,7 +187,7 @@ router.route('/signup').post((req, res) => {
     }
     
     // Encryption level, the longer the better to crack
-    saltRounds = 10;
+    const saltRounds = 10;
 
     // Encryption algorithm to hash password
     bcrypt.hash(password, saltRounds, (err, hash) => {
@@ -217,12 +216,7 @@ router.route('/signup').post((req, res) => {
           message: 'Signed up.'
         });
       });
-     
-      
     });
-    
-    
-
   })
 })
   

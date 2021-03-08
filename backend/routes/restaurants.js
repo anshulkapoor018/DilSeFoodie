@@ -39,4 +39,38 @@ router.get('/:id',
   }); 
 });
 
+router.post('/', (req, res)=>{
+// Add a new Restaurant
+
+  newRes = new Restaurant();
+
+  newRes.name = req.body.name
+  newRes.website = req.body.website
+  newRes.category = req.body.category
+  newRes.address = req.body.address
+  newRes.city = req.body.city
+  newRes.state = req.body.state
+  newRes.zip = req.body.zip
+  newRes.latitude = req.body.latitude
+  newRes.longitude = req.body.longitude
+  newRes.rating = req.body.rating
+
+  newRes.save((err, newRes)=> {
+    if(err){
+      console.log(err)
+      return res.send({
+        success: false,
+        message: "Failed to create the Restaurant"
+      })
+    }
+    else{
+      return res.send({
+        success: true,
+        resId: newRes.id,
+        message: "Successfully created restaurant"
+      })
+    }
+  })
+});
+
 module.exports = router;
