@@ -69,4 +69,25 @@ router.post('/', (req, res)=>{
   })
 });
 
+router.post('/search', (req, res)=>{
+  const {body} = req
+  const {
+    SearchString,
+  } = body;
+
+  console.log(SearchString);
+  
+  Restaurant.find({
+    "$or": [
+      { "name" : { $regex: SearchString, $options: 'i' }},
+      { "category" : { $regex: SearchString, $options: 'i' }}
+    ]
+  }, function (err, rest) {
+    if (err) console.log(err);
+    
+    const redir = { redirect: "/", restDetails: rest};
+    return res.json(redir);
+  });
+});
+
 module.exports = router;
