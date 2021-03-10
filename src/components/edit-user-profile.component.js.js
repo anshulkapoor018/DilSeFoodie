@@ -17,6 +17,7 @@ class EditUserProfile extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
+            image: "",
             profilePicture: userObject['profilePicture'],
             firstName: userObject['firstName'],
             lastName: userObject['lastName'],
@@ -26,7 +27,7 @@ class EditUserProfile extends React.Component {
             age: userObject['age'],
             password: userObject['password'],
         };
-        // this.state.profilePicture = this.state.profilePicture.bind(this);
+        this.onChangeSelectedFile = this.onChangeSelectedFile.bind(this);
         this.onChangeFirstName = this.onChangeFirstName.bind(this);
         this.onChangeLastName = this.onChangeLastName.bind(this);
         this.onChangeEmail = this.onChangeEmail.bind(this);
@@ -37,14 +38,24 @@ class EditUserProfile extends React.Component {
         this.submitregister = this.submitregister.bind(this);
     }
   
-    // onImage(e){
-    //     const target = e.target;
-    //     const value = target.src;
-    //     const name = target.name; 
-    //     this.setState({
-    //       image: value,
-    //     })
-    // }
+  
+
+    onChangeSelectedFile(e){
+
+        // console.log(e.target.files[0])
+        const target = e.target;
+        const value = target.files[0]
+        //target.files[0]
+        const name= target.name;
+
+        this.setState({
+            //e.target.files[0]
+            image: target.files[0]
+            // loaded: 0,
+          })
+    
+    }
+
 
     onChangeFirstName(e){
         const target = e.target;
@@ -111,15 +122,17 @@ class EditUserProfile extends React.Component {
 
     submitregister(e){
         e.preventDefault();
+        
         const user = {
             firstName: this.state.firstName,
             lastName: this.state.lastName,
             email: this.state.email,
             password: this.state.password,
-            profilePicture: this.state.profilePicture,
+            image: this.state.image,
             city: this.state.city,
             state: this.state.state,
             age: this.state.age,
+
         }
 
         axios.post('http://localhost:5000/user/update_profile', user)
@@ -130,6 +143,7 @@ class EditUserProfile extends React.Component {
           })
 
         this.setState({
+            image: "",
             profilePicture: userObject['profilePicture'],
             firstName: userObject['firstName'],
             lastName: userObject['lastName'],
@@ -139,18 +153,19 @@ class EditUserProfile extends React.Component {
             age: userObject['age'],
             password: userObject['password'],
         })
-        window.location.reload()
-
-
+        // window.location.reload()
 
     }
 
     render() {
 
-      return (
+        return (
         <div class>
+            
             <form submitregister={this.submitregister}>
+
                 <h2>Edit User Profile</h2>
+                <input type="file" name="image" onChange={this.onChangeSelectedFile}/>
                 <img src={this.state.profilePicture} alt="Avatar" name="profilePicture"></img>
                 <label>
                     First Name:
@@ -222,8 +237,6 @@ class EditUserProfile extends React.Component {
                     onChange={this.onChangePassword} />
                 </label>
                 <br />
-                
-                
                 <button
                     id="btn"
                     type="submit"
@@ -237,6 +250,5 @@ class EditUserProfile extends React.Component {
       );
     }
 }
-
 
 export default EditUserProfile;

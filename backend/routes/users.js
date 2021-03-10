@@ -7,12 +7,11 @@ const bodyParser = require("body-parser");
 const LocalStrategy = require("passport-local").Strategy;
 const passportLocalMongoose =  require("passport-local-mongoose");
 var nodemailer = require('nodemailer');
+const cloudinary = require("../../utils/cloudinary");
+const upload = require("../../utils/multer");
+
 // Used to Encrypt Password
 const bcrypt = require('bcrypt');
-// Image upload 
-const upload = require('../../uploader/multer');
-const cloudinary = require('../../uploader/cloudinary')
-const fs = require('fs')
 
 const express = require("express");
 var app = express(); 
@@ -37,6 +36,29 @@ app.use(
       saveUninitialized: true
   })
 );
+
+
+
+// // Use this logic for all uploads, this is a test route
+// router.post("/upload", upload.single("image"), async (req, res) => {
+//   try {
+//     // Upload image to cloudinary
+//     const result = await cloudinary.uploader.upload(req.file.path);
+//      // Create new user
+//     // let user = new User({
+//     //   name: req.body.name,
+//     //   avatar: result.secure_url,
+//     //   cloudinary_id: result.public_id,
+//     // });
+//     // // Save user
+//     // await user.save();
+//     // res.json(user);
+//     res.status(200).json({url: result.secure_url, id:result.public_id})
+//   } catch (err) {
+//     console.log(err);
+//     console.log("failed to upload")
+//   }}); 
+
 
 //Sending POST data to the DB to check user data
 router.post('/login', 
@@ -98,8 +120,27 @@ router.post('/login',
     })
 });
 
+router.post("/upload", upload.single("image"), async (req, res) => {
+  try {
+    // Upload image to cloudinary
+    const result = await cloudinary.uploader.upload(req.file.path);
+     // Create new user
+    // let user = new User({
+    //   name: req.body.name,
+    //   avatar: result.secure_url,
+    //   cloudinary_id: result.public_id,
+    // });
+    // // Save user
+    // await user.save();
+    // res.json(user);
+    res.status(200).json({url: result.secure_url, id:result.public_id})
+  } catch (err) {
+    console.log(err);
+    console.log("failed to upload")
+  }}); 
+
 // Update Profile data
-router.route('/update_profile').post((req, res) => {
+router.route('/update_profile').post(upload.single("image"), async (req, res) => {
   const {body} = req
 
   console.log(req.body)
@@ -109,10 +150,17 @@ router.route('/update_profile').post((req, res) => {
     lastName,
     city,
     state,
+    image,
     age,
     password,
     email
   } = body
+  try{
+    const result = await cloudinary.uploader.upload(req.file.path);
+  } catch(e){
+    console.log(e)
+  }
+
  
   // Updating the user Profile 
   User.updateOne(
