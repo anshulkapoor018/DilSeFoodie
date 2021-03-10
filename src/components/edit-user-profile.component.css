@@ -1,0 +1,69 @@
+
+.card {
+    background-color: #fafafa;
+    box-sizing: border-box;
+    display: block;
+    position: relative;
+    text-align: center;
+    float: left; 
+    width: 31%;
+    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+    transition: 0.3s;
+    border-radius: 15px;
+    padding: 1%;
+    margin: 1%;
+}
+
+label {
+    float:left;
+}
+
+input {
+    height: 20px;
+    width: 300px;
+    border: 1px solid #000;
+    margin-top: 10px;
+    float: left;
+}
+
+input[type=button] {
+    float:none;
+}
+
+.card-wide {
+    background-color: #fafafa;
+    box-sizing: border-box;
+    display: block;
+    text-align: center;
+    float: left; 
+    width: 25%;
+    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+    transition: 0.3s;
+    border-radius: 15px;
+    padding: 1%;
+    margin: 20%;
+}
+
+.card-center{
+    background-color: #fafafa;
+    box-sizing: border-box;
+    display: block;
+    text-align: center;
+    width: 55%;
+    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+    transition: 0.3s;
+    border-radius: 15px;
+    padding: 1%;
+    margin: auto;
+    margin-top: 5%;
+}
+
+#sticky{
+    position: fixed;
+    top: 10%;
+}
+
+#right{
+    float: right;
+    background-color: white;
+}
