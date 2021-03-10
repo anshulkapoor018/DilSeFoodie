@@ -140,100 +140,35 @@ class EditUserProfile extends React.Component {
             password: userObject['password'],
         })
         window.location.reload()
-
-
-
     }
 
     render() {
-
       return (
-        <div class>
-            <form submitregister={this.submitregister}>
-                <h2>Edit User Profile</h2>
+        <div className = "card-center">
+            <h2>Edit User Profile</h2>
+            <div className="card-wide" id="left">
                 <img src={this.state.profilePicture} alt="Avatar" name="profilePicture"></img>
-                <label>
-                    First Name:
-                    <br/>
-                    <input
-                    name="firstName"
-                    type="text"
-                    value={this.state.firstName}
-                    onChange={this.onChangeFirstName} />
-                </label>
-                <br />
-                <label>
-                    Last Name:
-                    <br/>
-                    <input
-                    name="lastName"
-                    type="text"
-                    value={this.state.lastName}
-                    onChange={this.onChangeLastName} />
-                </label>
-                <br />
-                <label>
-                    Email:
-                    <br/>
-                    <input
-                    name="email"
-                    type="text"
-                    value={this.state.email}
-                    onChange={this.onChangeEmail} readOnly/>
-                </label>
-                <br />
-                <label>
-                    City:
-                    <br/>
-                    <input
-                    name="city"
-                    type="text"
-                    value={this.state.city}
-                    onChange={this.onChangeCity} />
-                </label>
-                <br />
-                <label>
-                    State:
-                    <br/>
-                    <input
-                    name="State"
-                    type="text"
-                    value={this.state.state}
-                    onChange={this.onChangeState} />
-                </label>
-                <br />
-                <label>
-                    Age:
-                    <br/>
-                    <input
-                    name="age"
-                    type="text"
-                    value={this.state.age}
-                    onChange={this.onChangeAge} />
-                </label>
-                <br />
-                <label>
-                    Password:
-                    <br/>
-                    <input
-                    name="password"
-                    type="password"
-                    value={this.state.password}
-                    onChange={this.onChangePassword} />
-                </label>
-                <br />
-                
-                
-                <button
-                    id="btn"
-                    type="submit"
-                    className="login-btn"
-                    onClick={this
-                    .submitregister
-                    .bind(this)}>Submit</button>
-            </form>
+            </div>
+            <div className="card-wide" id="right">
+                <form submitregister={this.submitregister}>
+                        <label for="firstName">First Name:</label>
+                        <input name="firstName" id="firstName" type="text" value={this.state.firstName} onChange={this.onChangeFirstName} />
+                        <label for="lastName">Last Name:</label>
+                        <input name="lastName" id="lastName" type="text" value={this.state.lastName} onChange={this.onChangeLastName} />
+                        <label for="Email">Email:</label>
+                        <input name="Email" id="Email" type="text" value={this.state.email} onChange={this.onChangeEmail} readOnly/>
+                        <label for="City">City:</label>
+                        <input name="City" id="City" type="text" value={this.state.city} onChange={this.onChangeCity} />
+                        <label for="State">State:</label>
+                        <input name="State" id="State" type="text" value={this.state.state} onChange={this.onChangeState} />
+                        <label for="Age">Age:</label>
+                        <input name="Age" id="Age" type="text" value={this.state.age} onChange={this.onChangeAge} />
+                        <label for="Password">Password:</label>
+                        <input name="Password" id="Password" type="password" value={this.state.password} onChange={this.onChangePassword} />
+                        <button id="btn" type="submit" className="login-btn" onClick={this.submitregister.bind(this)}>Submit</button>
+                </form>
+            </div>
         </div>
-        
       );
     }
 }
