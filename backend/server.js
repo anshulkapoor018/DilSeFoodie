@@ -6,6 +6,12 @@ const path = require('path');
 const chalk = require('chalk');
 require('dotenv').config();
 
+
+const multerHelper = require('../utils/multer');
+const cloudinaryHelper = require('../utils/cloudinary');
+const fs = require('fs')
+
+
 const app = express();
 const port = process.env.PORT || 5000;
 

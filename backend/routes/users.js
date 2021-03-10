@@ -8,12 +8,24 @@ const bodyParser = require("body-parser");
 // const passportLocalMongoose =  require("passport-local-mongoose");
 // Used to Encrypt Password
 const bcrypt = require('bcrypt');
+const nodemailer = require("nodemailer");
+const upload = require("../../utils/multer")
+const cloudinary = require("../../utils/cloudinary")
 
 const express = require("express");
 var app = express(); 
 
 app.use(bodyParser.urlencoded({ extended: true })); 
 
+// Email server and sender setup 
+var transporter = nodemailer.createTransport({
+  service: 'gmail',
+  auth: {
+    user: 'dogefooddelivery@gmail.com',
+    pass: 'doge2021'
+  }
+});
+ 
 // setting up the session
 app.use(
   session({
@@ -84,8 +96,27 @@ router.post('/login',
     })
 });
 
+router.post("/upload", upload.single("image"), async (req, res) => {
+  try {
+    // Upload image to cloudinary
+    const result = await cloudinary.uploader.upload(req.file.path);
+     // Create new user
+    // let user = new User({
+    //   name: req.body.name,
+    //   avatar: result.secure_url,
+    //   cloudinary_id: result.public_id,
+    // });
+    // // Save user
+    // await user.save();
+    // res.json(user);
+    res.status(200).json({url: result.secure_url, id:result.public_id})
+  } catch (err) {
+    console.log(err);
+    console.log("failed to upload")
+  }}); 
+
 // Update Profile data
-router.route('/update_profile').post((req, res) => {
+router.route('/update_profile').post(upload.single("image"), async (req, res) => {
   const {body} = req
 
   console.log(req.body)
@@ -95,10 +126,17 @@ router.route('/update_profile').post((req, res) => {
     lastName,
     city,
     state,
+    image,
     age,
     password,
     email
   } = body
+  try{
+    const result = await cloudinary.uploader.upload(req.file.path);
+  } catch(e){
+    console.log(e)
+  }
+
  
   // Updating the user Profile 
   User.updateOne(
@@ -149,7 +187,7 @@ router.route('/signup').post((req, res) => {
   }
     
   // TODO: perform checks for email length and characters and all
-  if(!email){
+  if(!email || email == " " || email.length <= 4){
     return res.send({
       success: false,
       message: 'Error: Email cannot be blank.'
@@ -207,6 +245,20 @@ router.route('/signup').post((req, res) => {
             message: 'Error: Server error here.'
           });
         }
+        var mailOptions = {
+          from: 'dogefooddelivery@gmail.com',
+          to: email,
+          subject: 'This is a test email from the Food delivery App',
+          html: `<h1>Welcome ${firstName},</h1><p>Thank you so much for signing up. We will notify you of every service we provide with real time updates.</p><br> <img src="https://images.squarespace-cdn.com/content/v1/56a2785c69a91af45e06a188/1590678823777-3UO1FH17YY3AQOY9XUXR/ke17ZwdGBToddI8pDm48kNvT88LknE-K9M4pGNO0Iqd7gQa3H78H3Y0txjaiv_0fDoOvxcdMmMKkDsyUqMSsMWxHk725yiiHCCLfrh8O1z5QPOohDIaIeljMHgDF5CVlOqpeNLcJ80NK65_fV7S1UbeDbaZv1s3QfpIA4TYnL5Qao8BosUKjCVjCf8TKewJIH3bqxw7fF48mhrq5Ulr0Hg/Restaurant-Safe-Food-Delivery.png?format=2500w">`
+        };
+        
+        transporter.sendMail(mailOptions, function(error, info){
+          if (error) {
+            console.log(error);
+          } else {
+            console.log('Email sent: ' + info.response);
+          }
+        });
         console.log("Works")
         return res.send({
           success: true,

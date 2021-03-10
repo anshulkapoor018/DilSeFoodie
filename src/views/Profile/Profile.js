@@ -1,7 +1,7 @@
 import './Profile.css';
 import Sidebar from '../../components/sidebar.component';
 import { BrowserRouter as Router, Switch, Route, Redirect } from 'react-router-dom';
-import EditUserProfile from "../../components/edit-user-profile.component.js"
+import EditUserProfile from "../../components/edit-user-profile.component"
 import { Reports, ReportsOne, ReportsTwo, ReportsThree } from '../../pages/Reports';
 import Team from '../../pages/Team';
 import axios from 'axios';
@@ -14,7 +14,7 @@ function Profile() {
     return (
       <Router>
         <Sidebar />
-        {/* <Profile2/> */}
+       
         <Switch>
           <Route path='/profile' exact component={Profile2} />
           <Route path='/reports' exact component={Reports} />

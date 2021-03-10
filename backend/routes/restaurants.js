@@ -17,7 +17,7 @@ router.get('/all',
     Restaurant.find({}, function(err, restaurants) {
       var restaurantMap = [];
       restaurants.forEach(function(restaurant) {
-        restaurantMap.push(restaurant);
+        restaurantMap.push(restaurant)
       });
       // console.log(restaurantMap);  
       return res.json(restaurantMap);
