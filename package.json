@@ -3,7 +3,9 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
-    "@babel/runtime": "^7.13.7",
+    "@babel/runtime": "^7.13.9",
+    "@iconify/icons-mdi": "^1.1.12",
+    "@iconify/react": "^1.1.4",
     "@testing-library/jest-dom": "^5.11.4",
     "@testing-library/react": "^11.1.0",
     "@testing-library/user-event": "^12.1.10",
@@ -15,6 +17,7 @@
     "dotenv": "^8.2.0",
     "express": "^4.17.1",
     "express-session": "^1.17.1",
+    "google-map-react": "^2.1.9",
     "history": "5.0.0",
     "multer": "^1.4.2",
     "node-sass": "^5.0.0",

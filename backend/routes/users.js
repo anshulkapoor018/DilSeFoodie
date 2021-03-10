@@ -4,12 +4,17 @@ let User = require('../models/user.model');
 // const mongoose = require("mongoose");
 // const passport = require("passport");
 const bodyParser = require("body-parser");
+<<<<<<< HEAD
 const LocalStrategy = require("passport-local").Strategy;
 const passportLocalMongoose =  require("passport-local-mongoose");
 var nodemailer = require('nodemailer');
 const cloudinary = require("../../utils/cloudinary");
 const upload = require("../../utils/multer");
 
+=======
+// const LocalStrategy = require("passport-local").Strategy;
+// const passportLocalMongoose =  require("passport-local-mongoose");
+>>>>>>> 854164f8bd4a124f128b69d533ea04ddd550ee9c
 // Used to Encrypt Password
 const bcrypt = require('bcrypt');
 
@@ -37,6 +42,7 @@ app.use(
   })
 );
 
+<<<<<<< HEAD
 
 
 // // Use this logic for all uploads, this is a test route
@@ -60,6 +66,8 @@ app.use(
 //   }}); 
 
 
+=======
+>>>>>>> 854164f8bd4a124f128b69d533ea04ddd550ee9c
 //Sending POST data to the DB to check user data
 router.post('/login', 
   function(req, res){
@@ -176,13 +184,10 @@ router.route('/update_profile').post(upload.single("image"), async (req, res) =>
       if (doc){
         req.session.loggedIn = true;
         req.session.cookie.path = "/profile";
-        redir = { redirect: '/profile', status: "true", userDetails: req.body};
+        const redir = { redirect: '/profile', status: "true", userDetails: req.body};
         return res.json(redir);
       }
-      
-      
-    }
-);
+    });
 })
 
 //Sending POST data to the DB
@@ -249,7 +254,7 @@ router.route('/signup').post((req, res) => {
     }
     
     // Encryption level, the longer the better to crack
-    saltRounds = 10;
+    const saltRounds = 10;
 
     // Encryption algorithm to hash password
     bcrypt.hash(password, saltRounds, (err, hash) => {
@@ -292,12 +297,7 @@ router.route('/signup').post((req, res) => {
           message: 'Signed up.'
         });
       });
-     
-      
     });
-    
-    
-
   })
 })
   

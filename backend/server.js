@@ -35,17 +35,18 @@ connection.once('open', () => {
   console.log(`${chalk.green('✓')} ${chalk.blue('MongoDB Connected!')}`)
 })
 
-// const exercisesRouter = require('./routes/exercises');
 const usersRouter = require('./routes/users');
-// const ordersRouter = require('./routes/orders');
+const ordersRouter = require('./routes/orders');
 const restaurentsRouter = require('./routes/restaurants');
+<<<<<<< HEAD
+=======
+const reviewsRouter = require('./routes/reviews');
+>>>>>>> 854164f8bd4a124f128b69d533ea04ddd550ee9c
 
-// app.use('/exercises', exercisesRouter);
 app.use('/user', usersRouter);
-// app.use('/order', ordersRouter);
+app.use('/order', ordersRouter);
 app.use('/restaurant', restaurentsRouter);
-// app.use('/review', reviewsRouter);
-
+app.use('/review', reviewsRouter);
 
 if (process.env.NODE_ENV === 'production') {
   // Serve any static files

@@ -24,9 +24,8 @@ export function onEnter(nextState, transition, callback) {
 
 function App() {
   return (
-    
     <Router>
-      <div className="container">
+      {/* <div className="container"> */}
         <Navbar />
         
         <br/>
@@ -40,7 +39,7 @@ function App() {
         </Route>
         {/* <Footer/> */}
         {/* <Route component={NotFound}/> */}
-      </div>
+      {/* </div> */}
     </Router>
   );
 }
