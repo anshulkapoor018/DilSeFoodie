@@ -4,19 +4,13 @@ let User = require('../models/user.model');
 // const mongoose = require("mongoose");
 // const passport = require("passport");
 const bodyParser = require("body-parser");
-<<<<<<< HEAD
-const LocalStrategy = require("passport-local").Strategy;
-const passportLocalMongoose =  require("passport-local-mongoose");
-var nodemailer = require('nodemailer');
-const cloudinary = require("../../utils/cloudinary");
-const upload = require("../../utils/multer");
-
-=======
 // const LocalStrategy = require("passport-local").Strategy;
 // const passportLocalMongoose =  require("passport-local-mongoose");
->>>>>>> 854164f8bd4a124f128b69d533ea04ddd550ee9c
 // Used to Encrypt Password
 const bcrypt = require('bcrypt');
+const nodemailer = require("nodemailer");
+const upload = require("../../utils/multer")
+const cloudinary = require("../../utils/cloudinary")
 
 const express = require("express");
 var app = express(); 
@@ -42,32 +36,6 @@ app.use(
   })
 );
 
-<<<<<<< HEAD
-
-
-// // Use this logic for all uploads, this is a test route
-// router.post("/upload", upload.single("image"), async (req, res) => {
-//   try {
-//     // Upload image to cloudinary
-//     const result = await cloudinary.uploader.upload(req.file.path);
-//      // Create new user
-//     // let user = new User({
-//     //   name: req.body.name,
-//     //   avatar: result.secure_url,
-//     //   cloudinary_id: result.public_id,
-//     // });
-//     // // Save user
-//     // await user.save();
-//     // res.json(user);
-//     res.status(200).json({url: result.secure_url, id:result.public_id})
-//   } catch (err) {
-//     console.log(err);
-//     console.log("failed to upload")
-//   }}); 
-
-
-=======
->>>>>>> 854164f8bd4a124f128b69d533ea04ddd550ee9c
 //Sending POST data to the DB to check user data
 router.post('/login', 
   function(req, res){
