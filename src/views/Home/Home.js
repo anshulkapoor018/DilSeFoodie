@@ -1,6 +1,8 @@
 import React from 'react';
+import { Redirect } from "react-router";
 import './Home.css';
 import axios from 'axios';
+import RestaurantSearch from '../../components/restaurant-search.component';
 
 // import { Row, Col } from 'reactstrap';
 // import banners from './banners.json';
@@ -32,17 +34,22 @@ class Home extends React.PureComponent {
     const search = {
       SearchString: this.state.SearchString
     }
-    console.log(this.state.SearchString);
+
     if(this.state.SearchString === ""){
       window.alert("Please Enter Something to Search")
     } else {
-      // window.location = "/restaurants/" + String(this.state.SearchString)
       axios.post('http://localhost:5000/restaurant/search', search)
       .then(function (response) {
         console.log(response.data.restDetails);
+        if((response.data.restDetails).length !== 0){
+          window.location = "/search/" + String(search.SearchString)
+        } else {
+          window.alert("No Search Results!")
+        }
       })
       .catch(function(error) {
-          window.location = "/home"
+        console.log(error);
+        window.location = "/home"
       })
     }
   }

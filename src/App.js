@@ -9,6 +9,8 @@ import Home from "./views/Home/Home";
 import Profile from "./views/Profile/Profile";
 import Restaurants from "./components/restaurant-all.component";
 import RestaurantsPage from "./components/restaurant-single.component";
+import RestaurantSearch from './components/restaurant-search.component';
+
 
 import './App.css'
 // import NotFound from "./views/NotFound";
@@ -30,6 +32,7 @@ function App() {
         <Route path="/user" component={AuthCredentials} />
         <Route path="/restaurants" component={Restaurants} />
         <Route path='/restaurant/:id' component={RestaurantsPage} />
+        <Route path='/search' component={RestaurantSearch} />
         <Route exact path="/profile" component={Profile} onEnter={onEnter} />
         <Route exact path="/">
             <Redirect to="/Home"/>
