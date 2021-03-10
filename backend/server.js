@@ -38,10 +38,7 @@ connection.once('open', () => {
 const usersRouter = require('./routes/users');
 const ordersRouter = require('./routes/orders');
 const restaurentsRouter = require('./routes/restaurants');
-<<<<<<< HEAD
-=======
 const reviewsRouter = require('./routes/reviews');
->>>>>>> 854164f8bd4a124f128b69d533ea04ddd550ee9c
 
 app.use('/user', usersRouter);
 app.use('/order', ordersRouter);
