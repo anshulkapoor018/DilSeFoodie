@@ -28,21 +28,35 @@ export default class RestaurantsAll extends Component {
 
   restauranListsApiCall() {
     var self = this;
+    let markers = []
     axios.get('http://localhost:5000/restaurant/all')
     .then(function (response) {
-      self.setState({ restaurantListView: response.data });
+      response.data.forEach(rest => 
+        markers.push({
+          'name': rest.name,
+          'latitude': rest.latitude,
+          'longitude': rest.longitude
+        })
+      );
+      self.setState({ restaurantListView: markers });
     })
   }
 
   render() {
+    const locations = [
+      {
+        address: 'Papa Johns',
+        lat: 40.732628,
+        lng: -74.037628,
+      }
+    ]
+
     const location = {
       address: 'Papa Johns',
       lat: 40.732628,
       lng: -74.037628,
-    }
-    const divStyle = {
-      height: '800px',
     };
+
     return(
       <div className="root-containers">
         <div className="box-controllers">
@@ -53,9 +67,9 @@ export default class RestaurantsAll extends Component {
           Pickup
           </div>
         </div>
-        <div style ={divStyle} className="card-fulls">
+        <div style={{ height: '100vh', width: '100%' }} className="card-fulls">
           {this.state.isListViewOpen && <Restaurants/>}
-          {this.state.isPickupViewOpen && <MapSection location={location} zoomLevel={17} />}
+          {this.state.isPickupViewOpen && <MapSection location={locations} zoomLevel={17} />}
         </div>
       </div>
     )
