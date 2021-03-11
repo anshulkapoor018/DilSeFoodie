@@ -61,7 +61,7 @@ body {
 
 .card:hover{
     transform: scale(1.05);
- box-shadow: 0 10px 20px rgba(0,0,0,.12), 0 4px 8px rgba(0,0,0,.06);
+    box-shadow: 0 10px 20px rgba(0,0,0,.12), 0 4px 8px rgba(0,0,0,.06);
 }
 
 .card h3{
@@ -126,7 +126,6 @@ body {
 
 .selected-controllers {
     transition: border 0.5s ease-out;
-    /* border-bottom: 4px solid blue; */
     background-color: beige;
 }
 
@@ -134,18 +133,4 @@ body {
 .container {
     display: table;
     width: 100%;
-  }
-  
-.left-half {
-    background-color: #ff9e2c;
-    position: absolute;
-    left: 0px;
-    width: 50%;
-}
-
-.right-half {
-    background-color: #b6701e;
-    position: absolute;
-    right: 0px;
-    width: 50%;
 }
