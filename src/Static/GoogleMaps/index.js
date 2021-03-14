@@ -2,6 +2,7 @@ import React from 'react'
 import GoogleMapReact from 'google-map-react'
 import { Icon } from '@iconify/react'
 import locationIcon from '@iconify/icons-mdi/map-marker'
+import 'bootstrap/dist/css/bootstrap.css';
 
 import './index.css'
 

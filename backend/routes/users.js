@@ -11,6 +11,7 @@ const bcrypt = require('bcrypt');
 const nodemailer = require("nodemailer");
 const upload = require("../../utils/multer")
 const cloudinary = require("../../utils/cloudinary")
+const path = require("path")
 
 const express = require("express");
 var app = express(); 
@@ -52,13 +53,13 @@ router.post('/login',
     // TODO: perform checks for email length and characters and all
     if(!email || email.length === ""){
       console.log('Error: Email cannot be blank.');
-      var redir = { redirect: '/login'};
+      var redir = {err: 'Email cannot be blank'};
       return res.json(redir);
     }
 
     if(!password || password.length === ""){
       console.log('Error: Password cannot be blank.');
-      redir = { redirect: '/login'};
+      redir = {err: 'Password cannot be blank'};
       return res.json(redir);
     }
 
@@ -67,14 +68,14 @@ router.post('/login',
     User.findOne({email: email,
     }, (err, user) => {
       if(err){
-        var redir = { redirect: '/login'};
+        var redir = { redirect: '/login', err: err};
         return res.json(redir);
       }else if (!user){
-        redir = { redirect: '/login'};
+        redir = { redirect: '/login', err: 'Invalid Email'};
         return res.json(redir);
       } else {
         console.log("User Found!");
-        
+        // Come back to this later
         
         if(!bcrypt.compareSync(password, user.password)){
           console.log("Wrong Password!")
@@ -96,27 +97,32 @@ router.post('/login',
     })
 });
 
-router.post("/upload", upload.single("image"), async (req, res) => {
-  try {
-    // Upload image to cloudinary
-    const result = await cloudinary.uploader.upload(req.file.path);
-     // Create new user
-    // let user = new User({
-    //   name: req.body.name,
-    //   avatar: result.secure_url,
-    //   cloudinary_id: result.public_id,
-    // });
-    // // Save user
-    // await user.save();
-    // res.json(user);
-    res.status(200).json({url: result.secure_url, id:result.public_id})
-  } catch (err) {
-    console.log(err);
-    console.log("failed to upload")
-  }}); 
+// router.post("/upload", upload.single("image"), async (req, res) => {
+ 
+//   try {
+//     // Upload image to cloudinary
+//     const result = await cloudinary.uploader.upload(req.file.path);
+//      // Create new user
+//     // let user = new User({
+//     //   name: req.body.name,
+//     //   avatar: result.secure_url,
+//     //   cloudinary_id: result.public_id,
+//     // });
+//     // // Save user
+//     // await user.save();
+//     // res.json(user);
+//     res.status(200).json({url: result.secure_url, id:result.public_id})
+//   } catch (err) {
+//     console.log(err);
+//     console.log("failed to upload")
+//   }}); 
 
 // Update Profile data
-router.route('/update_profile').post(upload.single("image"), async (req, res) => {
+router.route('/update_profile').post(upload, async (req, res) => {
+
+  console.log("Request ---", req.body);
+  console.log("Request file ---", req.file);
+  
   const {body} = req
 
   console.log(req.body)
@@ -133,11 +139,12 @@ router.route('/update_profile').post(upload.single("image"), async (req, res) =>
   } = body
   try{
     const result = await cloudinary.uploader.upload(req.file.path);
+    console.log(result.secure_url)
+
   } catch(e){
     console.log(e)
   }
 
- 
   // Updating the user Profile 
   User.updateOne(
     {email: email}, 
