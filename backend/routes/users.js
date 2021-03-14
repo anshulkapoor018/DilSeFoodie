@@ -16,7 +16,6 @@ const express = require("express");
 var app = express(); 
 
 app.use(bodyParser.urlencoded({ extended: true })); 
-
 // Email server and sender setup 
 var transporter = nodemailer.createTransport({
   service: 'gmail',
@@ -96,19 +95,11 @@ router.post('/login',
     })
 });
 
-router.post("/upload", upload.single("image"), async (req, res) => {
+router.post("/upload", upload.single("img"), async (req, res) => {
   try {
     // Upload image to cloudinary
     const result = await cloudinary.uploader.upload(req.file.path);
-     // Create new user
-    // let user = new User({
-    //   name: req.body.name,
-    //   avatar: result.secure_url,
-    //   cloudinary_id: result.public_id,
-    // });
-    // // Save user
-    // await user.save();
-    // res.json(user);
+    
     res.status(200).json({url: result.secure_url, id:result.public_id})
   } catch (err) {
     console.log(err);
@@ -118,8 +109,6 @@ router.post("/upload", upload.single("image"), async (req, res) => {
 // Update Profile data
 router.route('/update_profile').post(upload.single("image"), async (req, res) => {
   const {body} = req
-
-  console.log(req.body)
   const {
     profilePicture,
     firstName,
@@ -131,11 +120,6 @@ router.route('/update_profile').post(upload.single("image"), async (req, res) =>
     password,
     email
   } = body
-  try{
-    const result = await cloudinary.uploader.upload(req.file.path);
-  } catch(e){
-    console.log(e)
-  }
 
  
   // Updating the user Profile 
@@ -147,10 +131,11 @@ router.route('/update_profile').post(upload.single("image"), async (req, res) =>
         console.log(`Can't update document due too: ${err}`)
         return
       }
-      console.log("Updated Successfully, view documents below")
-      console.log(doc)
+      console.log("Updated Successfully, view documents below");
+      console.log(req.body);
       if (doc){
         req.session.loggedIn = true;
+        console.log(doc);
         req.session.cookie.path = "/profile";
         const redir = { redirect: '/profile', status: "true", userDetails: req.body};
         return res.json(redir);
@@ -187,7 +172,7 @@ router.route('/signup').post((req, res) => {
   }
     
   // TODO: perform checks for email length and characters and all
-  if(!email || email == " " || email.length <= 4){
+  if(!email || email === " " || email.length <= 4){
     return res.send({
       success: false,
       message: 'Error: Email cannot be blank.'
