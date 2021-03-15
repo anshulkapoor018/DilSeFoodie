@@ -51,11 +51,11 @@ export default class RestaurantsAll extends Component {
       }
     ]
 
-    const location = {
-      address: 'Papa Johns',
-      lat: 40.732628,
-      lng: -74.037628,
-    };
+    // const location = {
+    //   address: 'Papa Johns',
+    //   lat: 40.732628,
+    //   lng: -74.037628,
+    // };
 
     return(
       <div className="root-containers">
