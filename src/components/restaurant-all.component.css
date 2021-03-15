@@ -61,7 +61,7 @@ body {
 
 .card:hover{
     transform: scale(1.05);
- box-shadow: 0 10px 20px rgba(0,0,0,.12), 0 4px 8px rgba(0,0,0,.06);
+    box-shadow: 0 10px 20px rgba(0,0,0,.12), 0 4px 8px rgba(0,0,0,.06);
 }
 
 .card h3{
@@ -73,4 +73,64 @@ body {
  top: 20px;
  right: 15px;
  max-height: 120px;
+}
+
+.root-containers {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+.box-controllers {
+    visibility: visible;
+    background-color: white;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    max-width: 24em;
+    min-width: 21em;
+    height: 35px;
+    -webkit-box-shadow: 0px 0px 20px 0px rgba(15, 15, 15, 0.2);
+    box-shadow: 0px 0px 20px 0px rgba(15, 15, 15, 0.2);
+    margin-bottom: 30px;
+    align-items: center;
+    transition: visibility 0.5s ease-out;
+}
+
+.controllers {
+    background-color: white;
+    flex: 1;
+    text-align: center;
+    height: 100%;
+    width: 100%;
+    line-height: 2;
+    cursor: pointer;
+}
+
+.card-fulls {
+    background-color: transparent;
+    box-sizing: border-box;
+    display: block;
+    text-align: center;
+    float: left; 
+    width: 96%;
+    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+    transition: 0.3s;
+    border-radius: 15px;
+    padding: 1%;
+    margin: 2%;
+}
+
+.selected-controllers {
+    transition: border 0.5s ease-out;
+    background-color: beige;
+}
+
+/* Pattern styles */
+.container {
+    display: table;
+    width: 100%;
 }

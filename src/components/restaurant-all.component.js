@@ -1,8 +1,68 @@
-import React from 'react';
+import './restaurant-all.component.css';
 import axios from 'axios';
-import './restaurant-all.component.css'
+import React, { Component } from 'react';
+import MapContainer from '../Static/GoogleMapsPickup';
 
-export default class Restaurants extends React.Component {
+export default class RestaurantsAll extends Component {
+
+  constructor(props) {
+    super(props);
+    this.state = {
+      isListViewOpen: true,
+      isPickupViewOpen: false,
+      restaurantListView: []
+    };
+  }
+
+  showListView() {
+    this.setState({isListViewOpen: true, isPickupViewOpen: false});
+  }
+
+  showPickupView() {
+    this.setState({isPickupViewOpen: true, isListViewOpen: false});
+  }
+
+  componentDidMount() {
+    this.restauranListsApiCall();
+  }
+
+  restauranListsApiCall() {
+    var self = this;
+    let markers = []
+    axios.get('http://localhost:5000/restaurant/all')
+    .then(function (response) {
+      response.data.forEach(rest => 
+        markers.push({
+          'name': rest.name,
+          'latitude': rest.latitude,
+          'longitude': rest.longitude
+        })
+      );
+      self.setState({ restaurantListView: markers });
+    })
+  }
+
+  render() {
+    return(
+      <div className="root-containers">
+        <div className="box-controllers">
+          <div className={"controllers " + (this.state.isListViewOpen ? "selected-controllers" : "")} onClick={this.showListView.bind(this)}> 
+          List
+          </div>
+          <div className={"controllers " + (this.state.isPickupViewOpen ? "selected-controllers" : "")} onClick={this.showPickupView.bind(this)}>
+          Pickup
+          </div>
+        </div>
+        <div style={{ height: '100vh', width: '100%' }} className="card-fulls">
+          {this.state.isListViewOpen && <Restaurants/>}
+          {this.state.isPickupViewOpen && <MapContainer zoomLevel={17} />}
+        </div>
+      </div>
+    )
+  }  
+}
+
+class Restaurants extends React.Component {
   constructor(props) {
     super(props);
     this.state = {restaurantList: []};
@@ -10,22 +70,6 @@ export default class Restaurants extends React.Component {
 
   componentDidMount() {
     this.restauranListApiCall();
-  }
-  
-  _createItemList() {
-    let rows = {}
-    let counter = 1
-    this.state.restaurantList.forEach((item, idx) => {
-      rows[counter] = rows[counter] ? [...rows[counter]] : []
-      if (idx % 3 === 0 && idx !== 0) {
-        counter++
-        rows[counter] = rows[counter] ? [...rows[counter]] : []
-        rows[counter].push(item)
-      } else {
-        rows[counter].push(item)
-      }
-    })
-    return rows
   }
 
   restauranListApiCall() {
@@ -37,17 +81,14 @@ export default class Restaurants extends React.Component {
   }
 
   handleClick = param => e => {
-    // console.log(param._id)
     window.location = '/restaurant/' + param._id
   }
 
   render(){
-    let rows = this._createItemList()
-    console.log(rows);
     return(
       <div className='container_res'>
         {this.state.restaurantList.map((item, index) => (
-          <div className = "card" onClick={this.handleClick(item)}>
+          <div key = {index} className = "card" onClick={this.handleClick(item)}>
               <h2>{item.name}</h2>
               <p>{item.address}</p>
               <p>{item.address}, {item.city}, {item.state}</p>  
