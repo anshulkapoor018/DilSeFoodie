@@ -1,7 +1,7 @@
 import './restaurant-all.component.css';
 import axios from 'axios';
 import React, { Component } from 'react';
-import MapSection from '../Static/GoogleMaps';
+import MapContainer from '../Static/GoogleMapsPickup';
 
 export default class RestaurantsAll extends Component {
 
@@ -43,20 +43,6 @@ export default class RestaurantsAll extends Component {
   }
 
   render() {
-    const locations = [
-      {
-        address: 'Papa Johns',
-        lat: 40.732628,
-        lng: -74.037628,
-      }
-    ]
-
-    // const location = {
-    //   address: 'Papa Johns',
-    //   lat: 40.732628,
-    //   lng: -74.037628,
-    // };
-
     return(
       <div className="root-containers">
         <div className="box-controllers">
@@ -69,7 +55,7 @@ export default class RestaurantsAll extends Component {
         </div>
         <div style={{ height: '100vh', width: '100%' }} className="card-fulls">
           {this.state.isListViewOpen && <Restaurants/>}
-          {this.state.isPickupViewOpen && <MapSection location={locations} zoomLevel={17} />}
+          {this.state.isPickupViewOpen && <MapContainer zoomLevel={17} />}
         </div>
       </div>
     )
