@@ -1,12 +1,13 @@
-import React, { Component } from 'react';
+import React, { useState, Component } from 'react';
 import axios from 'axios';
 import "../styles/_loginSty.scss";
 import { Card } from 'react-bootstrap'
 
 
+let msg = "" // Used to store the server message
 
 export default class AuthCredentials extends Component {
-
+ 
   constructor(props) {
     super(props);
     this.state = {
@@ -15,6 +16,7 @@ export default class AuthCredentials extends Component {
     };
   }
 
+  
   showLoginBox() {
     this.setState({isLoginOpen: true, isRegisterOpen: false});
   }
@@ -65,7 +67,6 @@ export default class AuthCredentials extends Component {
 
 //Login Box
 class LoginBox extends React.Component {
-
   constructor(props) {
     super(props);
     this.state = {
@@ -75,14 +76,11 @@ class LoginBox extends React.Component {
       message :""
     };
     
-
     this.onChangeEmail = this.onChangeEmail.bind(this);
     this.onChangePassword = this.onChangePassword.bind(this);
     this.submitLogin = this.submitLogin.bind(this);
   }
 
-
-  
   onChangeEmail(e){
     const target = e.target;
     const value = target.value;
@@ -116,13 +114,21 @@ class LoginBox extends React.Component {
     else if (user.password.length < 6 || user.password.trim() == ""){
       this.setState({err_status: true, message: "Invalid Password"});
     }
+    
+    else if (msg.length > 3){
+      this.setState({err_status: true, message: "Wrong email or password"});
+
+    }
     else{
       this.setState({err_status: false});
     }
 
-
     axios.post('http://localhost:5000/user/login', user)
     .then(function (response) {
+      if(response.data.message && response.data.status === true){
+        msg = response.data.message
+        
+      }
       if (response.data.redirect === '/') {
         window.sessionStorage.setItem('isLoggedIn', response.data.status);
         window.sessionStorage.setItem('userDetails', JSON.stringify(response.data.userDetails));
@@ -130,15 +136,14 @@ class LoginBox extends React.Component {
       } 
       else if (response.data.redirect === '/login'){
         window.location = "/user"
-        // let mssg_output = response.data.err
-
+        
       }
-
+      
     })
     .catch(function(error) {
+      
         window.location = "/user"
     })
-    
 
     this.setState({
       email: '',
@@ -147,15 +152,12 @@ class LoginBox extends React.Component {
    
   }
 
-
-  
-
   render() {
    
     return (
       <div className="inner-container">
         <div className="box">
-          <form submitregister={this.submitLogin}>
+          <form>
             <div className="input-group">
               <label htmlFor="email">Email</label>
               <input type="text" name="email" className="login-input" value={this.state.email}
@@ -185,6 +187,7 @@ class LoginBox extends React.Component {
           {this.state.err_status ? <div class="alert alert-danger" role="alert">
             {this.state.message}
           </div> : ""}
+               
         </div>
       </div>
     );
@@ -269,7 +272,7 @@ class RegisterBox extends React.Component {
     return (
       <div className="inner-container">
         <div className="box">
-          <form submitregister={this.submitregister}>
+          <form>
             <div className="input-group">
               <label htmlFor="firstName">First Name</label>
               <input
