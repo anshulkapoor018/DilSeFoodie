@@ -2,12 +2,10 @@ const Restaurant = require("../models/restaurant.model");
 const User = require("../models/user.model");
 const Review = require("../models/review.model");
 const Order = require("../models/order.model");
-const bcrypt = require('bcrypt');
 
 
 const mongoose = require("mongoose");
 const chalk = require('chalk');
-const { json } = require("body-parser");
 
 const uri = 'mongodb+srv://admin:2zFG0DD5vX8gHBPp@restaurant.gftqs.mongodb.net/capstone';
 mongoose.connect(uri, { useNewUrlParser: true, useCreateIndex: true, useUnifiedTopology: true }
@@ -17,13 +15,7 @@ connection.once('open', () => {
   console.log(`${chalk.green('✓')} ${chalk.blue('MongoDB Connected!')}`)
 })
 
-
 let rest_id = []
-let user_id = []
-let ord_id = []
-
-
-
 
 // Data 
 let restaurant = {
@@ -139,110 +131,105 @@ let restaurant = {
   }
 }  
 
-let users = {
-
-  1: {
-      email: "sample@gmail.com",
-      firstName: "sample",
-      lastName: "john",
-      password: "ABCDEFG",
-      age: "29",
-      city: "los angeles",
-      state: "cali",
-     },
-  2: {
-      email: "joe@rogan.com",
-      firstName: "Joe",
-      lastName: "Rogan",
-      password: "abcdefghijk",
-      age: '45',
-      city: "Texas",
-      state: "texas",
-     },
-  3: {
-      email: "popoy@thesailer.man",
-      firstName: "popoy",
-      lastName: "spinach",
-      password: "abcdefghijk",
-      age: "129",
-      city: "hollywood",
-      state: "New York"
-     },
-  4: {
-      email: "ibezim@gmail.com",
-      firstName: "Dennis",
-      lastName: "Ibezimlll",
-      password: "$2b$10$dsg1ZhZpaWpmvYxh8ELFS.9FDPGMeSx7boTYL3SCJJjAZnKp9ROEa",
-      age: "89",
-      city: "jj",
-      state: "New York"
-     },
-  5: {
-      email: "hello@gmail.com",
-      firstName: "Django",
-      lastName: "Kapoor",
-      password: "000000",
-      age: "22",
-      city: "hollywood",
-      state: "New York"
-     },
-  6: {
-      email: "popoy@thesailer.man",
-      firstName: "popoy",
-      lastName: "spinach",
-      password: "abcdefghijk",
-      age: "129",
-      city: "hollywood",
-      state: "New York"
-     },
-  7: {
-      email: "popoy@thesailer.man",
-      firstName: "popoy",
-      lastName: "spinach",
-      password: "abcdefghijk",
-      age: "129",
-      city: "hollywood",
-      state: "New York"
-     },
-  8: {
-      email: "popoy@thesailer.man",
-      firstName: "popoy",
-      lastName: "spinach",
-      password: "abcdefghijk",
-      age: "129",
-      city: "hollywood",
-      state: "New York"
-     },
-  9: {
-      email: "popoy@thesailer.man",
-      firstName: "popoy",
-      lastName: "spinach",
-      password: "abcdefghijk",
-      age: "129",
-      city: "hollywood",
-      state: "New York"
-     },
-  10: {
-      email: "popoy@thesailer.man",
-      firstName: "popoy",
-      lastName: "spinach",
-      password: "abcdefghijk",
-      age: "129",
-      city: "hollywood",
-      state: "New York"
-     }
-  
-}
-
-
-
-// mongoose.connect(uri, { useNewUrlParser: true, useCreateIndex: true, useUnifiedTopology: true });
+// let users = {
+//   1: {
+//       email: "sample@gmail.com",
+//       firstName: "sample",
+//       lastName: "john",
+//       password: "ABCDEFG",
+//       age: "29",
+//       city: "los angeles",
+//       state: "cali",
+//      },
+//   2: {
+//       email: "joe@rogan.com",
+//       firstName: "Joe",
+//       lastName: "Rogan",
+//       password: "abcdefghijk",
+//       age: '45',
+//       city: "Texas",
+//       state: "texas",
+//      },
+//   3: {
+//       email: "popoy@thesailer.man",
+//       firstName: "popoy",
+//       lastName: "spinach",
+//       password: "abcdefghijk",
+//       age: "129",
+//       city: "hollywood",
+//       state: "New York"
+//      },
+//   4: {
+//       email: "ibezim@gmail.com",
+//       firstName: "Dennis",
+//       lastName: "Ibezimlll",
+//       password: "$2b$10$dsg1ZhZpaWpmvYxh8ELFS.9FDPGMeSx7boTYL3SCJJjAZnKp9ROEa",
+//       age: "89",
+//       city: "jj",
+//       state: "New York"
+//      },
+//   5: {
+//       email: "hello@gmail.com",
+//       firstName: "Django",
+//       lastName: "Kapoor",
+//       password: "000000",
+//       age: "22",
+//       city: "hollywood",
+//       state: "New York"
+//      },
+//   6: {
+//       email: "popoy@thesailer.man",
+//       firstName: "popoy",
+//       lastName: "spinach",
+//       password: "abcdefghijk",
+//       age: "129",
+//       city: "hollywood",
+//       state: "New York"
+//      },
+//   7: {
+//       email: "popoy@thesailer.man",
+//       firstName: "popoy",
+//       lastName: "spinach",
+//       password: "abcdefghijk",
+//       age: "129",
+//       city: "hollywood",
+//       state: "New York"
+//      },
+//   8: {
+//       email: "popoy@thesailer.man",
+//       firstName: "popoy",
+//       lastName: "spinach",
+//       password: "abcdefghijk",
+//       age: "129",
+//       city: "hollywood",
+//       state: "New York"
+//      },
+//   9: {
+//       email: "popoy@thesailer.man",
+//       firstName: "popoy",
+//       lastName: "spinach",
+//       password: "abcdefghijk",
+//       age: "129",
+//       city: "hollywood",
+//       state: "New York"
+//      },
+//   10: {
+//       email: "popoy@thesailer.man",
+//       firstName: "popoy",
+//       lastName: "spinach",
+//       password: "abcdefghijk",
+//       age: "129",
+//       city: "hollywood",
+//       state: "New York"
+//      }
+// }
 
 // const connection = mongoose.connection;
 // DB function with async function
 async function loadDB (where, params){
-  // const newRes = {}
-  if (where == 'rest'){
+
+  let newRes = {}
+  if (where === 'rest'){
       newRes = new Restaurant({
       name: params['name'],
       website: params['website'],
@@ -255,7 +242,7 @@ async function loadDB (where, params){
       longitude: params['longitude']
     })
   }
-  if (where == 'user'){
+  if (where === 'user'){
     newRes = new User({
       email: params['email'],
       firstName: params['firstName'],
@@ -266,7 +253,7 @@ async function loadDB (where, params){
       state: params['state']
     })
   }
-  if (where == 'orders'){
+  if (where === 'orders'){
     newRes = new Order({
       restaurantId: params["restaurantId"],
       userId: params["userId"],
@@ -276,7 +263,7 @@ async function loadDB (where, params){
       orderStatus: params["orderStatus"]  
     }) 
   }
-  if (where == 'reviews'){
+  if (where === 'reviews'){
     newRes = new Review({
       restaurantId: params["restaurantId"],
       userId: params["userId"],
@@ -285,7 +272,6 @@ async function loadDB (where, params){
     }) 
   }
   await newRes.save((err, newRes) =>{
-    // console.log(err)
     if(err){
       console.log(err)
     }
@@ -296,24 +282,18 @@ async function loadDB (where, params){
   return newRes.id
 }
 
-
-
 async function allthepushs (){
-  for ( key in restaurant){
+  for ( let key in restaurant){
 
-    var userMap = [];
-
-
+  const userMap = [];
     await User.find({}, function(err, users) {
-
       users.forEach(function(user) {
         userMap.push(user._id);
       });
-
     });
 
     rest_id = await loadDB('rest',restaurant[key]) 
-    users_id = await userMap[key]
+    let users_id = await userMap[key]
     console.log(users_id)
     // users_id = await loadDB('user',users[key]) 
 
@@ -323,23 +303,17 @@ async function allthepushs (){
     orders[key].restaurantId = rest_id
     orders[key].userId = users_id
 
-    result2 = await loadDB('orders',orders[key])
+    await loadDB('orders',orders[key])
     
     reviews[key].restaurantId = rest_id
     reviews[key].userId = users_id
     
-    result5 =  await loadDB('reviews',reviews[key])
-  
-
+    await loadDB('reviews',reviews[key])
   }
 }
 }
 
-
 allthepushs()
-
-
-
 
 let orders = {
   1: { 
