@@ -13,6 +13,10 @@ export default class RestaurantsPage extends React.Component {
       restaurantDetails: {},
       reviewsMap: []
     };
+    this.openForm = this.openForm.bind(this);
+    this.closeForm = this.closeForm.bind(this);
+    this.openLoginForm = this.openLoginForm.bind(this);
+    this.closeLoginForm = this.closeLoginForm.bind(this);
   }
 
   componentDidMount() {
@@ -41,7 +45,28 @@ export default class RestaurantsPage extends React.Component {
     })
   }
 
+  openForm(e) {
+    e.preventDefault();
+    document.getElementById("myForm").style.display = "block";
+  }
+
+  closeForm(e) {
+    e.preventDefault();
+    document.getElementById("myForm").style.display = "none";
+  }
+
+  openLoginForm(e) {
+    e.preventDefault();
+    document.getElementById("myLoginForm").style.display = "block";
+  }
+
+  closeLoginForm(e) {
+    e.preventDefault();
+    document.getElementById("myLoginForm").style.display = "none";
+  }
+  
   render(){
+    var isLoggedIn = JSON.parse(window.sessionStorage.getItem("isLoggedIn"));
     const restaurant = this.state.restaurantDetails;
     const location = [{
       address: restaurant.name,
@@ -81,6 +106,30 @@ export default class RestaurantsPage extends React.Component {
               </div>
             </div>
           ))}
+        </div>
+        {isLoggedIn
+          ? <button className="open-button" onClick={this.openForm.bind(this)}>Post a Review</button>
+          : <button className="open-button" onClick={this.openLoginForm.bind(this)}>Post a Review</button>
+        }
+        <div className="form-popup" id="myForm">
+          <h2>Post a Review</h2>
+            <form id="login-form" name ="loginForm" className="form-container" enctype="multipart/form-data" action="/reviews/{{restaurant._id}}/add" method="POST">
+                <label>
+                    <input type="text" name="rating" id="rating" class = "inputFields" pattern="\d+" placeholder="Enter your Rating" required title="Enter a Number from 1 to 5"/> 
+                </label>
+                <label>
+                    <input type="text" name="reviewText" id="reviewText" class = "inputFields" placeholder="Enter your Review" required/>
+                </label>
+                <button type="submit" className="btn">Post!</button>
+                <button type="button" className="btn cancel" onClick={this.closeForm.bind(this)}>Cancel</button>
+            </form>
+        </div>
+        <div className="form-popup" id="myLoginForm">
+          <h2>Login to post a review!</h2>
+          <form id="login-form" name ="loginForm" className="form-container" action="javascript:void(0);">
+            <button type="submit" className="btn" id="routeToLogin">Login</button>
+            <button type="button" className="btn cancel" onClick={this.closeForm.bind(this)}>Cancel</button>
+          </form>
         </div>
       </div>
     )
