@@ -4,8 +4,7 @@ import "../styles/_loginSty.scss";
 import { Card } from 'react-bootstrap'
 
 
-let msg = "" // Used to store the server message
-
+let error_1 = false
 export default class AuthCredentials extends Component {
  
   constructor(props) {
@@ -73,6 +72,7 @@ class LoginBox extends React.Component {
       email: "",
       password: "",
       err_status : false,
+      succes_status: false,
       message :""
     };
     
@@ -98,60 +98,57 @@ class LoginBox extends React.Component {
     })
   }
 
-  submitLogin(e) {
+  async submitLogin(e) {
     e.preventDefault();
-
+    
+    
     const user = {
       email: this.state.email,
       password: this.state.password
     }
 
-   
-
+    // Checking for empty inputs 
     if (user.email.length < 3 || user.email.trim() == ""){
       this.setState({err_status: true, message: "Invalid Email"});
     }
     else if (user.password.length < 6 || user.password.trim() == ""){
       this.setState({err_status: true, message: "Invalid Password"});
     }
-    
-    else if (msg.length > 3){
-      this.setState({err_status: true, message: "Wrong email or password"});
-
-    }
     else{
-      this.setState({err_status: false});
+      const response = await axios.post('http://localhost:5000/user/login', user)
+      console.log(response.data.message)
+      if (response.data.message){
+        this.setState({err_status: true, message: "Wrong email or password"});
+      }
+      else{
+            
+        if (response.data.redirect === '/') {
+          window.sessionStorage.setItem('isLoggedIn', response.data.status);
+          window.sessionStorage.setItem('userDetails', JSON.stringify(response.data.userDetails));
+        
+          this.setState({succes_status: true, err_status: false, message: "Login Successful"});
+          
+          // add a delay for 2 seconds 
+          setTimeout(() => {
+            window.location = "/profile"
+          }, 3000)
+        
+        } 
+      
+        else if (response.data.redirect === '/login'){
+          window.location = "/user"
+        }
+      }
+
     }
-
-    axios.post('http://localhost:5000/user/login', user)
-    .then(function (response) {
-      if(response.data.message && response.data.status === true){
-        msg = response.data.message
-        
-      }
-      if (response.data.redirect === '/') {
-        window.sessionStorage.setItem('isLoggedIn', response.data.status);
-        window.sessionStorage.setItem('userDetails', JSON.stringify(response.data.userDetails));
-        window.location = "/profile"
-      } 
-      else if (response.data.redirect === '/login'){
-        window.location = "/user"
-        
-      }
-      
-    })
-    .catch(function(error) {
-      
-        window.location = "/user"
-    })
-
+  
     this.setState({
       email: '',
-      password: '',
-    })
-   
-  }
+      password: ''
+    })      
 
+  }
+  
   render() {
    
     return (
@@ -187,11 +184,15 @@ class LoginBox extends React.Component {
           {this.state.err_status ? <div class="alert alert-danger" role="alert">
             {this.state.message}
           </div> : ""}
+          {this.state.succes_status ? <div class="alert alert-success" role="alert">
+            {this.state.message}
+          </div> : ""}
                
         </div>
       </div>
     );
   }
+
 }
 
 //Register Box 
@@ -203,7 +204,11 @@ class RegisterBox extends React.Component {
       firstName: "",
       lastName: "",
       email: "",
-      password: ""
+      password: "",
+      error_status: false,
+      success_status: false,
+      message: ""
+
     };
 
     this.onChangeFirstName = this.onChangeFirstName.bind(this);
@@ -246,7 +251,7 @@ class RegisterBox extends React.Component {
     })
   }
 
-  submitregister(e) {
+  async submitregister(e) {
     e.preventDefault();
 
     const user = {
@@ -256,15 +261,45 @@ class RegisterBox extends React.Component {
       password: this.state.password
     }
 
-    console.log(user)
-    axios.post('http://localhost:5000/user/signup', user)
-    .then(res => console.log(res.data));
+    if (user.firstName.length < 1 || user.firstName.trim() == ""){
+      this.setState({error_status: true, message: "Invalid Firstname"});
+    }
+    else if (user.lastName.length < 1 || user.lastName.trim() == ""){
+      this.setState({error_status: true, message: "Invalid Lastname"});
+    }
+    else if (user.email.length < 3 || user.email.trim() == ""){
+      this.setState({error_status: true, message: "Invalid Email"});
+    }
+    else if (user.password.length < 6 || user.password.trim() == ""){
+      this.setState({error_status: true, message: "Invalid Password"});
+    }
+   
+    else{
+      const response = await axios.post('http://localhost:5000/user/signup', user)
+      console.log(response.data.success)
+      if(response.data.email_use === true){
+        this.setState({error_status: true, success_status: false,message: "Sign up failed, Email Already Exists!"});
+      }
+      else if (response.data.success === false){
+        this.setState({error_status: true, success_status: false,message: "Sign up failed, Please try again!"});
+      }
+      else if (response.data.success === true){
+        this.setState({success_status: true, error_status: false,message: "You have Successfully Signed up!"});
+        setTimeout(() => {
+          window.location = "/user"
+        }, 2500)
+      }
+      
+    }
+
+    
+   
 
     this.setState({
-      firstName: '',
-      LastName: '',
-      email: '',
-      password: ''
+      firstName: this.state.firstName,
+      LastName: this.state.lastName,
+      email: this.state.email,
+      password: this.state.password
     })
   }
 
@@ -317,6 +352,15 @@ class RegisterBox extends React.Component {
               .submitregister
               .bind(this)}>Register</button>
           </form>
+
+          <br/>
+          
+          {this.state.error_status ? <div class="alert alert-danger" role="alert">
+            {this.state.message}
+          </div> : ""}
+          {this.state.success_status ? <div class="alert alert-success" role="alert">
+            {this.state.message}
+          </div> : ""}
         </div>   
       </div>
     );
