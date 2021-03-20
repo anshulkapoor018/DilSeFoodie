@@ -19,7 +19,6 @@ router.get('/all',
       restaurants.forEach(function(restaurant) {
         restaurantMap.push(restaurant)
       });
-      // console.log(restaurantMap);  
       return res.json(restaurantMap);
     });
 });

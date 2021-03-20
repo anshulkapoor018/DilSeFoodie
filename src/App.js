@@ -28,7 +28,6 @@ function App() {
   return (
     <Router>
         <Navbar/>
-        <div className="container">
           <Route exact path="/Home" component={Home} />
           <Route path="/user" component={AuthCredentials} />
           <Route path="/restaurants" component={RestaurantsAll} />
@@ -38,7 +37,6 @@ function App() {
           <Route exact path="/">
               <Redirect to="/Home"/>
           </Route>
-        </div>
     </Router>
   );
 }
