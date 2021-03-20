@@ -17,6 +17,7 @@ export default class RestaurantsPage extends React.Component {
     this.closeForm = this.closeForm.bind(this);
     this.openLoginForm = this.openLoginForm.bind(this);
     this.closeLoginForm = this.closeLoginForm.bind(this);
+    this.routeToLogin = this.routeToLogin.bind(this);
   }
 
   componentDidMount() {
@@ -63,6 +64,11 @@ export default class RestaurantsPage extends React.Component {
   closeLoginForm(e) {
     e.preventDefault();
     document.getElementById("myLoginForm").style.display = "none";
+  }
+
+  routeToLogin(e){
+    e.preventDefault()
+    window.location = "/user"
   }
   
   render(){
@@ -113,7 +119,7 @@ export default class RestaurantsPage extends React.Component {
         }
         <div className="form-popup" id="myForm">
           <h2>Post a Review</h2>
-            <form id="login-form" name ="loginForm" className="form-container" enctype="multipart/form-data" action="/reviews/{{restaurant._id}}/add" method="POST">
+            <form id="login-form" name ="loginForm" className="form-container" enctype="multipart/form-data">
                 <label>
                     <input type="text" name="rating" id="rating" class = "inputFields" pattern="\d+" placeholder="Enter your Rating" required title="Enter a Number from 1 to 5"/> 
                 </label>
@@ -126,9 +132,9 @@ export default class RestaurantsPage extends React.Component {
         </div>
         <div className="form-popup" id="myLoginForm">
           <h2>Login to post a review!</h2>
-          <form id="login-form" name ="loginForm" className="form-container" action="javascript:void(0);">
-            <button type="submit" className="btn" id="routeToLogin">Login</button>
-            <button type="button" className="btn cancel" onClick={this.closeForm.bind(this)}>Cancel</button>
+          <form id="login-form" name ="loginForm" className="form-container">
+            <button type="submit" className="btn" id="routeToLogin" onClick={this.routeToLogin.bind(this)}>Login</button>
+            <button type="button" className="btn cancel" onClick={this.closeLoginForm.bind(this)}>Cancel</button>
           </form>
         </div>
       </div>

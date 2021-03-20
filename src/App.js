@@ -1,11 +1,9 @@
 import React from 'react';
 // import "bootstrap/dist/css/bootstrap.min.css";
 import { BrowserRouter as Router, Route, Redirect} from "react-router-dom";
-import Footer from "./Static/Footer"
 import Navbar from "./components/navbar.component"
 import AuthCredentials from "./components/create-user.component";
 import Home from "./views/Home/Home";
-// import Header from "./views/Header/Header";
 import Profile from "./views/Profile/Profile";
 import RestaurantsAll from "./components/restaurant-all.component";
 import RestaurantsPage from "./components/restaurant-single.component";
@@ -13,7 +11,7 @@ import RestaurantSearch from './components/restaurant-search.component';
 
 
 import './App.css'
-// import NotFound from "./views/NotFound";
+
 
 export function onEnter(nextState, transition, callback) {
   const { pathname } = nextState.location
