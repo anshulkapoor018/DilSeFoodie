@@ -19,6 +19,7 @@
     "express": "^4.17.1",
     "express-session": "^1.17.1",
     "google-map-react": "^2.1.9",
+    "google-maps-react": "^2.0.6",
     "history": "5.0.0",
     "multer": "^1.4.2",
     "node-sass": "^5.0.0",
@@ -53,8 +54,9 @@
     "eject": "react-scripts eject",
     "install-all": "concurrently \"npm install\" \"cd backend && npm install\"",
     "client": "cd client && npm start",
-    "server": "cd backend && nodemon server.js",
-    "dev": "concurrently \"cd backend && nodemon server.js\" \"npm run start\""
+    "server": "nodemon server/server.js",
+    "dev": "concurrently \"cd backend && nodemon server.js\" \"npm run start\"",
+    "seed-res": "cd backend/seed && node seedRestaurants.js"
   },
   "eslintConfig": {
     "extends": "react-app"

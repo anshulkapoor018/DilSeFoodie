@@ -7,7 +7,7 @@ import AuthCredentials from "./components/create-user.component";
 import Home from "./views/Home/Home";
 // import Header from "./views/Header/Header";
 import Profile from "./views/Profile/Profile";
-import Restaurants from "./components/restaurant-all.component";
+import RestaurantsAll from "./components/restaurant-all.component";
 import RestaurantsPage from "./components/restaurant-single.component";
 import RestaurantSearch from './components/restaurant-search.component';
 
@@ -31,7 +31,7 @@ function App() {
         <div className="container">
           <Route exact path="/Home" component={Home} />
           <Route path="/user" component={AuthCredentials} />
-          <Route path="/restaurants" component={Restaurants} />
+          <Route path="/restaurants" component={RestaurantsAll} />
           <Route path='/restaurant/:id' component={RestaurantsPage} />
           <Route path='/search' component={RestaurantSearch} />
           <Route exact path="/profile" component={Profile} onEnter={onEnter} />

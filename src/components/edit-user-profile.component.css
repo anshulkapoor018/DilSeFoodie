@@ -14,20 +14,10 @@
     margin: 1%;
 }
 
-label {
-    float:left;
-}
-
-input {
-    height: 20px;
-    width: 300px;
-    border: 1px solid #000;
-    margin-top: 10px;
-    float: left;
-}
-
-input[type=button] {
-    float:none;
+.profilePic {
+    border-radius: 50%;
+    height: 50px;
+    width: 50px;
 }
 
 .card-wide {

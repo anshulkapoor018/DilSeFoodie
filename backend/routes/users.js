@@ -19,7 +19,6 @@ var app = express();
 app.use(express.json());
 app.use(cors());
 app.use(bodyParser.urlencoded({ extended: true })); 
-
 // Email server and sender setup 
 var transporter = nodemailer.createTransport({
   service: 'gmail',
@@ -114,8 +113,6 @@ router.route('/update_profile').post(upload, async (req, res) => {
   console.log("Request file ---", req.file);
   
   const {body} = req
-
-  console.log(req.body)
   const {
     profilePicture,
     firstName,
@@ -144,10 +141,11 @@ router.route('/update_profile').post(upload, async (req, res) => {
         console.log(`Can't update document due too: ${err}`)
         return
       }
-      console.log("Updated Successfully, view documents below")
-      console.log(doc)
+      console.log("Updated Successfully, view documents below");
+      console.log(req.body);
       if (doc){
         req.session.loggedIn = true;
+        console.log(doc);
         req.session.cookie.path = "/profile";
         const redir = { redirect: '/profile', status: "true", userDetails: req.body};
         return res.json(redir);
@@ -184,7 +182,7 @@ router.route('/signup').post((req, res) => {
   }
     
   // TODO: perform checks for email length and characters and all
-  if(!email || email == " " || email.length <= 4){
+  if(!email || email === " " || email.length <= 4){
     return res.send({
       success: false,
       message: 'Error: Email cannot be blank.'

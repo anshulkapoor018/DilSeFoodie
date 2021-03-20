@@ -29,11 +29,11 @@ export default class RestaurantsPage extends React.Component {
 
   render(){
     const restaurant = this.state.restaurantDetails;
-    const location = {
+    const location = [{
       address: restaurant.name,
       lat: restaurant.latitude,
       lng: restaurant.longitude,
-    }
+    }]
     const divStyle = {
       height: '800px',
     };
