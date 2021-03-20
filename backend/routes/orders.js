@@ -1,6 +1,5 @@
 const router = require('express').Router();
 let Order = require('../models/order.model');
-// const mongoose = require("mongoose");
 
 router.get('/:id',
   function(req, res){
@@ -15,7 +14,6 @@ router.get('/:id',
       } 
   }); 
 });
-
 
 router.get('/restaurant/:id',
 // Fetching orders with the ID of restaurant

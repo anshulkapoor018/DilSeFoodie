@@ -2,11 +2,7 @@ const router = require('express').Router();
 const session = require('express-session');
 const cors = require("cors");
 let User = require('../models/user.model');
-// const mongoose = require("mongoose");
-// const passport = require("passport");
 const bodyParser = require("body-parser");
-// const LocalStrategy = require("passport-local").Strategy;
-// const passportLocalMongoose =  require("passport-local-mongoose");
 // Used to Encrypt Password
 const bcrypt = require('bcrypt');
 const nodemailer = require("nodemailer");
@@ -99,7 +95,7 @@ router.post('/login',
           // console.log(req.session.user);
           // trying to get the session data to the profile page 
           // return res.send({user:user, redirect:'/profile'}) 
-          redir = { redirect: "/", status: true, userDetails: user};
+          const redir = { redirect: "/", status: true, userDetails: user};
           return res.json(redir);
         }
       }
