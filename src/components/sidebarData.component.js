@@ -85,7 +85,7 @@ export const SidebarData = [
   },
   {
     title: 'Support',
-    path: '/support',
+    path: '/contact',
     icon: <IoIcons.IoMdHelpCircle />
   }
 ];
