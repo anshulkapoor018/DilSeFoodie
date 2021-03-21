@@ -3,8 +3,20 @@ import axios from 'axios';
 import "../styles/_loginSty.scss";
 import { Card } from 'react-bootstrap'
 
+// Notification imports
+import 'react-notifications/lib/notifications.css';
+import {NotificationManager} from 'react-notifications';
 
-let error_1 = false
+// This calls our notification handler
+async function showNotification (type, message){
+  if (type === "error"){
+    NotificationManager.error(message, "", 2000);
+  }
+  else if (type === "success"){
+    NotificationManager.success(message, "", 2000);
+  }
+}
+
 export default class AuthCredentials extends Component {
  
   constructor(props) {
@@ -71,9 +83,7 @@ class LoginBox extends React.Component {
     this.state = {
       email: "",
       password: "",
-      err_status : false,
-      succes_status: false,
-      message :""
+     
     };
     
     this.onChangeEmail = this.onChangeEmail.bind(this);
@@ -108,30 +118,30 @@ class LoginBox extends React.Component {
     }
 
     // Checking for empty inputs 
-    if (user.email.length < 3 || user.email.trim() == ""){
-      this.setState({err_status: true, message: "Invalid Email"});
+    if (user.email.length < 3 || user.email.trim() === ""){
+      await showNotification ("error", "Invalid Email");
     }
-    else if (user.password.length < 6 || user.password.trim() == ""){
-      this.setState({err_status: true, message: "Invalid Password"});
+    else if (user.password.length < 6 || user.password.trim() === ""){
+      await showNotification ("error", "Invalid Password");
     }
     else{
       const response = await axios.post('http://localhost:5000/user/login', user)
       console.log(response.data.message)
       if (response.data.message){
-        this.setState({err_status: true, message: "Wrong email or password"});
+        await showNotification ("error", "Wrong email or password");
       }
       else{
             
         if (response.data.redirect === '/') {
           window.sessionStorage.setItem('isLoggedIn', response.data.status);
           window.sessionStorage.setItem('userDetails', JSON.stringify(response.data.userDetails));
-        
-          this.setState({succes_status: true, err_status: false, message: "Login Successful"});
+
+          await showNotification ("success", "Login Successful")
           
           // add a delay for 2 seconds 
           setTimeout(() => {
             window.location = "/profile"
-          }, 3000)
+          }, 1000)
         
         } 
       
@@ -143,8 +153,8 @@ class LoginBox extends React.Component {
     }
   
     this.setState({
-      email: '',
-      password: ''
+      email: this.state.email,
+      password: this.state.password
     })      
 
   }
@@ -287,7 +297,7 @@ class RegisterBox extends React.Component {
         this.setState({success_status: true, error_status: false,message: "You have Successfully Signed up!"});
         setTimeout(() => {
           window.location = "/user"
-        }, 2500)
+        }, 1500)
       }
       
     }

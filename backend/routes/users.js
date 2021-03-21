@@ -51,43 +51,18 @@ router.post('/login',
       email
     } = body;
 
-    // // TODO: perform checks for email length and characters and all
-    // if(!email || email.length === ""){
-    //   console.log('Error: Email cannot be blank.');
-    //   var redir = {err: 'Email cannot be blank'};
-    //   return res.json(redir);
-    // }
-
-    // if(!password || password.length === ""){
-    //   console.log('Error: Password cannot be blank.');
-    //   redir = {err: 'Password cannot be blank', redirect: "/login"};
-    //   return res.json(redir);
-    // }
-
     email = email.toLowerCase();
 
     User.findOne({email: email,
     }, (err, user) => {
       if(err){
-        // var redir = { redirect: '/login', err: "Email does not exist"};
-        
-        // return res.json(redir);
-        // console.log(err)
         res.send({err: err})
       }else if (!user){
-        // redir = { redirect: '/login', err: 'Invalid Email'};
-        // return res.json(redir);
         return res.send({ message: "Wrong Email or password combination!" })
       } 
       else {
-        // console.log("User Found!");
-        // Come back to this later
-        
         if(!bcrypt.compareSync(password, user.password)){
           return res.send({message: "Wrong Email or password combination!", status: true})
-          // console.log("Wrong Password!")
-          // redir = { err: "Wrong Password", redirect: '/'};
-          // return res.json(redir);
         } 
         else if(bcrypt.compareSync(password, user.password)){
           req.session.loggedIn = true;
@@ -99,7 +74,7 @@ router.post('/login',
           // console.log(req.session.user);
           // trying to get the session data to the profile page 
           // return res.send({user:user, redirect:'/profile'}) 
-          redir = { redirect: "/", status: true, userDetails: user};
+          let redir = { redirect: "/", status: true, userDetails: user};
           return res.json(redir);
         }
       }
