@@ -41,7 +41,6 @@ function App(props) {
               <Redirect to="/Home"/>
           </Route>
         </div>
-        
     </Router>
 
     

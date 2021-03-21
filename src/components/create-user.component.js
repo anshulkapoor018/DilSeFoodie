@@ -9,11 +9,15 @@ import {NotificationManager} from 'react-notifications';
 
 // This calls our notification handler
 async function showNotification (type, message){
+  const timer = 2000
   if (type === "error"){
-    NotificationManager.error(message, "", 2000);
+    NotificationManager.error(message, "", timer);
   }
   else if (type === "success"){
-    NotificationManager.success(message, "", 2000);
+    NotificationManager.success(message, "", timer);
+  }
+  else if (type === "warning"){
+    NotificationManager.warning(message, "", timer);
   }
 }
 
@@ -214,11 +218,7 @@ class RegisterBox extends React.Component {
       firstName: "",
       lastName: "",
       email: "",
-      password: "",
-      error_status: false,
-      success_status: false,
-      message: ""
-
+      password: ""
     };
 
     this.onChangeFirstName = this.onChangeFirstName.bind(this);
@@ -271,30 +271,30 @@ class RegisterBox extends React.Component {
       password: this.state.password
     }
 
-    if (user.firstName.length < 1 || user.firstName.trim() == ""){
-      this.setState({error_status: true, message: "Invalid Firstname"});
+    if (user.firstName.length < 1 || user.firstName.trim() === ""){
+      await showNotification ("error", "Invalid Firstname")
     }
-    else if (user.lastName.length < 1 || user.lastName.trim() == ""){
-      this.setState({error_status: true, message: "Invalid Lastname"});
+    else if (user.lastName.length < 1 || user.lastName.trim() === ""){
+      await showNotification ("error", "Invalid Lastname")
     }
-    else if (user.email.length < 3 || user.email.trim() == ""){
-      this.setState({error_status: true, message: "Invalid Email"});
+    else if (user.email.length < 3 || user.email.trim() === ""){
+      await showNotification ("error", "Invalid Email")
     }
-    else if (user.password.length < 6 || user.password.trim() == ""){
-      this.setState({error_status: true, message: "Invalid Password"});
+    else if (user.password.length < 6 || user.password.trim() === ""){
+      await showNotification ("error", "Invalid Password")
     }
    
     else{
       const response = await axios.post('http://localhost:5000/user/signup', user)
       console.log(response.data.success)
       if(response.data.email_use === true){
-        this.setState({error_status: true, success_status: false,message: "Sign up failed, Email Already Exists!"});
+        await showNotification ("error", "Sign up failed, Email Already Exists!")
       }
       else if (response.data.success === false){
-        this.setState({error_status: true, success_status: false,message: "Sign up failed, Please try again!"});
+        await showNotification ("error", "Sign up failed, Please try again!")
       }
       else if (response.data.success === true){
-        this.setState({success_status: true, error_status: false,message: "You have Successfully Signed up!"});
+        await showNotification ("success", "You have Successfully Signed up!")
         setTimeout(() => {
           window.location = "/user"
         }, 1500)
