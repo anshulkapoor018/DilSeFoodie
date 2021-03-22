@@ -15,7 +15,7 @@ const fs = require('fs')
 const app = express();
 const port = process.env.PORT || 5000;
 
-// app.use(cors());
+app.use(cors());
 app.use(express.json());
 
 app.use(
@@ -45,7 +45,7 @@ app.use('/order', ordersRouter);
 app.use('/restaurant', restaurentsRouter);
 app.use('/review', reviewsRouter);
 
-if (process.env.NODE_ENV === 'production') {
+// if (process.env.NODE_ENV === 'production') {
   // Serve any static files
   app.use(express.static('../../build'));
 
@@ -53,6 +53,6 @@ if (process.env.NODE_ENV === 'production') {
   // app.get('*', function(req, res) {
   //     res.sendFile(path.join(__dirname, '../../build', 'index.html'));
   // });
-}
+// }
 
 app.listen(port, (console.log(`${chalk.green(`Server is running on port: `)} ${chalk.blue((port))}`)));
