@@ -2,8 +2,10 @@ import React from 'react';
 import axios from 'axios';
 import './restaurant-single.component.css';
 import MapSection from '../Static/GoogleMaps';
+import StarRatings from 'react-star-ratings';
 
 var dummyProfilePics = "https://res.cloudinary.com/helpinghands101/image/upload/v1615598217/user_mcyfxd.png"
+var userObject = JSON.parse(window.sessionStorage.getItem("userDetails"));
 
 export default class RestaurantsPage extends React.Component {
   constructor(props) {
@@ -11,13 +13,16 @@ export default class RestaurantsPage extends React.Component {
     this.resID = ((window.location.pathname).split("/"))[2]
     this.state = {
       restaurantDetails: {},
-      reviewsMap: []
+      reviewsMap: [],
+      rating: 0
     };
     this.openForm = this.openForm.bind(this);
     this.closeForm = this.closeForm.bind(this);
     this.openLoginForm = this.openLoginForm.bind(this);
     this.closeLoginForm = this.closeLoginForm.bind(this);
     this.routeToLogin = this.routeToLogin.bind(this);
+    this.changeRating = this.changeRating.bind(this);
+    this.submitRatingForm = this.submitRatingForm.bind(this);
   }
 
   componentDidMount() {
@@ -70,6 +75,20 @@ export default class RestaurantsPage extends React.Component {
     e.preventDefault()
     window.location = "/user"
   }
+
+  changeRating( newRating ) {
+    this.setState({
+      rating: newRating
+    });
+  }
+
+  submitRatingForm(e) {
+    e.preventDefault();
+    var self = this;
+    console.log(self.resID);
+    console.log(userObject["_id"]);
+    console.log(self.state.rating);
+  }
   
   render(){
     var isLoggedIn = JSON.parse(window.sessionStorage.getItem("isLoggedIn"));
@@ -121,12 +140,18 @@ export default class RestaurantsPage extends React.Component {
           <h2>Post a Review</h2>
             <form id="login-form" name ="loginForm" className="form-container" enctype="multipart/form-data">
                 <label>
-                    <input type="text" name="rating" id="rating" class = "inputFields" pattern="\d+" placeholder="Enter your Rating" required title="Enter a Number from 1 to 5"/> 
-                </label>
-                <label>
                     <input type="text" name="reviewText" id="reviewText" class = "inputFields" placeholder="Enter your Review" required/>
                 </label>
-                <button type="submit" className="btn">Post!</button>
+                <StarRatings
+                  rating={this.state.rating}
+                  starRatedColor="red"
+                  changeRating={this.changeRating.bind(this)}
+                  numberOfStars={5}
+                  name='rating'
+                  starHoverColor="yellow"
+                  starDimension= "40px"
+                />
+                <button type="submit" className="btn" onClick={this.submitRatingForm.bind(this)}>Post!</button>
                 <button type="button" className="btn cancel" onClick={this.closeForm.bind(this)}>Cancel</button>
             </form>
         </div>
