@@ -2,6 +2,7 @@
   "name": "food-store",
   "version": "0.1.0",
   "private": true,
+  "main": "backend/server.js",
   "dependencies": {
     "@babel/runtime": "^7.13.9",
     "@iconify/icons-mdi": "^1.1.12",
@@ -49,15 +50,16 @@
     "web-vitals": "^0.2.4"
   },
   "scripts": {
-    "start": "react-scripts start",
+    "start": "concurrently \"npm run server\" \"npm run client\"",
+    "client": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "install-all": "concurrently \"npm install\" \"cd backend && npm install\"",
-    "client": "cd client && npm start",
-    "server": "nodemon server/server.js",
+    "server": "nodemon backend/server.js",
     "dev": "concurrently \"cd backend && nodemon server.js\" \"npm run start\"",
-    "seed-res": "cd backend/seed && node seedRestaurants.js"
+    "seed-res": "cd backend/seed && node seedRestaurants.js",
+    "heroku-postbuild": "npm install && npm run build"
   },
   "eslintConfig": {
     "extends": "react-app"
@@ -73,5 +75,6 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
-  }
+  },
+  "proxy": "http://localhost:5000"
 }

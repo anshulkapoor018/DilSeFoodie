@@ -45,15 +45,20 @@ app.use('/order', ordersRouter);
 app.use('/restaurant', restaurentsRouter);
 app.use('/review', reviewsRouter);
 
-if (process.env.NODE_ENV === 'production') {
-  // Serve any static files
-  app.use(express.static(path.join(__dirname, '../../client/build')));
+// if (process.env.NODE_ENV === 'production') {
+//   // Serve any static files
+//   app.use(express.static(path.join(__dirname, '../../client/build')));
 
-  // Handle React routing, return all requests to React app
-  app.get('*', function(req, res) {
-      res.sendFile(path.join(__dirname, '../../client/build', 'index.html'));
-  });
-}
+//   // Handle React routing, return all requests to React app
+//   app.get('*', function(req, res) {
+//       res.sendFile(path.join(__dirname, '../../client/build', 'index.html'));
+//   });
+// }
+
+app.use(express.static(path.join(__dirname, '../build')))
+app.get('*', (req, res) => {
+    res.sendFile(path.join(__dirname, '../build'))
+})
 
 app.listen(port, () => {
     console.log(`${chalk.green(`Server is running on port: `)} ${chalk.blue((port))}`);
