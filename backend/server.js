@@ -27,13 +27,13 @@ app.use(
   })
 );
 
-const uri = 'mongodb+srv://admin:2zFG0DD5vX8gHBPp@restaurant.gftqs.mongodb.net/capstone';
-mongoose.connect(uri, { useNewUrlParser: true, useCreateIndex: true, useUnifiedTopology: true }
-);
-const connection = mongoose.connection;
-connection.once('open', () => {
-  console.log(`${chalk.green('✓')} ${chalk.blue('MongoDB Connected!')}`)
-})
+// const uri = 'mongodb+srv://admin:2zFG0DD5vX8gHBPp@restaurant.gftqs.mongodb.net/capstone';
+// mongoose.connect(uri, { useNewUrlParser: true, useCreateIndex: true, useUnifiedTopology: true }
+// );
+// const connection = mongoose.connection;
+// connection.once('open', () => {
+//   console.log(`${chalk.green('✓')} ${chalk.blue('MongoDB Connected!')}`)
+// })
 
 const usersRouter = require('./routes/users');
 const ordersRouter = require('./routes/orders');
