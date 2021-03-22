@@ -18,14 +18,14 @@ const port = process.env.PORT || 5000;
 app.use(cors());
 app.use(express.json());
 
-// app.use(
-//   session({
-//       name: 'AuthCookie',
-//       secret: 'uniqueSessionID',
-//       resave: false,
-//       saveUninitialized: true
-//   })
-// );
+app.use(
+  session({
+      name: 'AuthCookie',
+      secret: 'uniqueSessionID',
+      resave: false,
+      saveUninitialized: true
+  })
+);
 
 const uri = 'mongodb+srv://admin:2zFG0DD5vX8gHBPp@restaurant.gftqs.mongodb.net/capstone';
 mongoose.connect(uri, { useNewUrlParser: true, useCreateIndex: true, useUnifiedTopology: true }
