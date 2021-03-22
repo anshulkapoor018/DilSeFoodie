@@ -18,14 +18,14 @@ const port = process.env.PORT || 5000;
 app.use(cors());
 app.use(express.json());
 
-app.use(
-  session({
-      name: 'AuthCookie',
-      secret: 'uniqueSessionID',
-      resave: false,
-      saveUninitialized: true
-  })
-);
+// app.use(
+//   session({
+//       name: 'AuthCookie',
+//       secret: 'uniqueSessionID',
+//       resave: false,
+//       saveUninitialized: true
+//   })
+// );
 
 const uri = 'mongodb+srv://admin:2zFG0DD5vX8gHBPp@restaurant.gftqs.mongodb.net/capstone';
 mongoose.connect(uri, { useNewUrlParser: true, useCreateIndex: true, useUnifiedTopology: true }
@@ -45,7 +45,7 @@ app.use('/order', ordersRouter);
 app.use('/restaurant', restaurentsRouter);
 app.use('/review', reviewsRouter);
 
-// if (process.env.NODE_ENV === 'production') {
+if (process.env.NODE_ENV === 'production') {
   // Serve any static files
   app.use(express.static('../../build'));
 
@@ -53,6 +53,6 @@ app.use('/review', reviewsRouter);
   // app.get('*', function(req, res) {
   //     res.sendFile(path.join(__dirname, '../../build', 'index.html'));
   // });
-// }
+}
 
 app.listen(port, (console.log(`${chalk.green(`Server is running on port: `)} ${chalk.blue((port))}`)));
