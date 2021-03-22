@@ -47,7 +47,7 @@ app.use('/review', reviewsRouter);
 
 if (process.env.NODE_ENV === 'production') {
   // Serve any static files
-  app.use(express.static(path.join(__dirname, '../../build')));
+  app.use(express.static('../../build'));
 
   // Handle React routing, return all requests to React app
   app.get('*', function(req, res) {
@@ -56,6 +56,7 @@ if (process.env.NODE_ENV === 'production') {
 }
 
 app.listen(port, () => {
+    console.log("ITS RUNNING!");
     console.log(`${chalk.green(`Server is running on port: `)} ${chalk.blue((port))}`);
     if (process && process.send) {
       process.send({done: true});
