@@ -59,7 +59,7 @@
     "server": "nodemon backend/server.js",
     "dev": "concurrently \"cd backend && nodemon server.js\" \"npm run start\"",
     "seed-res": "cd backend/seed && node seedRestaurants.js",
-    "heroku-postbuild": "npm install && npm run build"
+    "heroku-postbuild": "concurrently \"cd backend && npm install\" \"npm install && npm run build\""
   },
   "eslintConfig": {
     "extends": "react-app"
