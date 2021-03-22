@@ -14,7 +14,7 @@ function Profile() {
         <Sidebar />
         <Switch>
           <Route path='/profile' exact component={Profile2} />
-          <Route  path="/contact" component={ContactUs} />
+          <Route path="/contact" exact component={ContactUs} />
           <Route path='/reports' exact component={Reports} />
           <Route path='/reports/reports1' exact component={ReportsOne} />
           <Route path='/reports/reports2' exact component={ReportsTwo} />

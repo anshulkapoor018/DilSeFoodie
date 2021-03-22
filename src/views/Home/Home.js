@@ -16,8 +16,17 @@ import {NotificationManager} from 'react-notifications';
 // import '../../styles/style.scss';
 
 // This calls our notification handler
-async function showNotification (inp){
-  NotificationManager.error(inp, "", 2000);
+async function showNotification (type, message){
+  const timer = 2000
+  if (type === "error"){
+    NotificationManager.error(message, "", timer);
+  }
+  else if (type === "success"){
+    NotificationManager.success(message, "", timer);
+  }
+  else if (type === "warning"){
+    NotificationManager.warning(message, "", timer);
+  }
 }
 
 class Home extends React.PureComponent {
@@ -47,7 +56,7 @@ class Home extends React.PureComponent {
 
     // Blocker used to prevent unwanted requests to the server if the input is invalid
     if(this.state.SearchString.trim() === ""){
-      await showNotification("Please Enter Something to Search!")
+      await showNotification("error" ,"Please Enter Something to Search!")
     }
     else{
       // Changed to Promises to Async (Refractored)
@@ -55,10 +64,15 @@ class Home extends React.PureComponent {
         const response = await  axios.post('http://localhost:5000/restaurant/search', search)
         console.log(response.data.restDetails)
         if((response.data.restDetails).length !== 0){
-          window.location = "/search/" + String(search.SearchString)
+          await showNotification("success" ,"Search Found!")
+          // add a delay for 2 seconds 
+          setTimeout(() => {
+            window.location = "/search/" + String(search.SearchString)
+          }, 1500)
+          
         } 
         else {
-          await showNotification("No Search Results!")
+          await showNotification("error" ,"No Search Results!")
         }
       }
       catch(err){

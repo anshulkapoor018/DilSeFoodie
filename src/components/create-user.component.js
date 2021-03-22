@@ -31,7 +31,6 @@ export default class AuthCredentials extends Component {
     };
   }
 
-  
   showLoginBox() {
     this.setState({isLoginOpen: true, isRegisterOpen: false});
   }
@@ -47,7 +46,6 @@ export default class AuthCredentials extends Component {
     else{
       return(
         <div className="root-container">
-  
           <div className="box-controller">
             <div
               className={"controller " + (this.state.isLoginOpen
@@ -87,7 +85,6 @@ class LoginBox extends React.Component {
     this.state = {
       email: "",
       password: "",
-     
     };
     
     this.onChangeEmail = this.onChangeEmail.bind(this);

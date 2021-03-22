@@ -15,7 +15,7 @@ var app = express();
 app.use(express.json());
 app.use(cors());
 app.use(bodyParser.urlencoded({ extended: true })); 
-// Email server and sender setup 
+
 var transporter = nodemailer.createTransport({
   service: 'gmail',
   auth: {
@@ -61,15 +61,12 @@ router.post('/login',
           return res.send({message: "Wrong Email or password combination!", status: true})
         } 
         else if(bcrypt.compareSync(password, user.password)){
-          req.session.loggedIn = true;
+          req.session.loggedIn = "true";
           req.session.cookie.path = "/profile";
           req.session.email = req.body.email;
           req.session.user = user;
           // console.log(user);
           console.log("Signed in Successfully!");
-          // console.log(req.session.user);
-          // trying to get the session data to the profile page 
-          // return res.send({user:user, redirect:'/profile'}) 
           let redir = { redirect: "/", status: true, userDetails: user};
           return res.json(redir);
         }
@@ -240,6 +237,55 @@ router.route('/signup').post((req, res) => {
       });
     });
   })
+})
+
+
+//Sending Email to support page
+router.route('/contact').post((req, res) => {
+  // Making sure its logged in at all times
+  req.session.loggedIn = "true";    
+  req.session.cookie.path = "/contact";
+  const {body} = req
+  const {
+    name,
+    email,
+    subject,
+    message
+  } = body; 
+
+  var mailOptions = {
+    from: "ikennaibezim90@gmail.com",
+    to:  'dogefooddelivery@gmail.comr',
+    subject: subject,
+    html: `<h2>${message}</h2><br><h4>Sender: <br> 
+    Name: ${name}<br>Email: ${email}</h4>`
+  };
+  try{
+
+    transporter.sendMail(mailOptions, function(error, info){
+      if (error) {
+        res.send({
+          success: false,
+          login: true,
+          redirect: "/contact"
+        })
+      } 
+      else {
+          
+          res.send({
+            success: true,
+            login: true,
+            redirect: "/contact"
+            
+          })
+      }
+    });
+  }
+  catch(err){
+    res.send({
+      success: false
+    })
+  }
 })
   
 module.exports = router;
