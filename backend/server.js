@@ -15,7 +15,7 @@ const fs = require('fs')
 const app = express();
 const port = process.env.PORT || 5000;
 
-app.use(cors());
+// app.use(cors());
 app.use(express.json());
 
 app.use(
@@ -31,8 +31,8 @@ const uri = 'mongodb+srv://admin:2zFG0DD5vX8gHBPp@restaurant.gftqs.mongodb.net/c
 mongoose.connect(uri, { useNewUrlParser: true, useCreateIndex: true, useUnifiedTopology: true }
 );
 const connection = mongoose.connection;
-connection.once('open', () => {
-  console.log(`${chalk.green('✓')} ${chalk.blue('MongoDB Connected!')}`)
+connection.on('connected', () => {
+  console.log(`${chalk.green('✓')} ${chalk.blue('MongoDB is Connected!')}`)
 })
 
 const usersRouter = require('./routes/users');
@@ -50,15 +50,9 @@ if (process.env.NODE_ENV === 'production') {
   app.use(express.static('../../build'));
 
   // Handle React routing, return all requests to React app
-  app.get('*', function(req, res) {
-      res.sendFile(path.join(__dirname, '../../build', 'index.html'));
-  });
+  // app.get('*', function(req, res) {
+  //     res.sendFile(path.join(__dirname, '../../build', 'index.html'));
+  // });
 }
 
-app.listen(port, () => {
-    console.log("ITS RUNNING!");
-    console.log(`${chalk.green(`Server is running on port: `)} ${chalk.blue((port))}`);
-    if (process && process.send) {
-      process.send({done: true});
-    }
-});
+app.listen(port, (console.log(`${chalk.green(`Server is running on port: `)} ${chalk.blue((port))}`)));
