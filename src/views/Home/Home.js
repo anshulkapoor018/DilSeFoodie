@@ -1,16 +1,6 @@
 import React from 'react';
-import { Redirect } from "react-router";
 import './Home.css';
 import axios from 'axios';
-import RestaurantSearch from '../../components/restaurant-search.component';
-
-// import { Row, Col } from 'reactstrap';
-// import banners from './banners.json';
-// import CarouselSlider from '../../Static/CarouselSlider/index';
-// import { responsiveOneItemCarousel } from '../../Static/CarouselSlider/helpers';
-
-// Import application sass styles
-// import '../../styles/style.scss';
 
 class Home extends React.PureComponent {
   constructor(props){
