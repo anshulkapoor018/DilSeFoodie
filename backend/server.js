@@ -55,4 +55,4 @@ app.use(express.json());
 //   // });
 // }
 
-app.listen(port, (console.log(`${chalk.green(`Server is running on port: `)} ${chalk.blue((port))}`)));
+app.listen(port, (console.log(port)));
