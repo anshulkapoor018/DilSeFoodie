@@ -48,7 +48,7 @@
     "web-vitals": "^0.2.4"
   },
   "scripts": {
-    "start": "cd backend && npm install && npm start",
+    "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
@@ -57,8 +57,8 @@
     "client": "cd client && npm start && cd ..",
     "server": "nodemon server/server.js",
     "dev": "concurrently \"cd backend && nodemon server.js\" \"npm run start\"",
-    "seed-res": "cd backend/seed && node seedRestaurants.js",
-    "heroku-postbuild": "react-scripts start"
+    "seed-res": "cd backend/seed && node seedEntries.js",
+    "heroku-postbuild": "cd backend && npm install && npm start"
   },
   "eslintConfig": {
     "extends": "react-app"
