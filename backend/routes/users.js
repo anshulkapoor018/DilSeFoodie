@@ -254,8 +254,8 @@ router.route('/contact').post((req, res) => {
   } = body; 
 
   var mailOptions = {
-    from: "ikennaibezim90@gmail.com",
-    to:  'dogefooddelivery@gmail.comr',
+    from: "dogefooddelivery@gmail.com",
+    to:  'dogefooddelivery@gmail.com',
     subject: subject,
     html: `<h2>${message}</h2><br><h4>Sender: <br> 
     Name: ${name}<br>Email: ${email}</h4>`
