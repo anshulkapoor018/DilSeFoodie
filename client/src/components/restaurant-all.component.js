@@ -82,7 +82,7 @@ class Restaurants extends React.Component {
   }
 
   handleClick = param => e => {
-    window.location = '/res=' + param._id
+    window.location = '/res/' + param._id
   }
 
   render(){
