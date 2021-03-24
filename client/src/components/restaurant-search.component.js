@@ -30,7 +30,7 @@ export default class RestaurantSearch extends React.Component {
 
   handleClick = param => e => {
     // console.log(param._id)
-    window.location = '/restaurant/' + param._id
+    window.location = '/res/' + param._id
   }
 
   render() {
