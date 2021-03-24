@@ -1,7 +1,5 @@
 import React from 'react';
-import { Redirect } from "react-router";
 import axios from 'axios';
-import RestaurantSearch from '../../components/restaurant-search.component';
 const base_api = 'https://dilsefoodie.herokuapp.com';
 
 class Home extends React.PureComponent {

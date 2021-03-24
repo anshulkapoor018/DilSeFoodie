@@ -29,7 +29,6 @@ export default class RestaurantSearch extends React.Component {
   }
 
   handleClick = param => e => {
-    // console.log(param._id)
     window.location = '/res/' + param._id
   }
 
@@ -37,7 +36,7 @@ export default class RestaurantSearch extends React.Component {
     return(
       <div className='container_res'>
         {this.state.restaurantList.map((item, index) => (
-          <div className = "card" onClick={this.handleClick(item)}>
+          <div key = {index} className = "card" onClick={this.handleClick(item)}>
               <h2>{item.name}</h2>
               <p>{item.address}</p>
               <p>{item.address}, {item.city}, {item.state}</p>  

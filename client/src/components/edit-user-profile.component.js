@@ -1,7 +1,6 @@
 import React from 'react';
 import axios from 'axios';
 const base_api = 'https://dilsefoodie.herokuapp.com';
-var dummyProfilePic = "https://res.cloudinary.com/helpinghands101/image/upload/v1615598217/user_mcyfxd.png"
 var userObject = JSON.parse(window.sessionStorage.getItem("userDetails"));
 
 // This makes sure that a user is authenticated before seeing this page

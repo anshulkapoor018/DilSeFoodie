@@ -7,7 +7,6 @@ import { SidebarData } from './sidebarData.component';
 import SubMenu from './subMenu.component';
 import { IconContext } from 'react-icons/lib';
 import Header from "../views/Header/Header";
-const base_api = 'https://dilsefoodie.herokuapp.com';
 
 const Nav = styled.div`
   background: #15171c;

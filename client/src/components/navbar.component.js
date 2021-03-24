@@ -1,7 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import './navbar.component.css';
-const base_api = 'https://dilsefoodie.herokuapp.com';
 
 const NavBar = () => {
     let path = '/user';
