@@ -21,7 +21,7 @@ export default class RestaurantSearch extends React.Component {
     const search = {
       SearchString: self.state.resID
     }
-    axios.post('http://localhost:5000/restaurant/search', search)
+    axios.post(base_api + '/restaurant/search', search)
     .then(function (response) {
       console.log(response.data.restDetails);
       self.setState({ restaurantList: response.data.restDetails });

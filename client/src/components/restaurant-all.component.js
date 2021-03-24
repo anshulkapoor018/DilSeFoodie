@@ -30,7 +30,7 @@ export default class RestaurantsAll extends Component {
   restauranListsApiCall() {
     var self = this;
     let markers = []
-    axios.get('http://localhost:5000/restaurant/all')
+    axios.get(base_api + '/restaurant/all')
     .then(function (response) {
       response.data.forEach(rest => 
         markers.push({
@@ -75,7 +75,7 @@ class Restaurants extends React.Component {
 
   restauranListApiCall() {
     var self = this;
-    axios.get('http://localhost:5000/restaurant/all')
+    axios.get(base_api + '/restaurant/all')
     .then(function (response) {
       self.setState({ restaurantList: response.data });
     })

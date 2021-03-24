@@ -30,7 +30,7 @@ class Home extends React.PureComponent {
     if(this.state.SearchString === ""){
       window.alert("Please Enter Something to Search")
     } else {
-      axios.post('http://localhost:5000/restaurant/search', search)
+      axios.post(base_api + '/restaurant/search', search)
       .then(function (response) {
         console.log(response.data.restDetails);
         if((response.data.restDetails).length !== 0){

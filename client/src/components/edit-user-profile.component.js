@@ -129,7 +129,7 @@ class EditUserProfile extends React.Component {
             age: this.state.age,
         }
 
-        axios.post('http://localhost:5000/user/update_profile', user)
+        axios.post(base_api + '/user/update_profile', user)
         .then(function (response) {
             console.log(response.data.userDetails);
             self.setState({
@@ -153,7 +153,7 @@ class EditUserProfile extends React.Component {
                 'content-type': 'multipart/form-data'
             }
         };
-        axios.post("http://localhost:5000/user/upload",formData, config)
+        axios.post(base_api + "/user/upload",formData, config)
             .then((response) => {
                 console.log(response.data.url);
                 update({profilePicture: response.data.url});

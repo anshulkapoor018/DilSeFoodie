@@ -22,7 +22,7 @@ export default class RestaurantsPage extends React.Component {
 
   restauranListApiCall() {
     var self = this;
-    axios.get('http://localhost:5000/restaurant/'+self.resID)
+    axios.get(base_api + '/restaurant/'+self.resID)
     .then(function (response) {
       self.setState({ restaurantDetails: response.data });
     })

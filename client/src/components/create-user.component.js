@@ -115,7 +115,7 @@ class LoginBox extends React.Component {
       this.setState({err_status: true, message: "Invalid Password"});
     }
     else{
-      const response = await axios.post('http://localhost:5000/user/login', user)
+      const response = await axios.post(base_api + '/user/login', user)
       console.log(response.data.message)
       if (response.data.message){
         this.setState({err_status: true, message: "Wrong email or password"});
@@ -275,7 +275,7 @@ class RegisterBox extends React.Component {
     }
    
     else{
-      const response = await axios.post('http://localhost:5000/user/signup', user)
+      const response = await axios.post(base_api + '/user/signup', user)
       console.log(response.data.success)
       if(response.data.email_use === true){
         this.setState({error_status: true, success_status: false,message: "Sign up failed, Email Already Exists!"});
