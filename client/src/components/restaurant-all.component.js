@@ -2,6 +2,7 @@ import './restaurant-all.component.css';
 import axios from 'axios';
 import React, { Component } from 'react';
 import MapContainer from '../Static/GoogleMapsPickup';
+const base_api = 'https://dilsefoodie.herokuapp.com';
 
 export default class RestaurantsAll extends Component {
 

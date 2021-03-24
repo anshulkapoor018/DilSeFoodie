@@ -6,8 +6,8 @@ const bodyParser = require("body-parser");
 // Used to Encrypt Password
 const bcrypt = require('bcrypt');
 const nodemailer = require("nodemailer");
-const upload = require("../../utils/multer")
-const cloudinary = require("../../utils/cloudinary")
+const upload = require("../utils/multer")
+const cloudinary = require("../utils/cloudinary")
 const path = require("path")
 
 const express = require("express");

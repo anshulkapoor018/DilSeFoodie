@@ -1,16 +1,8 @@
 import React from 'react';
 import { Redirect } from "react-router";
-import './Home.css';
 import axios from 'axios';
 import RestaurantSearch from '../../components/restaurant-search.component';
-
-// import { Row, Col } from 'reactstrap';
-// import banners from './banners.json';
-// import CarouselSlider from '../../Static/CarouselSlider/index';
-// import { responsiveOneItemCarousel } from '../../Static/CarouselSlider/helpers';
-
-// Import application sass styles
-// import '../../styles/style.scss';
+const base_api = 'https://dilsefoodie.herokuapp.com';
 
 class Home extends React.PureComponent {
   constructor(props){
@@ -61,10 +53,8 @@ class Home extends React.PureComponent {
             <h1>Welcome Foodies!</h1>
             <p>Discover the best food and drinks in the Mile Square City</p>
             <label>
-                {/* <form id="search-form" method="POST" action="/restaurants/search"> */}
-                    <input id="search-bar" type="text" name="search" className = "searchFields" placeholder="Search for a restaurant or cuisine" value={this.state.SearchString} onChange={this.onChangeSearch} />
-                {/* </form> */}
-                <button type="submit" className="btn" onClick={this.submitSearch.bind(this)}>Search</button>
+              <input id="search-bar" type="text" name="search" className = "searchFields" placeholder="Search for a restaurant or cuisine" value={this.state.SearchString} onChange={this.onChangeSearch} />
+              <button type="submit" className="btn" onClick={this.submitSearch.bind(this)}>Search</button>
             </label> 
           </div>
         </div>

@@ -2,6 +2,7 @@ import React from 'react';
 import axios from 'axios';
 import './restaurant-single.component.css';
 import MapSection from '../Static/GoogleMaps';
+const base_api = 'https://dilsefoodie.herokuapp.com';
 
 export default class RestaurantsPage extends React.Component {
   constructor(props) {
