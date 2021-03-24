@@ -31,8 +31,8 @@ function App() {
           <Route exact path="/Home" component={Home} />
           <Route path="/user" component={AuthCredentials} />
           <Route path="/restaurants" component={RestaurantsAll} />
-          <Route path='/res' component={RestaurantsPage} />
-          <Route path='/search' component={RestaurantSearch} />
+          <Route path="/res/" component={RestaurantsPage} />
+          <Route path="/search/" component={RestaurantSearch} />
           <Route exact path="/profile" component={Profile} onEnter={onEnter} />
           <Route exact path="/">
               <Redirect to="/Home"/>
