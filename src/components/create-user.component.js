@@ -3,8 +3,24 @@ import axios from 'axios';
 import "../styles/_loginSty.scss";
 import { Card } from 'react-bootstrap'
 
+// Notification imports
+import 'react-notifications/lib/notifications.css';
+import {NotificationManager} from 'react-notifications';
 
-let error_1 = false
+// This calls our notification handler
+async function showNotification (type, message){
+  const timer = 2000
+  if (type === "error"){
+    NotificationManager.error(message, "", timer);
+  }
+  else if (type === "success"){
+    NotificationManager.success(message, "", timer);
+  }
+  else if (type === "warning"){
+    NotificationManager.warning(message, "", timer);
+  }
+}
+
 export default class AuthCredentials extends Component {
  
   constructor(props) {
@@ -15,7 +31,6 @@ export default class AuthCredentials extends Component {
     };
   }
 
-  
   showLoginBox() {
     this.setState({isLoginOpen: true, isRegisterOpen: false});
   }
@@ -31,7 +46,6 @@ export default class AuthCredentials extends Component {
     else{
       return(
         <div className="root-container">
-  
           <div className="box-controller">
             <div
               className={"controller " + (this.state.isLoginOpen
@@ -71,9 +85,6 @@ class LoginBox extends React.Component {
     this.state = {
       email: "",
       password: "",
-      err_status : false,
-      succes_status: false,
-      message :""
     };
     
     this.onChangeEmail = this.onChangeEmail.bind(this);
@@ -108,30 +119,30 @@ class LoginBox extends React.Component {
     }
 
     // Checking for empty inputs 
-    if (user.email.length < 3 || user.email.trim() == ""){
-      this.setState({err_status: true, message: "Invalid Email"});
+    if (user.email.length < 3 || user.email.trim() === ""){
+      await showNotification ("error", "Invalid Email");
     }
-    else if (user.password.length < 6 || user.password.trim() == ""){
-      this.setState({err_status: true, message: "Invalid Password"});
+    else if (user.password.length < 6 || user.password.trim() === ""){
+      await showNotification ("error", "Invalid Password");
     }
     else{
       const response = await axios.post('http://localhost:5000/user/login', user)
       console.log(response.data.message)
       if (response.data.message){
-        this.setState({err_status: true, message: "Wrong email or password"});
+        await showNotification ("error", "Wrong email or password");
       }
       else{
             
         if (response.data.redirect === '/') {
           window.sessionStorage.setItem('isLoggedIn', response.data.status);
           window.sessionStorage.setItem('userDetails', JSON.stringify(response.data.userDetails));
-        
-          this.setState({succes_status: true, err_status: false, message: "Login Successful"});
+
+          await showNotification ("success", "Login Successful")
           
           // add a delay for 2 seconds 
           setTimeout(() => {
             window.location = "/profile"
-          }, 3000)
+          }, 1000)
         
         } 
       
@@ -143,8 +154,8 @@ class LoginBox extends React.Component {
     }
   
     this.setState({
-      email: '',
-      password: ''
+      email: this.state.email,
+      password: this.state.password
     })      
 
   }
@@ -204,11 +215,7 @@ class RegisterBox extends React.Component {
       firstName: "",
       lastName: "",
       email: "",
-      password: "",
-      error_status: false,
-      success_status: false,
-      message: ""
-
+      password: ""
     };
 
     this.onChangeFirstName = this.onChangeFirstName.bind(this);
@@ -261,33 +268,33 @@ class RegisterBox extends React.Component {
       password: this.state.password
     }
 
-    if (user.firstName.length < 1 || user.firstName.trim() == ""){
-      this.setState({error_status: true, message: "Invalid Firstname"});
+    if (user.firstName.length < 1 || user.firstName.trim() === ""){
+      await showNotification ("error", "Invalid Firstname")
     }
-    else if (user.lastName.length < 1 || user.lastName.trim() == ""){
-      this.setState({error_status: true, message: "Invalid Lastname"});
+    else if (user.lastName.length < 1 || user.lastName.trim() === ""){
+      await showNotification ("error", "Invalid Lastname")
     }
-    else if (user.email.length < 3 || user.email.trim() == ""){
-      this.setState({error_status: true, message: "Invalid Email"});
+    else if (user.email.length < 3 || user.email.trim() === ""){
+      await showNotification ("error", "Invalid Email")
     }
-    else if (user.password.length < 6 || user.password.trim() == ""){
-      this.setState({error_status: true, message: "Invalid Password"});
+    else if (user.password.length < 6 || user.password.trim() === ""){
+      await showNotification ("error", "Invalid Password")
     }
    
     else{
       const response = await axios.post('http://localhost:5000/user/signup', user)
       console.log(response.data.success)
       if(response.data.email_use === true){
-        this.setState({error_status: true, success_status: false,message: "Sign up failed, Email Already Exists!"});
+        await showNotification ("error", "Sign up failed, Email Already Exists!")
       }
       else if (response.data.success === false){
-        this.setState({error_status: true, success_status: false,message: "Sign up failed, Please try again!"});
+        await showNotification ("error", "Sign up failed, Please try again!")
       }
       else if (response.data.success === true){
-        this.setState({success_status: true, error_status: false,message: "You have Successfully Signed up!"});
+        await showNotification ("success", "You have Successfully Signed up!")
         setTimeout(() => {
           window.location = "/user"
-        }, 2500)
+        }, 1500)
       }
       
     }

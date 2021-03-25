@@ -8,8 +8,7 @@
 }
 
 .home,
-.reports,
-.products,
+.order-history,
 .team,
 .reports {
   display: flex;

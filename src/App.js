@@ -11,7 +11,8 @@ import RestaurantsAll from "./components/restaurant-all.component";
 import RestaurantsPage from "./components/restaurant-single.component";
 import RestaurantSearch from './components/restaurant-search.component';
 
-
+import 'react-notifications/lib/notifications.css';
+import {NotificationContainer} from 'react-notifications';
 import './App.css'
 // import NotFound from "./views/NotFound";
 
@@ -24,10 +25,12 @@ export function onEnter(nextState, transition, callback) {
   return callback() // go as it is.
 }
 
-function App() {
+function App(props) {
   return (
     <Router>
         <Navbar/>
+        <NotificationContainer/>
+        <div className="container">
           <Route exact path="/Home" component={Home} />
           <Route path="/user" component={AuthCredentials} />
           <Route path="/restaurants" component={RestaurantsAll} />
@@ -37,7 +40,10 @@ function App() {
           <Route exact path="/">
               <Redirect to="/Home"/>
           </Route>
+        </div>
     </Router>
+
+    
   );
 }
 
