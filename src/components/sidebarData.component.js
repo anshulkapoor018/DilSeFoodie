@@ -61,7 +61,7 @@ export const SidebarData = [
   },
   {
     title: 'Orders',
-    path: '/products',
+    path: '/order-history',
     icon: <FaIcons.FaCartPlus />
   },
   {
