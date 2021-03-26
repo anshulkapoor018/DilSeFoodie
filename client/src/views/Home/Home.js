@@ -1,5 +1,4 @@
 import React from 'react';
-import './Home.css';
 import axios from 'axios';
 
 // Notification imports
@@ -54,7 +53,7 @@ class Home extends React.PureComponent {
     else{
       // Changed to Promises to Async (Refractored)
       try{
-        const response = await  axios.post(prod_api + '/restaurant/search', search)
+        const response = await axios.post(prod_api + '/restaurant/search', search)
         console.log(response.data.restDetails)
         if((response.data.restDetails).length !== 0){
           await showNotification("success" ,"Search Found!")
@@ -62,7 +61,6 @@ class Home extends React.PureComponent {
           setTimeout(() => {
             window.location = "/search/" + String(search.SearchString)
           }, 1500)
-          
         } 
         else {
           await showNotification("error" ,"No Search Results!")
@@ -85,11 +83,8 @@ class Home extends React.PureComponent {
                 <input id="search-bar" type="text" name="search" className = "searchFields" placeholder="Search for a restaurant or cuisine" value={this.state.SearchString} onChange={this.onChangeSearch} />
                 <button type="submit" className="btn" onClick={this.submitSearch.bind(this)}>Search</button>
             </label>
-
             <br/>
           </div>
-
-          
         </div>
       );
   }
