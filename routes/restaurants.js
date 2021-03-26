@@ -84,7 +84,7 @@ router.post('/search', (req, res)=>{
   }, function (err, rest) {
     if (err) console.log(err);
     
-    const redir = { redirect: "/", restDetails: rest};
+    const redir = { redirect: "/", restDetails: rest, found: true};
     return res.json(redir);
   });
 });

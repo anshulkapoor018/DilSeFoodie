@@ -26,6 +26,13 @@ export const SidebarData = [
     // ]
   },
   {
+    title: 'Support',
+    path: '/contact',
+    icon: <IoIcons.IoMdHelpCircle />,
+    iconClosed: <RiIcons.RiArrowDownSFill />,
+    iconOpened: <RiIcons.RiArrowUpSFill />,
+  },
+  {
     title: 'Accessibility',
     path: '/reports',
     icon: <IoIcons.IoIosPaper />,
@@ -54,7 +61,7 @@ export const SidebarData = [
   },
   {
     title: 'Orders',
-    path: '/products',
+    path: '/order-history',
     icon: <FaIcons.FaCartPlus />
   },
   {
@@ -83,9 +90,5 @@ export const SidebarData = [
     //   }
     // ]
   },
-  {
-    title: 'Support',
-    path: '/contact',
-    icon: <IoIcons.IoMdHelpCircle />
-  }
+  
 ];

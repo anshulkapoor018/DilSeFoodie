@@ -1,6 +1,8 @@
 import React from 'react';
 import axios from 'axios';
-const base_api = 'https://dilsefoodie.herokuapp.com';
+
+const prod_api = 'https://dilsefoodie.herokuapp.com';
+const dev_api = "http://localhost:5000";
 var userObject = JSON.parse(window.sessionStorage.getItem("userDetails"));
 
 // This makes sure that a user is authenticated before seeing this page
@@ -128,7 +130,7 @@ class EditUserProfile extends React.Component {
             age: this.state.age,
         }
 
-        axios.post(base_api + '/user/update_profile', user)
+        axios.post(prod_api + '/user/update_profile', user)
         .then(function (response) {
             console.log(response.data.userDetails);
             self.setState({
@@ -152,7 +154,7 @@ class EditUserProfile extends React.Component {
                 'content-type': 'multipart/form-data'
             }
         };
-        axios.post(base_api + "/user/upload",formData, config)
+        axios.post(prod_api + "http://localhost:5000/user/upload",formData, config)
             .then((response) => {
                 console.log(response.data.url);
                 update({profilePicture: response.data.url});

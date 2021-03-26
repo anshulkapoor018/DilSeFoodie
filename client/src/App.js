@@ -7,7 +7,9 @@ import Profile from "./views/Profile/Profile";
 import RestaurantsAll from "./components/restaurant-all.component";
 import RestaurantsPage from "./components/restaurant-single.component";
 import RestaurantSearch from './components/restaurant-search.component';
-import './App.css'
+import 'react-notifications/lib/notifications.css';
+import {NotificationContainer} from 'react-notifications';
+import './App.css';
 
 export function onEnter(nextState, transition, callback) {
   const { pathname } = nextState.location
@@ -18,10 +20,12 @@ export function onEnter(nextState, transition, callback) {
   return callback() // go as it is.
 }
 
+
 function App() {
   return (
     <Router>
         <Navbar/>
+        <NotificationContainer/>
           <Route exact path="/Home" component={Home} />
           <Route path="/user" component={AuthCredentials} />
           <Route path="/restaurants" component={RestaurantsAll} />

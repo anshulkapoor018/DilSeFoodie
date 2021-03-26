@@ -15,7 +15,7 @@ var app = express();
 app.use(express.json());
 app.use(cors());
 app.use(bodyParser.urlencoded({ extended: true })); 
-// Email server and sender setup 
+
 var transporter = nodemailer.createTransport({
   service: 'gmail',
   auth: {
@@ -47,55 +47,27 @@ router.post('/login',
       email
     } = body;
 
-    // // TODO: perform checks for email length and characters and all
-    // if(!email || email.length === ""){
-    //   console.log('Error: Email cannot be blank.');
-    //   var redir = {err: 'Email cannot be blank'};
-    //   return res.json(redir);
-    // }
-
-    // if(!password || password.length === ""){
-    //   console.log('Error: Password cannot be blank.');
-    //   redir = {err: 'Password cannot be blank', redirect: "/login"};
-    //   return res.json(redir);
-    // }
-
     email = email.toLowerCase();
 
     User.findOne({email: email,
     }, (err, user) => {
       if(err){
-        // var redir = { redirect: '/login', err: "Email does not exist"};
-        
-        // return res.json(redir);
-        // console.log(err)
         res.send({err: err})
       }else if (!user){
-        // redir = { redirect: '/login', err: 'Invalid Email'};
-        // return res.json(redir);
         return res.send({ message: "Wrong Email or password combination!" })
       } 
       else {
-        // console.log("User Found!");
-        // Come back to this later
-        
         if(!bcrypt.compareSync(password, user.password)){
           return res.send({message: "Wrong Email or password combination!", status: true})
-          // console.log("Wrong Password!")
-          // redir = { err: "Wrong Password", redirect: '/'};
-          // return res.json(redir);
         } 
         else if(bcrypt.compareSync(password, user.password)){
-          req.session.loggedIn = true;
+          req.session.loggedIn = "true";
           req.session.cookie.path = "/profile";
           req.session.email = req.body.email;
           req.session.user = user;
           // console.log(user);
           console.log("Signed in Successfully!");
-          // console.log(req.session.user);
-          // trying to get the session data to the profile page 
-          // return res.send({user:user, redirect:'/profile'}) 
-          const redir = { redirect: "/", status: true, userDetails: user};
+          let redir = { redirect: "/", status: true, userDetails: user};
           return res.json(redir);
         }
       }
@@ -265,6 +237,55 @@ router.route('/signup').post((req, res) => {
       });
     });
   })
+})
+
+
+//Sending Email to support page
+router.route('/contact').post((req, res) => {
+  // Making sure its logged in at all times
+  req.session.loggedIn = "true";    
+  req.session.cookie.path = "/contact";
+  const {body} = req
+  const {
+    name,
+    email,
+    subject,
+    message
+  } = body; 
+
+  var mailOptions = {
+    from: "dogefooddelivery@gmail.com",
+    to:  'dogefooddelivery@gmail.com',
+    subject: subject,
+    html: `<h2>${message}</h2><br><h4>Sender: <br> 
+    Name: ${name}<br>Email: ${email}</h4>`
+  };
+  try{
+
+    transporter.sendMail(mailOptions, function(error, info){
+      if (error) {
+        res.send({
+          success: false,
+          login: true,
+          redirect: "/contact"
+        })
+      } 
+      else {
+          
+          res.send({
+            success: true,
+            login: true,
+            redirect: "/contact"
+            
+          })
+      }
+    });
+  }
+  catch(err){
+    res.send({
+      success: false
+    })
+  }
 })
   
 module.exports = router;

@@ -1,6 +1,7 @@
 import React from 'react';
 import axios from 'axios';
-const base_api = 'https://dilsefoodie.herokuapp.com';
+const prod_api = 'https://dilsefoodie.herokuapp.com';
+const dev_api = "http://localhost:5000";
 
 export default class RestaurantSearch extends React.Component {
   constructor(props) {
@@ -21,7 +22,7 @@ export default class RestaurantSearch extends React.Component {
     const search = {
       SearchString: self.state.resID
     }
-    axios.post(base_api + '/restaurant/search', search)
+    axios.post(prod_api + '/restaurant/search', search)
     .then(function (response) {
       console.log(response.data.restDetails);
       self.setState({ restaurantList: response.data.restDetails });
@@ -29,6 +30,7 @@ export default class RestaurantSearch extends React.Component {
   }
 
   handleClick = param => e => {
+    // console.log(param._id)
     window.location = '/res/' + param._id
   }
 
@@ -36,7 +38,7 @@ export default class RestaurantSearch extends React.Component {
     return(
       <div className='container_res'>
         {this.state.restaurantList.map((item, index) => (
-          <div key = {index} className = "card" onClick={this.handleClick(item)}>
+          <div className = "card" onClick={this.handleClick(item)}>
               <h2>{item.name}</h2>
               <p>{item.address}</p>
               <p>{item.address}, {item.city}, {item.state}</p>  
