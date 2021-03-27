@@ -3,11 +3,27 @@ import axios from 'axios';
 import './restaurant-single.component.css';
 import MapSection from '../Static/GoogleMaps';
 import StarRatings from 'react-star-ratings';
+import {NotificationManager} from 'react-notifications';
+
 const prod_api = 'https://dilsefoodie.herokuapp.com';
 const dev_api = "http://localhost:5000";
 
 var dummyProfilePics = "https://res.cloudinary.com/helpinghands101/image/upload/v1615598217/user_mcyfxd.png"
 var userObject = JSON.parse(window.sessionStorage.getItem("userDetails"));
+
+// This calls our notification handler
+async function showNotification (type, message){
+  const timer = 2000
+  if (type === "error"){
+    NotificationManager.error(message, "", timer);
+  }
+  else if (type === "success"){
+    NotificationManager.success(message, "", timer);
+  }
+  else if (type === "warning"){
+    NotificationManager.warning(message, "", timer);
+  }
+}
 
 export default class RestaurantsPage extends React.Component {
   constructor(props) {
@@ -16,7 +32,8 @@ export default class RestaurantsPage extends React.Component {
     this.state = {
       restaurantDetails: {},
       reviewsMap: [],
-      rating: 0
+      rating: 0,
+      reviewString: "",
     };
     this.openForm = this.openForm.bind(this);
     this.closeForm = this.closeForm.bind(this);
@@ -25,6 +42,7 @@ export default class RestaurantsPage extends React.Component {
     this.routeToLogin = this.routeToLogin.bind(this);
     this.changeRating = this.changeRating.bind(this);
     this.submitRatingForm = this.submitRatingForm.bind(this);
+    this.onChangeReview = this.onChangeReview.bind(this);
   }
 
   componentDidMount() {
@@ -47,7 +65,7 @@ export default class RestaurantsPage extends React.Component {
 
   reviewListApiCall() {
     var self = this;
-    axios.get(prod_api + 'http://localhost:5000/review/restaurant/' + self.resID)
+    axios.get(prod_api + '/review/restaurant/' + self.resID)
     .then(function (response) {
       self.setState({ reviewsMap: response.data });
     })
@@ -84,12 +102,30 @@ export default class RestaurantsPage extends React.Component {
     });
   }
 
-  submitRatingForm(e) {
+  async submitRatingForm(e) {
     e.preventDefault();
     var self = this;
-    console.log(self.resID);
-    console.log(userObject["_id"]);
-    console.log(self.state.rating);
+    if (self.state.reviewString.length < 3){
+      await showNotification ("error", "Please Enter a Valid Review");
+    } else {
+      const reviewBody = {
+        restaurantId: self.resID,
+        userId: userObject["_id"],
+        reviewText: this.state.reviewString,
+        rating: self.state.rating
+      }
+      const response = await axios.post(dev_api + '/review/add', reviewBody);
+      console.log(response.data);
+      window.location.reload();
+    }
+  }
+
+  onChangeReview(e){
+    const target = e.target;
+    const value = target.value;
+    this.setState({
+      reviewString: value
+    })
   }
   
   render(){
@@ -140,9 +176,9 @@ export default class RestaurantsPage extends React.Component {
         }
         <div className="form-popup" id="myForm">
           <h2>Post a Review</h2>
-            <form id="login-form" name ="loginForm" className="form-container" enctype="multipart/form-data">
+            <form id="login-form" name ="loginForm" className="form-container">
                 <label>
-                    <input type="text" name="reviewText" id="reviewText" class = "inputFields" placeholder="Enter your Review" required/>
+                    <input type="text" name="reviewText" id="reviewText" className = "inputFields" placeholder="Enter your Review" value={this.state.reviewString} onChange={this.onChangeReview} required/>
                 </label>
                 <StarRatings
                   rating={this.state.rating}

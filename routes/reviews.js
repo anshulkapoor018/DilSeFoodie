@@ -44,7 +44,7 @@ router.get('/user/:id',
 });
 
 
-router.post('/', (req, res)=>{
+router.post('/add', (req, res)=>{
   // Adding a review to a given restaurant.
   const newReview = new Review();
 
