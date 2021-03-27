@@ -29,7 +29,7 @@ app.use(
   session({
       name: 'AuthCookie',
       secret: 'uniqueSessionID',
-      resave: false,
+      resave: true,
       saveUninitialized: true
   })
 );
@@ -77,8 +77,8 @@ router.post('/login',
 // Update Profile data
 router.route('/update_profile').post(upload, async (req, res) => {
 
-  console.log("Request ---", req.body);
-  console.log("Request file ---", req.file);
+  // console.log("Request ---", req.body);
+  // console.log("Request file ---", req.file);
   
   const {body} = req
   const {
@@ -92,6 +92,9 @@ router.route('/update_profile').post(upload, async (req, res) => {
     password,
     email
   } = body
+
+  // console.log(req.body)
+  // return
   try{
     const result = await cloudinary.uploader.upload(req.file.path);
     console.log(result.secure_url)
@@ -107,16 +110,18 @@ router.route('/update_profile').post(upload, async (req, res) => {
     function(err, doc) {
       if(err){
         console.log(`Can't update document due too: ${err}`)
-        return
+        return res.send({message:"Can't update document due too", status: "false"})
+        
       }
       console.log("Updated Successfully, view documents below");
       console.log(req.body);
       if (doc){
-        req.session.loggedIn = true;
+        req.session.loggedIn = "true";
+        console.log("This is the document")
         console.log(doc);
         req.session.cookie.path = "/profile";
-        const redir = { redirect: '/profile', status: "true", userDetails: req.body};
-        return res.json(redir);
+        req.session.req.body = req.body ;
+        return res.send({status: true, userDetails: req.session.req.body});
       }
     });
 })

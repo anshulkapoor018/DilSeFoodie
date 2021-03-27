@@ -5,19 +5,20 @@ const prod_api = 'https://dilsefoodie.herokuapp.com';
 const dev_api = "http://localhost:5000";
 var userObject = JSON.parse(window.sessionStorage.getItem("userDetails"));
 
+
 // This makes sure that a user is authenticated before seeing this page
 // function CheckSession(){
 //     if (window.sessionStorage.getItem('isLoggedIn') === null || window.sessionStorage.getItem('isLoggedIn') === 'false'){
 //         window.location = "/user"
 //     }
 // }
-function update(value){
-    let prevData = JSON.parse(sessionStorage.getItem('userDetails'));
-    Object.keys(value).forEach(function(val, key){
-         prevData[val] = value[val];
-    })
-    sessionStorage.setItem('userDetails', JSON.stringify(prevData));
-}
+// function update(value){
+//     let prevData = JSON.parse(sessionStorage.getItem('userDetails'));
+//     Object.keys(value).forEach(function(val, key){
+//          prevData[val] = value[val];
+//     })
+//     sessionStorage.setItem('userDetails', JSON.stringify(prevData));
+// }
 
 class EditUserProfile extends React.Component {
 
@@ -116,33 +117,29 @@ class EditUserProfile extends React.Component {
         })
     }
 
-    submitregister(e){
+    async submitregister(e){
         e.preventDefault();
-        var self = this;
+        // var self = this;
         const user = {
             firstName: this.state.firstName,
             lastName: this.state.lastName,
             email: this.state.email,
             password: this.state.password,
-            profilePicture: this.state.profilePicture,
-            city: this.state.city,
+            city: this.state.city,                                                                                                                                                                                                                                                                                                                       
             state: this.state.state,
             age: this.state.age,
         }
 
-        axios.post(prod_api + '/user/update_profile', user)
-        .then(function (response) {
-            console.log(response.data.userDetails);
-            self.setState({
-                profilePicture: response.data.userDetails.profilePicture,
-                firstName: response.data.userDetails.firstName,
-                lastName: response.data.userDetails.lastName
-            })
-            if (response.data.redirect === '/profile') {
-                window.location.href = "/profile"
-            }
-        })
-        window.location.reload();
+        const response = await axios.post(dev_api + '/user/update_profile', user)
+        if(response.data.message){
+            console.log(response.data.message)
+            // display the error message and  notification here
+        }
+        else{
+            window.sessionStorage.setItem('isLoggedIn', response.data.status);
+            window.sessionStorage.setItem('userDetails', JSON.stringify(response.data.userDetails));
+        }
+        window.location.reload()
     }
 
     uploadProfilePic(e){
@@ -154,11 +151,11 @@ class EditUserProfile extends React.Component {
                 'content-type': 'multipart/form-data'
             }
         };
-        axios.post(prod_api + "http://localhost:5000/user/upload",formData, config)
+        axios.post(dev_api + "/user/upload",formData, config)
             .then((response) => {
                 console.log(response.data.url);
-                update({profilePicture: response.data.url});
-                this.setState({profilePicture: response.data.url});
+                // update({profilePicture: response.data.url});
+                // this.setState({profilePicture: response.data.url});
             }).catch((error) => {
         });
     }
@@ -179,7 +176,7 @@ class EditUserProfile extends React.Component {
                 <input type="submit" value="Upload Photo" onClick={this.uploadProfilePic.bind(this)}/> 
             </div>
             <div className="card-wide" id="right">
-                <form submitregister={this.submitregister}>
+                <form>
                     <label htmlFor="firstName">First Name:</label>
                     <input name="firstName" id="firstName" type="text" value={this.state.firstName} onChange={this.onChangeFirstName} />
                     <label htmlFor="lastName">Last Name:</label>
@@ -201,6 +198,5 @@ class EditUserProfile extends React.Component {
       );
     }
 }
-
 
 export default EditUserProfile;
