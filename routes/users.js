@@ -9,6 +9,7 @@ const nodemailer = require("nodemailer");
 const upload = require("../utils/multer")
 const cloudinary = require("../utils/cloudinary")
 const path = require("path")
+const fs = require("fs");
 
 const express = require("express");
 var app = express(); 
@@ -100,15 +101,19 @@ router.route('/update_profile').post(upload, async (req, res) => {
     try{
       const result = await cloudinary.uploader.upload(req.file.path);
       req.body.profilePicture = result.secure_url
+
+      // This removes the file from local after storing in the cloud
+      fs.unlinkSync(req.file.path);
    
       console.log("Url of the image")
       console.log(result.secure_url)
   
     } catch(e){
       // console.log(e)
+      
+      fs.unlinkSync(req.file.path);
       return res.send({message:"Can't update document due too", status: "false"})
     }
-
   }
   else{
     req.body.profilePicture = req.body.myImage
@@ -125,19 +130,15 @@ router.route('/update_profile').post(upload, async (req, res) => {
       if(err){
         console.log(`Can't update document due too: ${err}`)
         return res.send({message:"Can't update document due too", status: "false"})
-        
       }
       console.log("Updated Successfully, view documents below");
       console.log(req.body);
       if (doc){
         req.session.loggedIn = "true";
-        console.log("This is the document")
-        // console.log(doc);
         req.session.cookie.path = "/profile";
         req.session.req.body = req.body ; 
         console.log("req.session.req.body", req.session.req.body.user)
         req.session.req.body.profilePicture = req.body.profilePicture
-        // req.session
         return res.send({status: true, userDetails: req.session.req.body});
       }
     });
@@ -146,7 +147,6 @@ router.route('/update_profile').post(upload, async (req, res) => {
 //Sending POST data to the DB
 router.route('/signup').post((req, res) => {
   const {body} = req
-  // console.log(req.body)
   const {
     firstName,
     lastName,

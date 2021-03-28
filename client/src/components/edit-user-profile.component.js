@@ -1,23 +1,32 @@
 import React from 'react';
 import axios from 'axios';
+// Notification imports
+import 'react-notifications/lib/notifications.css';
+import {NotificationManager} from 'react-notifications';
 
 const prod_api = 'https://dilsefoodie.herokuapp.com';
 const dev_api = "http://localhost:5000";
 var userObject = JSON.parse(window.sessionStorage.getItem("userDetails"));
 
+// This calls our notification handler
+async function showNotification (type, message){
+    const timer = 5000
+    if (type === "error"){
+      NotificationManager.error(message, "", timer);
+    }
+    else if (type === "success"){
+      NotificationManager.success(message, "", timer);
+    }
+    else if (type === "warning"){
+      NotificationManager.warning(message, "", timer);
+    }
+}
 
 // This makes sure that a user is authenticated before seeing this page
 // function CheckSession(){
 //     if (window.sessionStorage.getItem('isLoggedIn') === null || window.sessionStorage.getItem('isLoggedIn') === 'false'){
 //         window.location = "/user"
 //     }
-// }
-// function update(value){
-//     let prevData = JSON.parse(sessionStorage.getItem('userDetails'));
-//     Object.keys(value).forEach(function(val, key){
-//          prevData[val] = value[val];
-//     })
-//     sessionStorage.setItem('userDetails', JSON.stringify(prevData));
 // }
 
 class EditUserProfile extends React.Component {
@@ -139,14 +148,18 @@ class EditUserProfile extends React.Component {
 
         const response = await axios.post(dev_api + '/user/update_profile', formData, config)
         if(response.data.message){
-            console.log(response.data.message)
+            await showNotification ("error", "Updates failed, Please try again");
             // display the error message and  notification here
         }
         else{
+            await showNotification ("success", "Updated Successfully!")
             window.sessionStorage.setItem('isLoggedIn', response.data.status);
             window.sessionStorage.setItem('userDetails', JSON.stringify(response.data.userDetails));
         }
-        window.location.reload()
+        setTimeout(() => {
+           window.location.reload()
+          }, 1000)
+        
     }
 
     render() {
@@ -183,7 +196,7 @@ class EditUserProfile extends React.Component {
                     <input name="Age" id="Age" type="text" value={this.state.age} onChange={this.onChangeAge} />
                     <label htmlFor="Password">Password:</label>
                     <input name="Password" id="Password" type="password" value={this.state.password} onChange={this.onChangePassword} />
-                    <button id="btn" type="submit" className="login-btn" onClick={this.submitregister.bind(this)}>Submit</button>
+                    <button id="btn" type="submit" className="login-btn" onClick={this.submitregister.bind(this)}>Update</button>
                 
                 </div>
             </form>
