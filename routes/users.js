@@ -75,11 +75,14 @@ router.post('/login',
 });
 
 // Update Profile data
-router.route('/update_profile').post(upload, async (req, res) => {
-
-  // console.log("Request ---", req.body);
-  // console.log("Request file ---", req.file);
+router.route('/update_profile').post(upload, async (req, res) => {  
+ 
+  console.log("Request email---", req.body.email);
+  console.log("Request firstname---", req.body.firstName);
+  console.log("Request file ---", req.file);
+  console.log("This is the entire request body", req.body)
   
+
   const {body} = req
   const {
     profilePicture,
@@ -93,19 +96,30 @@ router.route('/update_profile').post(upload, async (req, res) => {
     email
   } = body
 
-  // console.log(req.body)
-  // return
-  try{
-    const result = await cloudinary.uploader.upload(req.file.path);
-    console.log(result.secure_url)
+  if(req.file){
+    try{
+      const result = await cloudinary.uploader.upload(req.file.path);
+      req.body.profilePicture = result.secure_url
+   
+      console.log("Url of the image")
+      console.log(result.secure_url)
+  
+    } catch(e){
+      // console.log(e)
+      return res.send({message:"Can't update document due too", status: "false"})
+    }
 
-  } catch(e){
-    console.log(e)
+  }
+  else{
+    req.body.profilePicture = req.body.myImage
+    delete req.body.myImage
   }
 
   // Updating the user Profile 
   User.updateOne(
-    {email: email}, 
+
+    //
+    {email: req.body.email}, 
     {$set: req.body }, 
     function(err, doc) {
       if(err){
@@ -118,9 +132,12 @@ router.route('/update_profile').post(upload, async (req, res) => {
       if (doc){
         req.session.loggedIn = "true";
         console.log("This is the document")
-        console.log(doc);
+        // console.log(doc);
         req.session.cookie.path = "/profile";
-        req.session.req.body = req.body ;
+        req.session.req.body = req.body ; 
+        console.log("req.session.req.body", req.session.req.body.user)
+        req.session.req.body.profilePicture = req.body.profilePicture
+        // req.session
         return res.send({status: true, userDetails: req.session.req.body});
       }
     });

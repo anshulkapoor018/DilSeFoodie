@@ -25,7 +25,7 @@ class EditUserProfile extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            file: null,
+            file: userObject['profilePicture'],
             profilePicture: userObject['profilePicture'],
             firstName: userObject['firstName'],
             lastName: userObject['lastName'],
@@ -119,18 +119,25 @@ class EditUserProfile extends React.Component {
 
     async submitregister(e){
         e.preventDefault();
-        // var self = this;
-        const user = {
-            firstName: this.state.firstName,
-            lastName: this.state.lastName,
-            email: this.state.email,
-            password: this.state.password,
-            city: this.state.city,                                                                                                                                                                                                                                                                                                                       
-            state: this.state.state,
-            age: this.state.age,
-        }
 
-        const response = await axios.post(dev_api + '/user/update_profile', user)
+        const formData = new FormData();
+
+        formData.append('myImage', this.state.file);
+        formData.append('email', this.state.email);
+        formData.append('firstName', this.state.firstName);
+        formData.append('lastName', this.state.lastName);
+        formData.append('password', this.state.password);
+        formData.append('age', this.state.age);
+        formData.append('city', this.state.city);
+        formData.append('state', this.state.state);
+       
+        const config = {
+            headers: {
+                'content-type': 'multipart/form-data'
+            }
+        };
+
+        const response = await axios.post(dev_api + '/user/update_profile', formData, config)
         if(response.data.message){
             console.log(response.data.message)
             // display the error message and  notification here
@@ -142,41 +149,26 @@ class EditUserProfile extends React.Component {
         window.location.reload()
     }
 
-    uploadProfilePic(e){
-        e.preventDefault();
-        const formData = new FormData();
-        formData.append('img', this.state.file);
-        const config = {
-            headers: {
-                'content-type': 'multipart/form-data'
-            }
-        };
-        axios.post(dev_api + "/user/upload",formData, config)
-            .then((response) => {
-                console.log(response.data.url);
-                // update({profilePicture: response.data.url});
-                // this.setState({profilePicture: response.data.url});
-            }).catch((error) => {
-        });
-    }
-
     render() {
       return (
         <div className = "card-center">
             <h2>Edit User Profile</h2>
-            <div className="card-wide" id="left">
-                <img src={this.state.profilePicture} alt="Avatar" className = "profilePic" name="profilePicture" />
-                <br></br>
-                <br></br>
-                <br></br>
-                <br></br>
-                <br></br>
-                <br></br>
-                <input type="file" id="img" name="img" accept="image/*" className="w-100" onChange={this.onImageChange}/>
-                <input type="submit" value="Upload Photo" onClick={this.uploadProfilePic.bind(this)}/> 
-            </div>
-            <div className="card-wide" id="right">
-                <form>
+            <form>
+                <div className="card-wide" id="left">
+                
+                    <img src={this.state.profilePicture} alt="Avatar" className = "profilePic" name="profilePicture" />
+                    <br></br>
+                    <br></br>
+                    <br></br>
+                    <br></br>
+                    <br></br>
+                    <br></br>
+                    <input type="file" id="img" name="myImage" accept="image/*" className="w-100" onChange={this.onImageChange}/>
+                   
+                
+                </div>
+                <div className="card-wide" id="right">
+                
                     <label htmlFor="firstName">First Name:</label>
                     <input name="firstName" id="firstName" type="text" value={this.state.firstName} onChange={this.onChangeFirstName} />
                     <label htmlFor="lastName">Last Name:</label>
@@ -192,8 +184,9 @@ class EditUserProfile extends React.Component {
                     <label htmlFor="Password">Password:</label>
                     <input name="Password" id="Password" type="password" value={this.state.password} onChange={this.onChangePassword} />
                     <button id="btn" type="submit" className="login-btn" onClick={this.submitregister.bind(this)}>Submit</button>
-                </form>
-            </div>
+                
+                </div>
+            </form>
         </div>
       );
     }
