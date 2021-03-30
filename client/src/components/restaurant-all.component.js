@@ -67,7 +67,9 @@ export default class RestaurantsAll extends Component {
 class Restaurants extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {restaurantList: []};
+    this.state = {
+      restaurantList: []
+    };
   }
 
   componentDidMount() {

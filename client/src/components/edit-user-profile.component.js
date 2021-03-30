@@ -1,9 +1,26 @@
 import React from 'react';
 import axios from 'axios';
+// Notification imports
+import 'react-notifications/lib/notifications.css';
+import {NotificationManager} from 'react-notifications';
 
 const prod_api = 'https://dilsefoodie.herokuapp.com';
 const dev_api = "http://localhost:5000";
 var userObject = JSON.parse(window.sessionStorage.getItem("userDetails"));
+
+// This calls our notification handler
+async function showNotification (type, message){
+    const timer = 5000
+    if (type === "error"){
+      NotificationManager.error(message, "", timer);
+    }
+    else if (type === "success"){
+      NotificationManager.success(message, "", timer);
+    }
+    else if (type === "warning"){
+      NotificationManager.warning(message, "", timer);
+    }
+}
 
 // This makes sure that a user is authenticated before seeing this page
 // function CheckSession(){
@@ -11,20 +28,13 @@ var userObject = JSON.parse(window.sessionStorage.getItem("userDetails"));
 //         window.location = "/user"
 //     }
 // }
-function update(value){
-    let prevData = JSON.parse(sessionStorage.getItem('userDetails'));
-    Object.keys(value).forEach(function(val, key){
-         prevData[val] = value[val];
-    })
-    sessionStorage.setItem('userDetails', JSON.stringify(prevData));
-}
 
 class EditUserProfile extends React.Component {
 
     constructor(props) {
         super(props);
         this.state = {
-            file: null,
+            file: userObject['profilePicture'],
             profilePicture: userObject['profilePicture'],
             firstName: userObject['firstName'],
             lastName: userObject['lastName'],
@@ -116,70 +126,62 @@ class EditUserProfile extends React.Component {
         })
     }
 
-    submitregister(e){
+    async submitregister(e){
         e.preventDefault();
-        var self = this;
-        const user = {
-            firstName: this.state.firstName,
-            lastName: this.state.lastName,
-            email: this.state.email,
-            password: this.state.password,
-            profilePicture: this.state.profilePicture,
-            city: this.state.city,
-            state: this.state.state,
-            age: this.state.age,
-        }
 
-        axios.post(prod_api + '/user/update_profile', user)
-        .then(function (response) {
-            console.log(response.data.userDetails);
-            self.setState({
-                profilePicture: response.data.userDetails.profilePicture,
-                firstName: response.data.userDetails.firstName,
-                lastName: response.data.userDetails.lastName
-            })
-            if (response.data.redirect === '/profile') {
-                window.location.href = "/profile"
-            }
-        })
-        window.location.reload();
-    }
-
-    uploadProfilePic(e){
-        e.preventDefault();
         const formData = new FormData();
-        formData.append('img', this.state.file);
+
+        formData.append('myImage', this.state.file);
+        formData.append('email', this.state.email);
+        formData.append('firstName', this.state.firstName);
+        formData.append('lastName', this.state.lastName);
+        formData.append('password', this.state.password);
+        formData.append('age', this.state.age);
+        formData.append('city', this.state.city);
+        formData.append('state', this.state.state);
+       
         const config = {
             headers: {
                 'content-type': 'multipart/form-data'
             }
         };
-        axios.post(prod_api + "http://localhost:5000/user/upload",formData, config)
-            .then((response) => {
-                console.log(response.data.url);
-                update({profilePicture: response.data.url});
-                this.setState({profilePicture: response.data.url});
-            }).catch((error) => {
-        });
+
+        const response = await axios.post(dev_api + '/user/update_profile', formData, config)
+        if(response.data.message){
+            await showNotification ("error", "Updates failed, Please try again");
+            // display the error message and  notification here
+        }
+        else{
+            await showNotification ("success", "Updated Successfully!")
+            window.sessionStorage.setItem('isLoggedIn', response.data.status);
+            window.sessionStorage.setItem('userDetails', JSON.stringify(response.data.userDetails));
+        }
+        setTimeout(() => {
+           window.location.reload()
+          }, 1000)
+        
     }
 
     render() {
       return (
         <div className = "card-center">
             <h2>Edit User Profile</h2>
-            <div className="card-wide" id="left">
-                <img src={this.state.profilePicture} alt="Avatar" className = "profilePic" name="profilePicture" />
-                <br></br>
-                <br></br>
-                <br></br>
-                <br></br>
-                <br></br>
-                <br></br>
-                <input type="file" id="img" name="img" accept="image/*" className="w-100" onChange={this.onImageChange}/>
-                <input type="submit" value="Upload Photo" onClick={this.uploadProfilePic.bind(this)}/> 
-            </div>
-            <div className="card-wide" id="right">
-                <form submitregister={this.submitregister}>
+            <form>
+                <div className="card-wide" id="left">
+                
+                    <img src={this.state.profilePicture} alt="Avatar" className = "profilePic" name="profilePicture" />
+                    <br></br>
+                    <br></br>
+                    <br></br>
+                    <br></br>
+                    <br></br>
+                    <br></br>
+                    <input type="file" id="img" name="myImage" accept="image/*" className="w-100" onChange={this.onImageChange}/>
+                   
+                
+                </div>
+                <div className="card-wide" id="right">
+                
                     <label htmlFor="firstName">First Name:</label>
                     <input name="firstName" id="firstName" type="text" value={this.state.firstName} onChange={this.onChangeFirstName} />
                     <label htmlFor="lastName">Last Name:</label>
@@ -194,13 +196,13 @@ class EditUserProfile extends React.Component {
                     <input name="Age" id="Age" type="text" value={this.state.age} onChange={this.onChangeAge} />
                     <label htmlFor="Password">Password:</label>
                     <input name="Password" id="Password" type="password" value={this.state.password} onChange={this.onChangePassword} />
-                    <button id="btn" type="submit" className="login-btn" onClick={this.submitregister.bind(this)}>Submit</button>
-                </form>
-            </div>
+                    <button id="btn" type="submit" className="login-btn" onClick={this.submitregister.bind(this)}>Update</button>
+                
+                </div>
+            </form>
         </div>
       );
     }
 }
-
 
 export default EditUserProfile;

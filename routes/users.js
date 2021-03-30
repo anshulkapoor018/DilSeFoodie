@@ -2,6 +2,8 @@ const router = require('express').Router();
 const session = require('express-session');
 const cors = require("cors");
 let User = require('../models/user.model');
+let Order = require('../models/order.model');
+let Restaurant = require('../models/restaurant.model');
 const bodyParser = require("body-parser");
 // Used to Encrypt Password
 const bcrypt = require('bcrypt');
@@ -9,6 +11,8 @@ const nodemailer = require("nodemailer");
 const upload = require("../utils/multer")
 const cloudinary = require("../utils/cloudinary")
 const path = require("path")
+const fs = require("fs");
+ObjectId = require('mongodb').ObjectID;
 
 const express = require("express");
 var app = express(); 
@@ -29,7 +33,7 @@ app.use(
   session({
       name: 'AuthCookie',
       secret: 'uniqueSessionID',
-      resave: false,
+      resave: true,
       saveUninitialized: true
   })
 );
@@ -75,11 +79,14 @@ router.post('/login',
 });
 
 // Update Profile data
-router.route('/update_profile').post(upload, async (req, res) => {
-
-  console.log("Request ---", req.body);
+router.route('/update_profile').post(upload, async (req, res) => {  
+ 
+  console.log("Request email---", req.body.email);
+  console.log("Request firstname---", req.body.firstName);
   console.log("Request file ---", req.file);
+  console.log("This is the entire request body", req.body)
   
+
   const {body} = req
   const {
     profilePicture,
@@ -92,31 +99,50 @@ router.route('/update_profile').post(upload, async (req, res) => {
     password,
     email
   } = body
-  try{
-    const result = await cloudinary.uploader.upload(req.file.path);
-    console.log(result.secure_url)
 
-  } catch(e){
-    console.log(e)
+  if(req.file){
+    try{
+      const result = await cloudinary.uploader.upload(req.file.path);
+      req.body.profilePicture = result.secure_url
+
+      // This removes the file from local after storing in the cloud
+      fs.unlinkSync(req.file.path);
+   
+      console.log("Url of the image")
+      console.log(result.secure_url)
+  
+    } catch(e){
+      // console.log(e)
+      
+      fs.unlinkSync(req.file.path);
+      return res.send({message:"Can't update document due too", status: "false"})
+    }
+  }
+  else{
+    req.body.profilePicture = req.body.myImage
+    delete req.body.myImage
   }
 
   // Updating the user Profile 
   User.updateOne(
-    {email: email}, 
+
+    //
+    {email: req.body.email}, 
     {$set: req.body }, 
     function(err, doc) {
       if(err){
         console.log(`Can't update document due too: ${err}`)
-        return
+        return res.send({message:"Can't update document due too", status: "false"})
       }
       console.log("Updated Successfully, view documents below");
       console.log(req.body);
       if (doc){
-        req.session.loggedIn = true;
-        console.log(doc);
+        req.session.loggedIn = "true";
         req.session.cookie.path = "/profile";
-        const redir = { redirect: '/profile', status: "true", userDetails: req.body};
-        return res.json(redir);
+        req.session.req.body = req.body ; 
+        console.log("req.session.req.body", req.session.req.body.user)
+        req.session.req.body.profilePicture = req.body.profilePicture
+        return res.send({status: true, userDetails: req.session.req.body});
       }
     });
 })
@@ -124,7 +150,6 @@ router.route('/update_profile').post(upload, async (req, res) => {
 //Sending POST data to the DB
 router.route('/signup').post((req, res) => {
   const {body} = req
-  // console.log(req.body)
   const {
     firstName,
     lastName,
@@ -288,4 +313,61 @@ router.route('/contact').post((req, res) => {
   }
 })
   
+
+
+
+// This gets all the order for a user with UserID and Email
+router.route('/order-history-all').post((req, res) => {  
+ 
+  var totalOrders = [];
+  var total_res = [];
+  let cnt = 1
+
+
+
+  // This fetches the orders using the UserID
+  // console.log("This is the total orders list for the user")
+  Order.find({userId: req.body._id}, function(err, orders){
+    if(err){
+      console.log(err)
+      return res.send({message: "No orders found"})
+    }
+    
+    orders.forEach(function(order){
+      cnt+=1
+      totalOrders.push({cnt:order})
+    });
+    // console.log(totalOrders)
+    Restaurant.find({}, function(err, Allrestr){
+      if(err){
+        console.log(err)
+        return res.send({message: "No Restaurant Found"})
+      }
+  
+      Allrestr.forEach(function(k){
+        total_res.push(k)
+      })
+
+      // orders.forEach(function(p){
+      //   Allrestr.forEach(function(l){
+      //     console.log("changing to string")
+      //     console.log(ObjectId(p.restaurantId), l._id)
+      //     if(ObjectId(p.restaurantId) == l._id){
+      //       console.log("Joining here")
+      //       console.log({orders: Allrestr})
+      //     }
+      //     else{
+      //       console.log("Not working")
+      //       // console.log(p, l)
+      //     }
+      //   })
+
+      // })
+      
+      res.send({orders: orders, Allrestr: Allrestr})
+    })
+    
+  })
+})
+
 module.exports = router;
