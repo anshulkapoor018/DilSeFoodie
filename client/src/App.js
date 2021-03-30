@@ -10,6 +10,9 @@ import RestaurantSearch from './components/restaurant-search.component';
 import 'react-notifications/lib/notifications.css';
 import {NotificationContainer} from 'react-notifications';
 import './App.css';
+import {ThemeProvider} from "styled-components";
+import { GlobalStyles } from "./components/Globalstyle";
+import { lightTheme, darkTheme } from "./components/Themes"
 
 export function onEnter(nextState, transition, callback) {
   const { pathname } = nextState.location
@@ -24,6 +27,9 @@ export function onEnter(nextState, transition, callback) {
 function App() {
   return (
     <Router>
+        <ThemeProvider theme={theme === 'light' ? lightTheme : darkTheme}>
+        </ThemeProvider>
+        <GlobalStyles/>
         <Navbar/>
         <NotificationContainer/>
           <Route exact path="/Home" component={Home} />

@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import './navbar.component.css';
+import '../styles/style.scss'
 
 const NavBar = () => {
     let path = '/user';
