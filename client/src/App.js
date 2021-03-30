@@ -7,6 +7,7 @@ import Profile from "./views/Profile/Profile";
 import RestaurantsAll from "./components/restaurant-all.component";
 import RestaurantsPage from "./components/restaurant-single.component";
 import RestaurantSearch from './components/restaurant-search.component';
+import Accessibility from "./views/Accessibility/accessibility";
 import 'react-notifications/lib/notifications.css';
 import {NotificationContainer} from 'react-notifications';
 import './App.css';
@@ -45,6 +46,7 @@ function App() {
           <Route path="/restaurants" component={RestaurantsAll} />
           <Route path="/res/:id" component={RestaurantsPage} />
           <Route path="/search" component={RestaurantSearch} />
+          <Route path="/accessibility" component={Accessibility}/>
           <Route exact path="/profile" component={Profile} />
           <Route exact path="/">
             <Redirect to="/Home"/>
