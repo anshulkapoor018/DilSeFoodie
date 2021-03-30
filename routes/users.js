@@ -2,6 +2,8 @@ const router = require('express').Router();
 const session = require('express-session');
 const cors = require("cors");
 let User = require('../models/user.model');
+let Order = require('../models/order.model');
+let Restaurant = require('../models/restaurant.model');
 const bodyParser = require("body-parser");
 // Used to Encrypt Password
 const bcrypt = require('bcrypt');
@@ -10,6 +12,7 @@ const upload = require("../utils/multer")
 const cloudinary = require("../utils/cloudinary")
 const path = require("path")
 const fs = require("fs");
+ObjectId = require('mongodb').ObjectID;
 
 const express = require("express");
 var app = express(); 
@@ -310,4 +313,61 @@ router.route('/contact').post((req, res) => {
   }
 })
   
+
+
+
+// This gets all the order for a user with UserID and Email
+router.route('/order-history-all').post((req, res) => {  
+ 
+  var totalOrders = [];
+  var total_res = [];
+  let cnt = 1
+
+
+
+  // This fetches the orders using the UserID
+  // console.log("This is the total orders list for the user")
+  Order.find({userId: req.body._id}, function(err, orders){
+    if(err){
+      console.log(err)
+      return res.send({message: "No orders found"})
+    }
+    
+    orders.forEach(function(order){
+      cnt+=1
+      totalOrders.push({cnt:order})
+    });
+    // console.log(totalOrders)
+    Restaurant.find({}, function(err, Allrestr){
+      if(err){
+        console.log(err)
+        return res.send({message: "No Restaurant Found"})
+      }
+  
+      Allrestr.forEach(function(k){
+        total_res.push(k)
+      })
+
+      // orders.forEach(function(p){
+      //   Allrestr.forEach(function(l){
+      //     console.log("changing to string")
+      //     console.log(ObjectId(p.restaurantId), l._id)
+      //     if(ObjectId(p.restaurantId) == l._id){
+      //       console.log("Joining here")
+      //       console.log({orders: Allrestr})
+      //     }
+      //     else{
+      //       console.log("Not working")
+      //       // console.log(p, l)
+      //     }
+      //   })
+
+      // })
+      
+      res.send({orders: orders, Allrestr: Allrestr})
+    })
+    
+  })
+})
+
 module.exports = router;
