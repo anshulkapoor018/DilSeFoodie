@@ -114,7 +114,7 @@ export default class RestaurantsPage extends React.Component {
         reviewText: this.state.reviewString,
         rating: self.state.rating
       }
-      const response = await axios.post(dev_api + '/review/add', reviewBody);
+      const response = await axios.post(prod_api + '/review/add', reviewBody);
       console.log(response.data);
       window.location.reload();
     }
@@ -157,9 +157,12 @@ export default class RestaurantsPage extends React.Component {
                 <div className="reviewHeading">
                   <div className="reviewerName">
                     <div className="reviewerIcon">
-                      <img src={dummyProfilePics} alt="Profile" className="profileIcon"/>
+                      {item.userDetails["profile"]
+                        ? <img src={item.userDetails["profile"]} alt="Profile" className="profileIcon"/>
+                        : <img src={dummyProfilePics} alt="Profile" className="profileIcon"/>
+                      }
                     </div>
-                    <h3 className = "p_inline">User Name</h3>
+                    <h3 className = "p_inline">{item.userDetails["name"]}</h3>
                   </div>
                   <div className="reviewerRating">
                     <h3 className = "rating">Rating: {item.rating}</h3>
