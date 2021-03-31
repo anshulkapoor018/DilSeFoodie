@@ -268,7 +268,8 @@ async function loadDB (where, params){
       restaurantId: params["restaurantId"],
       userId: params["userId"],
       reviewText: params["reviewText"],
-      rating: params["rating"]
+      rating: params["rating"], 
+      userDetails: params["userDetails"]
     }) 
   }
   await newRes.save((err, newRes) =>{
@@ -276,7 +277,7 @@ async function loadDB (where, params){
       console.log(err)
     }
     else if(newRes){
-      console.log("Res added")
+      console.log("Restaurant added -> " + newRes.name)
     }
   })
   return newRes.id
@@ -286,27 +287,35 @@ async function allthepushs (){
   for ( let key in restaurant){
 
   const userMap = [];
+  const userIDMap = [];
     await User.find({}, function(err, users) {
       users.forEach(function(user) {
-        userMap.push(user._id);
+        var newOBJ = {
+          name: user.firstName + " " + user.lastName,
+          profile: user.profilePicture
+        }
+        userIDMap.push(user._id);
+        userMap.push(newOBJ);
       });
     });
 
     rest_id = await loadDB('rest',restaurant[key]) 
     let users_id = await userMap[key]
+    let users_id_order = await userIDMap[key]
     console.log(users_id)
     // users_id = await loadDB('user',users[key]) 
 
-  if (rest_id && users_id){
+  if (rest_id && users_id && users_id_order){
     // do something 
     // console.log(result)
     orders[key].restaurantId = rest_id
-    orders[key].userId = users_id
+    orders[key].userId = users_id_order
 
     await loadDB('orders',orders[key])
     
     reviews[key].restaurantId = rest_id
-    reviews[key].userId = users_id
+    reviews[key].userId = users_id_order
+    reviews[key].userDetails = users_id
     
     await loadDB('reviews',reviews[key])
   }

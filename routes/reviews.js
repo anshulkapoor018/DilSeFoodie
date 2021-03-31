@@ -1,5 +1,6 @@
 const router = require('express').Router();
 let Review = require('../models/review.model');
+let User = require('../models/user.model');
 
 router.get('/:id',
   function(req, res){
@@ -9,7 +10,6 @@ router.get('/:id',
       if (err){
         console.log(err); 
       } else{
-        console.log("Result : ", docs);
         res.send(docs)
       } 
   }); 
@@ -20,11 +20,9 @@ router.get('/restaurant/:id',
     // Fething a review with restaurant ID
     Review.find({'restaurantId': req.params.id}, function(err, reviews) {
       var reviewsMap = [];
-  
       reviews.forEach(function(review) {
         reviewsMap.push(review);
       });
-      // res.send(restaurantMap);  
       return res.json(reviewsMap);
     });
 });
@@ -38,13 +36,12 @@ router.get('/user/:id',
       reviews.forEach(function(review) {
         reviewsMap.push(review);
       });
-      // res.send(restaurantMap);  
       return res.json(reviewsMap);
     });
 });
 
 
-router.post('/', (req, res)=>{
+router.post('/add', (req, res)=>{
   // Adding a review to a given restaurant.
   const newReview = new Review();
 
@@ -52,23 +49,37 @@ router.post('/', (req, res)=>{
   newReview.userId = req.body.userId
   newReview.reviewText = req.body.reviewText
   newReview.rating = req.body.rating
-
-  newReview.save((err, newReview)=> {
-    if(err){
-      console.log(err)
+  User.findById(req.body.userId, function (err, user) { 
+    if (err){
       return res.send({
         success: false,
-        message: "Failed to add Review"
+        message: "Failed to add UserDetails to Review"
       })
-    }
-    else{
-      return res.send({
-        success: true,
-        resId: newReview.id,
-        message: "Successfully Added Review"
+    } else{
+      var newOBJ = {
+        name: user.firstName + " " + user.lastName,
+        profile: user.profilePicture
+      }
+      // console.log(newOBJ);
+      newReview.userDetails = newOBJ;
+      newReview.save((err, newReview)=> {
+        if(err){
+          console.log(err)
+          return res.send({
+            success: false,
+            message: "Failed to add Review"
+          })
+        }
+        else{
+          return res.send({
+            success: true,
+            resId: newReview.id,
+            message: "Successfully Added Review"
+          })
+        }
       })
-    }
-  })
+    } 
+  });
 });
 
 
