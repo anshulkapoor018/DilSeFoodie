@@ -1,10 +1,14 @@
-import React from 'react';
+import React, {useState} from 'react';
 import { Link } from 'react-router-dom';
 import './navbar.component.css';
+import styled,{ThemeProvider} from "styled-components";
+import {lightTheme, darkTheme, GlobalStyles} from "../themes.js";
 
-const NavBar = () => {
+const NavBar = (props) => {
     let path = '/user';
     let name = 'Signup';
+
+    
 
     if (window.sessionStorage.getItem('isLoggedIn') === null || window.sessionStorage.getItem('isLoggedIn') === 'false'){
         path = path;
