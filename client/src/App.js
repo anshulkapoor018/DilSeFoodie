@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import { BrowserRouter as Router, Route, Redirect} from "react-router-dom";
 import Navbar from "./components/navbar.component"
 import AuthCredentials from "./components/create-user.component";
@@ -10,7 +10,8 @@ import RestaurantSearch from './components/restaurant-search.component';
 import 'react-notifications/lib/notifications.css';
 import {NotificationContainer} from 'react-notifications';
 import './App.css';
-
+import { ThemeProvider } from 'styled-components';
+import { lightTheme, darkTheme } from './theme';
 
 //Not sure of this implementation
 
@@ -27,10 +28,19 @@ import './App.css';
 //  {/* <Route exact path="/profile" component={Profile} onEnter={onEnter} /> */}
 
 function App() { 
+  const [theme, setTheme] = useState('light');
+  const toggleTheme = () => {
+    if (theme === 'light') {
+      setTheme('dark');
+    } else {
+      setTheme('light');
+    } 
+  }
   return (
     <Router>
-        <Navbar/>
-        <NotificationContainer/>
+        <ThemeProvider theme={theme === 'light' ? lightTheme : darkTheme}>
+          <Navbar/>
+          <NotificationContainer/>
           <Route exact path="/Home" component={Home} />
           <Route exact path="/user" component={AuthCredentials} />
           <Route path="/restaurants" component={RestaurantsAll} />
@@ -45,10 +55,10 @@ function App() {
           </Route>
           <Route exact path="/order-history">
               <Redirect to="/profile"/>
-          </Route>
-          
-          
-         
+          </Route> 
+          <button onClick={toggleTheme}>Toggle theme</button>
+          <h1>It's a light theme!</h1>
+        </ThemeProvider>
     </Router>
   );
 }
