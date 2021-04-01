@@ -370,4 +370,23 @@ router.route('/order-history-all').post((req, res) => {
   })
 })
 
+router.route('/upload').post(upload, async (req, res) => {
+  try {
+    // Upload image to cloudinary
+    const result = await cloudinary.uploader.upload(req.file.path);
+     // Create new user
+    // let user = new User({
+    //   name: req.body.name,
+    //   avatar: result.secure_url,
+    //   cloudinary_id: result.public_id,
+    // });
+    // // Save user
+    // await user.save();
+    // res.json(user);
+    res.status(200).json({url: result.secure_url, id:result.public_id})
+  } catch (err) {
+    console.log(err);
+    console.log("failed to upload")
+  }}); 
+
 module.exports = router;
