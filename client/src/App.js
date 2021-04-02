@@ -57,7 +57,7 @@ function App() {
           </Route>
           <Layout>
           <Switch>
-            <Route path='/products'>
+            <Route path='/orderItems'>
               <ProductsPage />
             </Route>
             <Route path='/cart'>

@@ -31,7 +31,7 @@ export default function Product({
           +<div>add to cart</div>
         </div>
       )}
-      <div className='card'>
+      <div className='orderCard'>
         <img src={imageUrl} alt={name} />
         <div className='name'>{name}</div>
         <div className='price'>Price: {price}</div>

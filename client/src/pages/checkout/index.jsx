@@ -1,12 +1,12 @@
 import React from 'react';
-import Seo from '../../seo';
 import Cart from '../../cart';
+import Header from '../../layout/header';
 
 export default function CheckoutPage() {
   return (
     <>
-      <Seo title='Buy your stuff now!' />
-      <h1>Buy my stuff!</h1>
+      <Header />
+      <h1>Checkout Amazing Meal!</h1>
       <Cart />
     </>
   );

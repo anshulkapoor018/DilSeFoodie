@@ -1,12 +1,12 @@
 import React, { useContext } from 'react';
-import Seo from '../../seo';
 import Cart from '../../cart';
+import Header from '../../layout/header';
 
 export default function CartPage() {
   return (
     <>
-      <Seo title='My cart' />
-      <h1>My cart</h1>
+      <Header />
+      <h1>My Cart!</h1>
       <Cart />
     </>
   );

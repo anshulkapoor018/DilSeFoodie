@@ -11,16 +11,16 @@ export default function Header({}) {
       <ul>
 
         <li>
-          <Link to='/products'>Store</Link>
+          <Link className = "orderLink" to='/orderItems'>Store</Link>
         </li>
 
         <li>
-          <Link to='/cart'>Cart:</Link> (
+          <Link className = "orderLink" to='/cart'>Cart:</Link> (
           {cartItems.reduce((acc, item) => acc + item.qty, 0)})
         </li>
 
         <li>
-          <Link to='/checkout'>Checkout</Link>
+          <Link className = "orderLink" to='/checkout'>Checkout</Link>
         </li>
       </ul>
     </div>
