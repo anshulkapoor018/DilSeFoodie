@@ -1,5 +1,5 @@
 import React from 'react';
-import { BrowserRouter as Router, Route, Redirect} from "react-router-dom";
+import { BrowserRouter as Router, Route, Switch, Redirect} from "react-router-dom";
 import Navbar from "./components/navbar.component"
 import AuthCredentials from "./components/create-user.component";
 import Home from "./views/Home/Home";
@@ -10,6 +10,14 @@ import RestaurantSearch from './components/restaurant-search.component';
 import 'react-notifications/lib/notifications.css';
 import {NotificationContainer} from 'react-notifications';
 import './App.css';
+import CartContext from './cart/context';
+import useCart from './hooks/use-cart';
+// import './styles.css';
+
+import Layout from './layout';
+import ProductsPage from './pages/products';
+import CartPage from './pages/cart';
+import CheckoutPage from './pages/checkout';
 
 
 //Not sure of this implementation
@@ -28,7 +36,8 @@ import './App.css';
 
 function App() { 
   return (
-    <Router>
+    <CartContext.Provider value={useCart([])}>
+      <Router>
         <Navbar/>
         <NotificationContainer/>
           <Route exact path="/Home" component={Home} />
@@ -38,18 +47,29 @@ function App() {
           <Route path="/search" component={RestaurantSearch} />
           <Route exact path="/profile" component={Profile} />
           <Route exact path="/">
-              <Redirect to="/Home"/>
+            <Redirect to="/Home"/>
           </Route>
           <Route exact path="/contact">
-              <Redirect to="/profile"/>
+            <Redirect to="/profile"/>
           </Route>
           <Route exact path="/order-history">
-              <Redirect to="/profile"/>
+            <Redirect to="/profile"/>
           </Route>
-          
-          
-         
-    </Router>
+          <Layout>
+          <Switch>
+            <Route path='/products'>
+              <ProductsPage />
+            </Route>
+            <Route path='/cart'>
+              <CartPage />
+            </Route>
+            <Route path='/checkout'>
+              <CheckoutPage />
+            </Route>
+          </Switch>
+        </Layout>
+      </Router>
+    </CartContext.Provider>
   );
 }
 
