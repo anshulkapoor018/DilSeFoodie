@@ -131,8 +131,9 @@ export default class RestaurantsPage extends React.Component {
 
   orderNow(e){
     e.preventDefault();
+    var self = this;
     console.log("Order Food Now!");
-    window.location = "/orderItems";
+    window.location = "/orderItems/" + self.resID;
   }
   
   render(){

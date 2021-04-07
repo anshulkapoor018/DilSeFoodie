@@ -36,7 +36,7 @@ export default function Product({
         <div className='name'>{name}</div>
         <div className='price'>Price: {price}</div>
 
-        <div className='tags'>
+        {/* <div className='tags'>
           Tags:{' '}
           {tags.map((tag) => (
             <span className='tag'>{tag}</span>
@@ -48,7 +48,7 @@ export default function Product({
           {colors.map((color) => (
             <span className='tag'>{color}</span>
           ))}
-        </div>
+        </div> */}
       </div>
     </div>
   );
