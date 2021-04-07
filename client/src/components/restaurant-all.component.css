@@ -103,6 +103,16 @@ body {
     cursor: pointer;
 }
 
+.controllers-dark {
+    background-color: black;
+    flex: 1;
+    text-align: center;
+    height: 100%;
+    width: 100%;
+    line-height: 2;
+    cursor: pointer;
+}
+
 .card-fulls {
     background-color: transparent;
     box-sizing: border-box;
@@ -121,6 +131,11 @@ body {
     transition: border 0.5s ease-out;
     background-color: beige;
 }
+
+.selected-controllers-dark {
+    transition: border 0.5s ease-out;
+    background-color: rgb(54, 54, 29);
+} 
 
 /* Pattern styles */
 .container {

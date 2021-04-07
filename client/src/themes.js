@@ -7,6 +7,7 @@ export const lightTheme = {
     body: '#fff',
     fontColor: '#000',
     background: BGE3,
+ 
 };
 
 export const darkTheme = {

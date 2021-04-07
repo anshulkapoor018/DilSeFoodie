@@ -48,10 +48,10 @@ export default class RestaurantsAll extends Component {
     return(
       <div className="root-containers">
         <div className="box-controllers">
-          <div className={"controllers " + (this.state.isListViewOpen ? "selected-controllers" : "")} onClick={this.showListView.bind(this)}> 
+          <div className={"controllers-dark " + (this.state.isListViewOpen ? "selected-controllers-dark" : "")} onClick={this.showListView.bind(this)}> 
           List
           </div>
-          <div className={"controllers " + (this.state.isPickupViewOpen ? "selected-controllers" : "")} onClick={this.showPickupView.bind(this)}>
+          <div className={"controllers-dark " + (this.state.isPickupViewOpen ? "selected-controllers-dark" : "")} onClick={this.showPickupView.bind(this)}>
           Pickup
           </div>
         </div>

@@ -24,10 +24,8 @@ import CheckoutPage from './pages/checkout';
 const StyledApp = styled.div`
   color: ${(props) => props.theme.fontColor};
   background-image:  url('${props => props.theme.background}');
-  background-size:100%;
-  background-attachment:fixed;
-  min-height:1080px;
-  `;
+
+`;
 //Not sure of this implementation
 
 // export function onEnter(nextState, transition, callback) {
