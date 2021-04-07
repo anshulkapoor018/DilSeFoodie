@@ -133,6 +133,7 @@ export default class RestaurantsPage extends React.Component {
     e.preventDefault();
     var self = this;
     console.log("Order Food Now!");
+    window.sessionStorage.setItem('resID', self.resID);
     window.location = "/orderItems/" + self.resID;
   }
   

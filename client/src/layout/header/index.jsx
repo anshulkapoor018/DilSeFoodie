@@ -5,13 +5,14 @@ import './styles.css';
 
 export default function Header({}) {
   const { cartItems } = useContext(CartContext);
-
+  const currentResID = window.sessionStorage.getItem('resID');
+  const currentResStore = '/orderItems/' + currentResID;
   return (
     <div className='__dml header'>
       <ul>
 
         <li>
-          <Link className = "orderLink" to='/orderItems'>Store</Link>
+          <Link className = "orderLink" to={currentResStore}>Store</Link>
         </li>
 
         <li>

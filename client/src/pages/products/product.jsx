@@ -4,12 +4,12 @@ import CartContext from '../../cart/context';
 import './styles.css';
 
 export default function Product({
-  id,
+  _id,
+  restaurantId,
   name,
-  imageUrl,
   price,
-  tags,
-  colors,
+  imageUrl,
+  description
 }) {
   const [hover, setHover] = useState(false);
   const { addToCart } = useContext(CartContext);
@@ -23,7 +23,7 @@ export default function Product({
           className='add-to-cart'
           onClick={() =>
             addToCart({
-              id,
+              _id,
               name,
               price,
             })
@@ -35,20 +35,6 @@ export default function Product({
         <img src={imageUrl} alt={name} />
         <div className='name'>{name}</div>
         <div className='price'>Price: {price}</div>
-
-        {/* <div className='tags'>
-          Tags:{' '}
-          {tags.map((tag) => (
-            <span className='tag'>{tag}</span>
-          ))}
-        </div>
-
-        <div className='tags'>
-          Available in:{' '}
-          {colors.map((color) => (
-            <span className='tag'>{color}</span>
-          ))}
-        </div> */}
       </div>
     </div>
   );
