@@ -57,6 +57,7 @@ const Sidebar = () => {
               return <SubMenu item={item} key={index} />;
             })}
             <Header/>
+            {/* <Dark/> */}
           </SidebarWrap>
         </SidebarNav>
       </IconContext.Provider>

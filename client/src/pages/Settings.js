@@ -1,33 +1,32 @@
-import React from 'react';
+
+import React, {useState} from "react";
+import {
+  ThemeProvider,
+  createGlobalStyle
+} from 'styled-components';
+
+const GlobalStyle = createGlobalStyle`
+body {
+  background-color: ${props =>
+    props.theme.mode === 'dark' ? '#111' : '#EEE'};
+  color: ${props =>
+    props.theme.mode === 'dark' ? '#111' : '#EEE'};
+  background: ${props =>
+    props.theme.mode === 'dark' ? '#111' : ""};
+}
+`;
 
 export const Dark = () => {
   return (
-    <div className='reports'>
-      <h1>Reportsddddd</h1>
-    </div>
+    <ThemeProvider theme={{mode: ''}}>
+    <> 
+      <GlobalStyle />
+      <div className="container">
+        <p>Dark mode button</p>
+      </div>
+    </>
+    </ThemeProvider>
+    
+    
   );
 };
-
-// export const ReportsOne = () => {
-//   return (
-//     <div className='reports'>
-//       <h1>Reports/reports1</h1>
-//     </div>
-//   );
-// };
-
-// export const ReportsTwo = () => {
-//   return (
-//     <div className='reports'>
-//       <h1>Reports/reports2</h1>
-//     </div>
-//   );
-// };
-
-// export const ReportsThree = () => {
-//   return (
-//     <div className='reports'>
-//       <h1>Reports/reports3</h1>
-//     </div>
-//   );
-// };
