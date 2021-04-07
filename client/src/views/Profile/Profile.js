@@ -4,7 +4,7 @@ import { BrowserRouter as Router, Switch, Route} from 'react-router-dom';
 import EditUserProfile from "../../components/edit-user-profile.component"
 import UserOrderHistory from "./user-order-history.component"
 import ContactUs from './contactForm.component';
-import { Reports, ReportsOne, ReportsTwo, ReportsThree } from '../../pages/Reports';
+import { Dark } from '../../pages/Settings';
 import Team from '../../pages/Team';
 import React from 'react';
 
@@ -16,11 +16,8 @@ function Profile() {
         {/* <Switch> */}
           <Route exact path='/profile' component={Profile2} />
           <Route exact path="/contact" component={ContactUs} />
-          <Route path='/reports' exact component={Reports} />
+          <Route path='/settings' exact component={Dark} />
           <Route path='/order-history' component={UserOrderHistory} />
-          <Route path='/reports/reports1' exact component={ReportsOne} />
-          <Route path='/reports/reports2' exact component={ReportsTwo} />
-          <Route path='/reports/reports3' exact component={ReportsThree} />
           <Route path='/team' exact component={Team} />
           <Sidebar />
         {/* </Switch> */}

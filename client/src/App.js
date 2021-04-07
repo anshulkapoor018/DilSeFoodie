@@ -10,8 +10,7 @@ import RestaurantSearch from './components/restaurant-search.component';
 import 'react-notifications/lib/notifications.css';
 import {NotificationContainer} from 'react-notifications';
 import './App.css';
-import { ThemeProvider } from 'styled-components';
-import { lightTheme, darkTheme } from './theme';
+
 
 //Not sure of this implementation
 
@@ -38,27 +37,25 @@ function App() {
   }
   return (
     <Router>
-        <ThemeProvider theme={theme === 'light' ? lightTheme : darkTheme}>
-          <Navbar/>
-          <NotificationContainer/>
-          <Route exact path="/Home" component={Home} />
-          <Route exact path="/user" component={AuthCredentials} />
-          <Route path="/restaurants" component={RestaurantsAll} />
-          <Route path="/res/:id" component={RestaurantsPage} />
-          <Route path="/search" component={RestaurantSearch} />
-          <Route exact path="/profile" component={Profile} />
-          <Route exact path="/">
-              <Redirect to="/Home"/>
-          </Route>
-          <Route exact path="/contact">
-              <Redirect to="/profile"/>
-          </Route>
-          <Route exact path="/order-history">
-              <Redirect to="/profile"/>
-          </Route> 
-          <button onClick={toggleTheme}>Toggle theme</button>
-          <h1>It's a light theme!</h1>
-        </ThemeProvider>
+      
+        <Navbar/>
+        <NotificationContainer/>
+        <Route exact path="/Home" component={Home} />
+        <Route exact path="/user" component={AuthCredentials} />
+        <Route path="/restaurants" component={RestaurantsAll} />
+        <Route path="/res/:id" component={RestaurantsPage} />
+        <Route path="/search" component={RestaurantSearch} />
+        <Route exact path="/profile" component={Profile} />
+        <Route exact path="/">
+            <Redirect to="/Home"/>
+        </Route>
+        <Route exact path="/contact">
+            <Redirect to="/profile"/>
+        </Route>
+        <Route exact path="/order-history">
+            <Redirect to="/profile"/>
+        </Route> 
+         
     </Router>
   );
 }
