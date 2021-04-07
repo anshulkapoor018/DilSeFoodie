@@ -44,12 +44,12 @@ body {
   background-color: ${getBackground};
   color: ${getText};
   background: ${getForeground};
-  font-size: ${getFontSize}
+  font-size: ${getFontSize};
 }
 
 p{
-  color: ${getP}
-  font-size: ${getFontSize}
+  color: ${getP};
+  font-size: ${getFontSize};
 
 }
 
@@ -113,7 +113,6 @@ input:checked + .slider:before {
   border-radius: 50%;
 }
 
-h
 `;
 
 // This handles the storage of user's preference in a local storage
@@ -142,19 +141,6 @@ export const Dark = () => {
         <Jumbotron>
           <h1>We think about disability so we have some settings to toggle!</h1>
         </Jumbotron>
-        <p>Dark Mode 
-        <label class="switch">
-          <input  type="checkbox" onClick={e=>
-            setTheme(
-              theme.mode === 'dark' 
-                ? {...theme, mode: ''} 
-                : {...theme, mode:'dark'}
-            )}/> 
-          <span class="slider round"></span> 
-       </label>
-       </p>
-        
-
         <p>Toggle Zoom 
         <label class="switch">
           <input  type="checkbox"onClick={e=>
@@ -166,13 +152,8 @@ export const Dark = () => {
           <span class="slider round"></span> 
        </label>
        </p>
-
-        
       </div>
-      
     </>
     </ThemeProvider>
-    
-    
   );
 };

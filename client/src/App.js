@@ -9,7 +9,7 @@ import Profile from "./views/Profile/Profile";
 import RestaurantsAll from "./components/restaurant-all.component";
 import RestaurantsPage from "./components/restaurant-single.component";
 import RestaurantSearch from './components/restaurant-search.component';
-import Accessibility from "./views/Accessibility/accessibility";
+import Accessibility from "./pages/accessibility";
 import 'react-notifications/lib/notifications.css';
 import {NotificationContainer} from 'react-notifications';
 import './App.css';
