@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React from 'react';
 import { BrowserRouter as Router, Route, Switch, Redirect} from "react-router-dom";
 import Navbar from "./components/navbar.component"
 import AuthCredentials from "./components/create-user.component";
@@ -35,14 +35,6 @@ import CheckoutPage from './pages/checkout';
 //  {/* <Route exact path="/profile" component={Profile} onEnter={onEnter} /> */}
 
 function App() { 
-  const [theme, setTheme] = useState('light');
-  const toggleTheme = () => {
-    if (theme === 'light') {
-      setTheme('dark');
-    } else {
-      setTheme('light');
-    } 
-  }
   return (
     <CartContext.Provider value={useCart([])}>
       <Router>
