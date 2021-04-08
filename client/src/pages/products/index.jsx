@@ -43,17 +43,3 @@ export default class ProductsPage extends React.Component {
     )
   }
 }
-
-// export default function ProductsPage({}) {
-//   return (
-//     <>
-//       <Header />
-//       <h1>Welcome to our Food Menu!</h1>
-//       <div className='products'>
-//         {products.map((product) => (
-//           <Product key={product.id} {...product} />
-//         ))}
-//       </div>
-//     </>
-//   );
-// }
