@@ -1,19 +1,31 @@
-import React, { useContext } from 'react';
+import React, { useContext, useEffect, useState} from 'react';
 import Context from './context';
 import { formatCurrency } from '../modules/string';
+import './styles.css';
 
 export default function Cart() {
   const { cartItems, changeQty } = useContext(Context);
+  // let cartTotal = 0;
+  const [cartTotal, setCartTotal] = useState(0);
+
+  // Similar to componentDidMount and componentDidUpdate:
+  useEffect(() => {
+    // Update the document title using the browser API
+    let cartTotalRef = 0
+    cartItems.map((product) => (
+      cartTotalRef += product.price * product.qty
+    ))
+    setCartTotal(cartTotalRef)
+  });
 
   return (
-    <table width='100%' cellSpacing={0} cellPadding={0}>
+    <table id="orders" width='100%' cellSpacing={0} cellPadding={0}>
       <thead>
         <tr>
           <th>Product name</th>
           <th>Price</th>
           <th>Qty</th>
           <th>Subtotal</th>
-          <th></th>
         </tr>
       </thead>
 
@@ -32,10 +44,18 @@ export default function Cart() {
               />
             </td>
             <td>{formatCurrency(product.price * product.qty)}</td>
-            <td></td>
           </tr>
         ))}
       </tbody>
+
+      <thead>
+        <tr>
+          <th>Cart Total</th>
+          <th></th>
+          <th></th>
+          <th>{formatCurrency(cartTotal)}</th>
+        </tr>
+      </thead>
     </table>
   );
 }
