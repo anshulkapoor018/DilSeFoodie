@@ -17,13 +17,17 @@ body {
 `;
 
 export const Dark = () => {
+  const [theme, setTheme] = useState({ mode : 'light'})
   return (
-    <ThemeProvider theme={{mode: ''}}>
+    <ThemeProvider theme={theme}>
     <> 
       <GlobalStyle />
       <div className="container">
-        <p>Dark mode button</p>
+        <p> Click me for Dark mode
+        <button onClick={e=>setTheme(theme.mode === 'dark' ? {mode: ''} : {mode:'dark'})}>Dark Mode </button>
+        </p>
       </div>
+      
     </>
     </ThemeProvider>
     
