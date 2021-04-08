@@ -10,7 +10,8 @@ const restaurantSchema = new mongoose.Schema({
   state: { type: String, required: true },
   zip: { type: String, required: true },
   latitude: { type: Number, required: true },
-  longitude: { type: Number, required: true }
+  longitude: { type: Number, required: true },
+  thumbnail: { type: String, required: true }
 });
 
 const restaurant = mongoose.model("Restaurant", restaurantSchema);

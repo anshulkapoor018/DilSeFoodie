@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
 
 // name, website, category, address, city, state, zip, latitude, longitude
-const reviewSchema = new mongoose.Schema({
+const orderSchema = new mongoose.Schema({
   restaurantId: { type: String, required: false },
   userId: { type: String, required: false },
   payment: { type: String, required: true },
@@ -12,5 +12,5 @@ const reviewSchema = new mongoose.Schema({
     timestamps: true,
   });
 
-const review = mongoose.model("Order", reviewSchema);
-module.exports = review;
+const order = mongoose.model("Order", orderSchema);
+module.exports = order;

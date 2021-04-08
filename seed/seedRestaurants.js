@@ -13,7 +13,8 @@ const restaurant = [
     state: "NJ",
     zip: "07307",
     latitude: 40.732628,
-    longitude: -74.037628
+    longitude: -74.037628, 
+    thumbnail: "https://res.cloudinary.com/helpinghands101/image/upload/v1617476426/Papa_johns_i92i1b.webp"
   }),
   new Restaurant({
     name: "Vibez Juice & Vegan Cafe",
@@ -24,7 +25,8 @@ const restaurant = [
     state: "NJ",
     zip: "07307",
     latitude: 40.7445109,
-    longitude: -74.0514578
+    longitude: -74.0514578,
+    thumbnail: "https://res.cloudinary.com/helpinghands101/image/upload/v1617476426/Vibez_oqkocy.jpg"
   }),
   new Restaurant({
     name: "El Gordo",
@@ -35,7 +37,8 @@ const restaurant = [
     state: "NJ",
     zip: "07310",
     latitude: 40.7450379,
-    longitude: -74.0524309
+    longitude: -74.0524309,
+    thumbnail: "https://res.cloudinary.com/helpinghands101/image/upload/v1617476426/Elgordo_afz6p2.png"
   }),
   new Restaurant({
     name: "The Franklin",
@@ -46,7 +49,8 @@ const restaurant = [
     state: "NJ",
     zip: "07310",
     latitude: 40.7417174,
-    longitude: -74.0491971
+    longitude: -74.0491971,
+    thumbnail: "https://res.cloudinary.com/helpinghands101/image/upload/v1617476426/the_franklin_vxsd0w.png"
   }),
   new Restaurant({
     name: "Dino & Harry's Steakhouse",
@@ -57,7 +61,8 @@ const restaurant = [
     state: "NJ",
     zip: "07310",
     latitude: 40.7228179,
-    longitude: -74.1316417
+    longitude: -74.1316417,
+    thumbnail: "https://res.cloudinary.com/helpinghands101/image/upload/v1617476426/Dino_umt9i6.jpg"
   }),
   new Restaurant({
     name: "La Isla",
@@ -68,7 +73,8 @@ const restaurant = [
     state: "NJ",
     zip: "07310",
     latitude: 40.7228179,
-    longitude: -74.1316417
+    longitude: -74.1316417,
+    thumbnail: "https://res.cloudinary.com/helpinghands101/image/upload/v1617476426/la_isla_ex2s7b.jpg"
   }),
   new Restaurant({
     name: "Ali Baba Restaurant",
@@ -79,7 +85,8 @@ const restaurant = [
     state: "NJ",
     zip: "07310",
     latitude: 40.7477496,
-    longitude: -74.0302254
+    longitude: -74.0302254,
+    thumbnail: "https://res.cloudinary.com/helpinghands101/image/upload/v1617476427/Ali_baba_yymx03.png"
   }),
   new Restaurant({
     name: "South Street Fish & Ramen Co.",
@@ -90,7 +97,8 @@ const restaurant = [
     state: "NJ",
     zip: "07310",
     latitude: 40.7393196,
-    longitude: -74.032313
+    longitude: -74.032313,
+    thumbnail: "https://res.cloudinary.com/helpinghands101/image/upload/v1617476426/South_street_bnby9d.jpg"
   }),
   new Restaurant({
     name: "GreekTown",
@@ -101,7 +109,8 @@ const restaurant = [
     state: "NJ",
     zip: "07310",
     latitude: 40.7369868,
-    longitude: -74.3132926
+    longitude: -74.3132926,
+    thumbnail: "https://res.cloudinary.com/helpinghands101/image/upload/v1617477180/greek_lizbsc.jpg"
   }),
   new Restaurant({
     name: "Chef Of India",
@@ -112,7 +121,8 @@ const restaurant = [
     state: "NJ",
     zip: "07307",
     latitude: 40.7459498,
-    longitude: -74.0512955
+    longitude: -74.0512955,
+    thumbnail: "https://res.cloudinary.com/helpinghands101/image/upload/v1617476426/chef_jhbmob.jpg"
   }),
   new Restaurant({
     name: "Karma Kafe",
@@ -122,8 +132,9 @@ const restaurant = [
     city: "Hoboken",
     state: "NJ",
     zip: "07030",
-    latitude: 40.742402,
-    longitude: -74.0313777
+    latitude: 40.7423915,
+    longitude: -74.0313059,
+    thumbnail: "https://res.cloudinary.com/helpinghands101/image/upload/v1617476426/Karma_ejgadz.jpg"
   })
 ]
 

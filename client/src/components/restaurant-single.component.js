@@ -43,6 +43,7 @@ export default class RestaurantsPage extends React.Component {
     this.changeRating = this.changeRating.bind(this);
     this.submitRatingForm = this.submitRatingForm.bind(this);
     this.onChangeReview = this.onChangeReview.bind(this);
+    this.orderNow = this.orderNow.bind(this);
   }
 
   componentDidMount() {
@@ -127,6 +128,14 @@ export default class RestaurantsPage extends React.Component {
       reviewString: value
     })
   }
+
+  orderNow(e){
+    e.preventDefault();
+    var self = this;
+    console.log("Order Food Now!");
+    window.sessionStorage.setItem('resID', self.resID);
+    window.location = "/orderItems/" + self.resID;
+  }
   
   render(){
     var isLoggedIn = JSON.parse(window.sessionStorage.getItem("isLoggedIn"));
@@ -146,6 +155,9 @@ export default class RestaurantsPage extends React.Component {
           <p className = "category">{restaurant.category}</p>
           <p>{restaurant.address}</p>
           <p>{restaurant.city}, {restaurant.state} {restaurant.zip}</p>
+          <button onClick={this.orderNow.bind(this)}>
+            Order Now
+          </button>
           <br></br>
           <MapSection location={location} zoomLevel={17} />
         </div>

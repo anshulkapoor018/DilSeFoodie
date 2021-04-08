@@ -34,18 +34,21 @@ export default class RestaurantSearch extends React.Component {
     window.location = '/res/' + param._id
   }
 
-  render() {
+  render(){
     return(
-      <div className='container_res'>
+      <div className='cards'>
         {this.state.restaurantList.map((item, index) => (
-          <div className = "card" onClick={this.handleClick(item)}>
-              <h2>{item.name}</h2>
-              <p>{item.address}</p>
-              <p>{item.address}, {item.city}, {item.state}</p>  
+          <div key = {index} className = "cards" onClick={this.handleClick(item)}>
+            <figure class="card">
+              <img src={item.thumbnail} alt={item.name}/>
               <br/>
+              <h3 className = "restTitle">{item.name}</h3>
+              <p className = "restAddress">{item.address}</p>
+              <p className = "restAddress">{item.address}, {item.city}, {item.state}</p>  
+            </figure>
           </div>
         ))}
       </div>
     )
-  };
+  }
 }

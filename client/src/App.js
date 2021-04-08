@@ -1,5 +1,10 @@
+<<<<<<< HEAD
 import React, {useState} from 'react';
 import { BrowserRouter as Router, Route, Redirect} from "react-router-dom";
+=======
+import React from 'react';
+import { BrowserRouter as Router, Route, Switch, Redirect} from "react-router-dom";
+>>>>>>> b8761d06a013708c5ae4388095532b0479441738
 import Navbar from "./components/navbar.component"
 import AuthCredentials from "./components/create-user.component";
 import Home from "./views/Home/Home";
@@ -10,6 +15,14 @@ import RestaurantSearch from './components/restaurant-search.component';
 import 'react-notifications/lib/notifications.css';
 import {NotificationContainer} from 'react-notifications';
 import './App.css';
+import CartContext from './cart/context';
+import useCart from './hooks/use-cart';
+// import './styles.css';
+
+import Layout from './layout';
+import ProductsPage from './pages/products';
+import CartPage from './pages/cart';
+import CheckoutPage from './pages/checkout';
 
 
 //Not sure of this implementation
@@ -36,6 +49,7 @@ function App() {
     } 
   }
   return (
+<<<<<<< HEAD
     <Router>
       
         <Navbar/>
@@ -57,6 +71,42 @@ function App() {
         </Route> 
          
     </Router>
+=======
+    <CartContext.Provider value={useCart([])}>
+      <Router>
+        <Navbar/>
+        <NotificationContainer/>
+          <Route exact path="/Home" component={Home} />
+          <Route exact path="/user" component={AuthCredentials} />
+          <Route path="/restaurants" component={RestaurantsAll} />
+          <Route path="/res/:id" component={RestaurantsPage} />
+          <Route path="/search" component={RestaurantSearch} />
+          <Route exact path="/profile" component={Profile} />
+          <Route exact path="/">
+            <Redirect to="/Home"/>
+          </Route>
+          <Route exact path="/contact">
+            <Redirect to="/profile"/>
+          </Route>
+          <Route exact path="/order-history">
+            <Redirect to="/profile"/>
+          </Route>
+          <Layout>
+          <Switch>
+            <Route path='/orderItems/:id'>
+              <ProductsPage />
+            </Route>
+            <Route path='/cart'>
+              <CartPage />
+            </Route>
+            <Route path='/checkout'>
+              <CheckoutPage />
+            </Route>
+          </Switch>
+        </Layout>
+      </Router>
+    </CartContext.Provider>
+>>>>>>> b8761d06a013708c5ae4388095532b0479441738
   );
 }
 
