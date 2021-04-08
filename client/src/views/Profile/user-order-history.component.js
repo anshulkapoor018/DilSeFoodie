@@ -30,7 +30,7 @@ export default class UserOrderHistory extends Component {
   
   
   async getData(){
-    const response = await axios.post(dev_api + '/user/order-history-all', userObject)
+    const response = await axios.post(prod_api + '/user/order-history-all', userObject)
     if(response.data){
       console.log(response.data.length > 2)
       this.setState({allOrders: response.data.orders})
