@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from "react";
 import ReactDom from 'react-dom';
-import storage from  'local-storage-fallback';
+import storage from 'local-storage-fallback';
 import style from 'styled-theming';
 import Jumbotron from 'react-bootstrap/Jumbotron';
 import {
