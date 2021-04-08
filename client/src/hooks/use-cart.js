@@ -6,13 +6,13 @@ export default function useCart() {
   function addToCart(product) {
     setCartItems((prev) => {
       const existing = cartItems.find(
-        (item) => item.id === product.id,
+        (item) => item._id === product._id,
       );
 
       return existing
         ? [
             ...cartItems.map((item) =>
-              item.id === product.id
+              item._id === product._id
                 ? { ...item, qty: item.qty + 1 }
                 : item,
             ),
@@ -23,7 +23,7 @@ export default function useCart() {
 
   function removeFromCart(product) {
     setCartItems((prev) => [
-      ...prev.filter((item) => item.id !== product.id),
+      ...prev.filter((item) => item._id !== product._id),
     ]);
   }
 
@@ -32,7 +32,7 @@ export default function useCart() {
 
     setCartItems((prev) => [
       ...prev.map((item) =>
-        item.id === product.id ? { ...item, qty } : item,
+        item._id === product._id ? { ...item, qty } : item,
       ),
     ]);
   }

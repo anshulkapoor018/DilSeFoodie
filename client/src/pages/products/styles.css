@@ -11,9 +11,14 @@
   margin: 1rem;
   border: 1px solid rgb(158, 191, 218);
   padding: 1rem;
-  max-width: 280px;
+  width: 280px;
   position: relative;
   background-color: aliceblue;
+}
+
+.products .product img {
+  width: 90%;
+  height: 200px;
 }
 
 .products .product.hover {

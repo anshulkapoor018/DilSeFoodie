@@ -1,29 +1,100 @@
-[{
-    "id": "1207943a-b849-453f-9475-589b240a2b26",
-    "name": "Butter Chicken",
-    "price": "16.00",
-    "imageUrl": "https://gimmedelicious.com/wp-content/uploads/2020/01/30-Minute-Instant-Pot-Butter-Chicken-7.jpg",
-    "description": "Home-style aromatic herb chicken curry. Served with basmati rice and dal.",
-    "tags": [
-      "Curry",
-      "Spicy"
-    ],
-    "colors": [
-      "Red"
-    ]
+[
+  {
+    "restaurantId": "6068c39eab551d4fd3e16e5a",
+    "name": "Pizza",
+    "price": "16.99",
+    "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/a/a3/Eq_it-na_pizza-margherita_sep2005_sml.jpg",
+    "description": "Home-style aromatic herb chicken curry. Served with basmati rice and dal."
   },
   {
-    "id": "68968e39-ce60-440a-aeca-9e771b24b9d9",
+    "restaurantId": "6068c39eab551d4fd3e16e5a",
+    "name": "Calzones",
+    "price": "8.99",
+    "imageUrl": "https://www.spendwithpennies.com/wp-content/uploads/2020/01/Calzone-SpendWithPennies-7.jpg",
+    "description": "Home-style aromatic herb chicken curry. Served with basmati rice and dal."
+  },
+  {
+    "restaurantId": "6068c39eab551d4fd3e16e5a",
+    "name": "Butter Garlic Knots",
+    "price": "4.99",
+    "imageUrl": "https://creative-culinary.com/wp-content/uploads/2015/11/garlic-knots-2.jpg",
+    "description": "Home-style aromatic herb chicken curry. Served with basmati rice and dal."
+  },
+  {
+    "restaurantId": "6068c39eab551d4fd3e16e5a",
+    "name": "Garlic Breadsticks",
+    "price": "5.99",
+    "imageUrl": "https://kirbiecravings.com/wp-content/uploads/2019/03/keto-garlic-breadsticks-7a.jpg",
+    "description": "Home-style aromatic herb chicken curry. Served with basmati rice and dal."
+  },
+  {
+    "restaurantId": "6068c39eab551d4fd3e16e5a",
+    "name": "Coke",
+    "price": "1.99",
+    "imageUrl": "http://images.wbmason.com/350/L_CCC5222.jpg",
+    "description": "Home-style aromatic herb chicken curry. Served with basmati rice and dal."
+  },
+  {
+    "restaurantId": "6068c39eab551d4fd3e16e5d",
     "name": "Red Wine",
     "price": "13.00",
     "imageUrl": "https://products3.imgix.drizly.com/ci-apothic-red-dbc426614a35d54e.jpeg?auto=format%2Ccompress&fm=jpg&q=20",
-    "description": "Proprietary Red Blend /13.5% ABV / California, United States",
-    "tags": [
-      "Alcohol",
-      "Drunk"
-    ],
-    "colors": [
-      "Red"
-    ]
+    "description": "Proprietary Red Blend /13.5% ABV / California, United States"
+  },
+  {
+    "restaurantId": "6068c39eab551d4fd3e16e60",
+    "name": "Pizza",
+    "price": "16.00",
+    "imageUrl": "https://gimmedelicious.com/wp-content/uploads/2020/01/30-Minute-Instant-Pot-Butter-Chicken-7.jpg",
+    "description": "Home-style aromatic herb chicken curry. Served with basmati rice and dal."
+  },
+  {
+    "restaurantId": "6068c39eab551d4fd3e16e63",
+    "name": "Biryani",
+    "price": "13.00",
+    "imageUrl": "https://products3.imgix.drizly.com/ci-apothic-red-dbc426614a35d54e.jpeg?auto=format%2Ccompress&fm=jpg&q=20",
+    "description": "Proprietary Red Blend /13.5% ABV / California, United States"
+  },
+  {
+    "restaurantId": "6068c39eab551d4fd3e16e66",
+    "name": "Butter Paneer",
+    "price": "16.00",
+    "imageUrl": "https://gimmedelicious.com/wp-content/uploads/2020/01/30-Minute-Instant-Pot-Butter-Chicken-7.jpg",
+    "description": "Home-style aromatic herb chicken curry. Served with basmati rice and dal."
+  },
+  {
+    "restaurantId": "6068c39fab551d4fd3e16e69",
+    "name": "Red Bull",
+    "price": "13.00",
+    "imageUrl": "https://products3.imgix.drizly.com/ci-apothic-red-dbc426614a35d54e.jpeg?auto=format%2Ccompress&fm=jpg&q=20",
+    "description": "Proprietary Red Blend /13.5% ABV / California, United States"
+  },
+  {
+    "restaurantId": "6068c39fab551d4fd3e16e6a",
+    "name": "Juice",
+    "price": "16.00",
+    "imageUrl": "https://gimmedelicious.com/wp-content/uploads/2020/01/30-Minute-Instant-Pot-Butter-Chicken-7.jpg",
+    "description": "Home-style aromatic herb chicken curry. Served with basmati rice and dal."
+  },
+  {
+    "restaurantId": "6068c39fab551d4fd3e16e6b",
+    "name": "Fried Rice",
+    "price": "13.00",
+    "imageUrl": "https://products3.imgix.drizly.com/ci-apothic-red-dbc426614a35d54e.jpeg?auto=format%2Ccompress&fm=jpg&q=20",
+    "description": "Proprietary Red Blend /13.5% ABV / California, United States"
+  },
+  {
+    "restaurantId": "6068c39fab551d4fd3e16e6e",
+    "name": "Steak",
+    "price": "16.00",
+    "imageUrl": "https://gimmedelicious.com/wp-content/uploads/2020/01/30-Minute-Instant-Pot-Butter-Chicken-7.jpg",
+    "description": "Home-style aromatic herb chicken curry. Served with basmati rice and dal."
+  },
+  {
+    "restaurantId": "6068c39fab551d4fd3e16e6f",
+    "name": "Lassan",
+    "price": "13.00",
+    "imageUrl": "https://products3.imgix.drizly.com/ci-apothic-red-dbc426614a35d54e.jpeg?auto=format%2Ccompress&fm=jpg&q=20",
+    "description": "Proprietary Red Blend /13.5% ABV / California, United States"
   }
 ]
