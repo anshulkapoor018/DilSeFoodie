@@ -113,7 +113,6 @@ input:checked + .slider:before {
   border-radius: 50%;
 }
 
-h
 `;
 
 // This handles the storage of user's preference in a local storage
@@ -139,9 +138,8 @@ export const Dark = () => {
     <> 
       <GlobalStyle />
       <div className="container">
-        <Jumbotron>
+        
           <h1>We think about disability so we have some settings to toggle!</h1>
-        </Jumbotron>
         <p>Dark Mode 
         <label class="switch">
           <input  type="checkbox" onClick={e=>
