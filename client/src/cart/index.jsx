@@ -4,7 +4,7 @@ import { formatCurrency } from '../modules/string';
 import './styles.css';
 
 export default function Cart() {
-  const { cartItems, changeQty } = useContext(Context);
+  const { cartItems, changeQty, removeFromCart } = useContext(Context);
   // let cartTotal = 0;
   const [cartTotal, setCartTotal] = useState(0);
 
@@ -18,6 +18,10 @@ export default function Cart() {
     setCartTotal(cartTotalRef)
   });
 
+  // function removeFromCart() {
+  //   console.log("Hi there, user!");
+  // }
+
   if (cartTotal === 0) {
     return (
       <p> Your Cart is Empty </p>
@@ -30,8 +34,9 @@ export default function Cart() {
             <th>Product name</th>
             <th>Product</th>
             <th>Price</th>
-            <th>Qty</th>
+            <th>Qauntity</th>
             <th>Subtotal</th>
+            <th>Remove</th>
           </tr>
         </thead>
   
@@ -56,6 +61,17 @@ export default function Cart() {
                 />
               </td>
               <td>{formatCurrency(product.price * product.qty)}</td>
+              <td>
+                <button className = "cartRemove">
+                  <img 
+                  src="https://res.cloudinary.com/helpinghands101/image/upload/v1617992448/remove_aja2kg.png" 
+                  alt="lassan" 
+                  onClick={(e) =>
+                    removeFromCart(product)
+                  }
+                  />
+                </button>
+              </td>
             </tr>
           ))}
         </tbody>
@@ -67,6 +83,7 @@ export default function Cart() {
             <th></th>
             <th></th>
             <th>{formatCurrency(cartTotal)}</th>
+            <th></th>
           </tr>
         </thead>
         <div class="sub-main">
