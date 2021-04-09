@@ -47,8 +47,9 @@ export default function Cart() {
               <td>{formatCurrency(parseFloat(product.price))}</td>
               <td>
                 <input
-                  type='text'
+                  type="number"
                   value={product.qty}
+                  min = "1"
                   onChange={(e) =>
                     changeQty(product, parseInt(e.target.value))
                   }
