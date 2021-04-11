@@ -1,4 +1,5 @@
 import React, { useContext, useEffect, useState} from 'react';
+import { Link } from 'react-router-dom';
 import Context from './context';
 import { formatCurrency } from '../modules/string';
 import './styles.css';
@@ -87,7 +88,7 @@ export default function Cart() {
           </tr>
         </thead>
         <div class="sub-main">
-          <button class="button-cart"><span>Checkout</span></button>
+          <button class="button-cart"><span><Link className = "orderLink" to='/checkout'>Review</Link></span></button>
         </div>
       </table>
     );
