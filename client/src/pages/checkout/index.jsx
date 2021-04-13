@@ -1,7 +1,30 @@
 import React, { Component } from 'react';
 import Cart from '../../cart';
+import axios from 'axios';
 import Header from '../../layout/header';
 import './styles.css';
+// Notification imports
+import 'react-notifications/lib/notifications.css';
+import {NotificationManager} from 'react-notifications';
+
+const prod_api = 'https://dilsefoodie.herokuapp.com';
+const dev_api = "http://localhost:5000";
+
+// This calls our notification handler
+async function showNotification (type, message){
+  const timer = 1500
+  if (type === "error"){
+    NotificationManager.error(message, "", timer);
+  }
+  else if (type === "success"){
+    NotificationManager.success(message, "", timer);
+  }
+  else if (type === "warning"){
+    NotificationManager.warning(message, "", timer);
+  }
+}
+
+
 
 export default class CheckoutPage extends Component {
   constructor(props) {
@@ -19,26 +42,6 @@ export default class CheckoutPage extends Component {
   showPickupView() {
     this.setState({isPickupViewOpen: true, isDeliveryViewOpen: false});
   }
-
-  componentDidMount() {
-    // this.restauranListsApiCall();
-  }
-
-  // restauranListsApiCall() {
-  //   var self = this;
-  //   let markers = []
-  //   axios.get(prod_api + '/restaurant/all')
-  //   .then(function (response) {
-  //     response.data.forEach(rest => 
-  //       markers.push({
-  //         'name': rest.name,
-  //         'latitude': rest.latitude,
-  //         'longitude': rest.longitude
-  //       })
-  //     );
-  //     self.setState({ restaurantListView: markers });
-  //   })
-  // }
 
   render() {
     return(
@@ -64,25 +67,78 @@ class Pickup extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      restaurantList: []
+      firstName: "",
+      lastName: "",
+      mobile: ""
     };
+    this.onChangeFirstName = this.onChangeFirstName.bind(this);
+    this.onChangeLastName = this.onChangeLastName.bind(this);
+    this.onChangeMobile = this.onChangeMobile.bind(this);
   }
 
-  // componentDidMount() {
-  //   this.restauranListApiCall();
-  // }
+  onChangeFirstName(e){
+    const target = e.target;
+    const value = target.value;
+    // const name = target.name; 
+    this.setState({
+      firstName: value,
+    })
+  }
+  onChangeLastName(e){
+    const target = e.target;
+    const value = target.value;
+    // const name = target.name; 
+    this.setState({
+      lastName: value,
+    })
+  }
 
-  // restauranListApiCall() {
-  //   var self = this;
-  //   axios.get(prod_api + '/restaurant/all')
-  //   .then(function (response) {
-  //     self.setState({ restaurantList: response.data });
-  //   })
-  // }
+  onChangeMobile(e){
+    const target = e.target;
+    const value = target.value;
+    // const name = target.name; 
+    this.setState({
+      mobile: value,
+    })
+  }
 
-  // handleClick = param => e => {
-  //   window.location = '/res/' + param._id
-  // }
+  async submitCheckoutDetails(e) {
+    e.preventDefault();
+    const orderDetails = {
+      firstName: this.state.firstName,
+      lastName: this.state.lastName,
+      mobile: this.state.mobile
+    }
+
+    if (orderDetails.firstName.length < 1 || orderDetails.firstName.trim() === ""){
+      await showNotification ("error", "Invalid Firstname")
+    }
+    else if (orderDetails.lastName.length < 1 || orderDetails.lastName.trim() === ""){
+      await showNotification ("error", "Invalid Lastname")
+    }
+    else if (orderDetails.mobile.length < 1 || orderDetails.mobile.trim() === "" || orderDetails.mobile.length !== 10){
+      await showNotification ("error", "Invalid Mobile Number")
+    }
+    else{
+      // const response = await axios.post(dev_api + '/order/placeOrder', orderDetails)
+
+      // Post Body
+      // newOrder.restaurantId = req.body.restaurantId
+      // newOrder.userId = req.body.userId
+      // newOrder.payment = req.body.payment
+      // newOrder.typeOfOrder = req.body.typeOfOrder
+      // newOrder.timeOfOrder = req.body.timeOfOrder
+      // newOrder.orderStatus = req.body.orderStatus
+
+      console.log(orderDetails)
+    }
+
+    this.setState({
+      firstName: "",
+      LastName: "",
+      mobile: ""
+    })
+  }
 
   render(){
     return(
@@ -90,19 +146,25 @@ class Pickup extends React.Component {
       <Header/>
       <h1>Pickup Your Meal</h1>
       <div className="form">
-        <div className="fields fields--2">
+        <div className="fields fields--3">
           <label className="field">
             <span className="field__label" for="firstname">First name</span>
-            <input className="field__input" type="text" id="firstname"/>
+            <input className="field__input" type="text" id="firstname" value={this.state.firstName} onChange={this.onChangeFirstName}/>
           </label>
           <label className="field">
             <span className="field__label" for="lastname">Last name</span>
-            <input className="field__input" type="text" id="lastname"/>
+            <input className="field__input" type="text" id="lastname" value={this.state.lastName} onChange={this.onChangeLastName}/>
+          </label>
+          <label className="field">
+            <span className="field__label" for="mobile">Mobile Number</span>
+            <input className="field__input" type="tel" id="mobile" value={this.state.mobile} placeholder="123-456-7890" pattern="[1-9]{3}-[0-9]{3}-[0-9]{3}" onChange={this.onChangeMobile} required/>
           </label>
         </div>
       </div>
       <hr/>
-      <button className="button">Checkout</button>
+      <button type="submit" className="button" onClick={this.submitCheckoutDetails.bind(this)}>
+        Checkout
+      </button>
     </div>
     )
   }
@@ -112,25 +174,122 @@ class Delivery extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      restaurantList: []
+      firstName: "",
+      lastName: "",
+      mobile: "",
+      address: "",
+      zipcode: "",
+      city: "",
+      stateVal: ""
     };
+    this.onChangeFirstName = this.onChangeFirstName.bind(this);
+    this.onChangeLastName = this.onChangeLastName.bind(this);
+    this.onChangeMobile = this.onChangeMobile.bind(this);
+    this.onChangeAddress = this.onChangeAddress.bind(this);
+    this.onChangeZipcode = this.onChangeZipcode.bind(this);
+    this.onChangeCity = this.onChangeCity.bind(this);
+    this.onChangeStateVal = this.onChangeStateVal.bind(this);
   }
 
-  // componentDidMount() {
-  //   this.restauranListApiCall();
-  // }
+  onChangeFirstName(e){
+    const target = e.target;
+    const value = target.value;
+    // const name = target.name; 
+    this.setState({
+      firstName: value,
+    })
+  }
+  onChangeLastName(e){
+    const target = e.target;
+    const value = target.value;
+    // const name = target.name; 
+    this.setState({
+      lastName: value,
+    })
+  }
 
-  // restauranListApiCall() {
-  //   var self = this;
-  //   axios.get(prod_api + '/restaurant/all')
-  //   .then(function (response) {
-  //     self.setState({ restaurantList: response.data });
-  //   })
-  // }
+  onChangeMobile(e){
+    const target = e.target;
+    const value = target.value;
+    // const name = target.name; 
+    this.setState({
+      mobile: value,
+    })
+  }
 
-  // handleClick = param => e => {
-  //   window.location = '/res/' + param._id
-  // }
+  onChangeAddress(e){
+    const target = e.target;
+    const value = target.value;
+    // const name = target.name; 
+    this.setState({
+      mobile: value,
+    })
+  }
+
+  onChangeZipcode(e){
+    const target = e.target;
+    const value = target.value;
+    // const name = target.name; 
+    this.setState({
+      mobile: value,
+    })
+  }
+
+  onChangeCity(e){
+    const target = e.target;
+    const value = target.value;
+    // const name = target.name; 
+    this.setState({
+      mobile: value,
+    })
+  }
+
+  onChangeStateVal(e){
+    const target = e.target;
+    const value = target.value;
+    // const name = target.name; 
+    this.setState({
+      mobile: value,
+    })
+  }
+
+  async submitCheckoutDetails(e) {
+    e.preventDefault();
+    const orderDetails = {
+      firstName: this.state.firstName,
+      lastName: this.state.lastName,
+      mobile: this.state.mobile
+    }
+
+    if (orderDetails.firstName.length < 1 || orderDetails.firstName.trim() === ""){
+      await showNotification ("error", "Invalid Firstname")
+    }
+    else if (orderDetails.lastName.length < 1 || orderDetails.lastName.trim() === ""){
+      await showNotification ("error", "Invalid Lastname")
+    }
+    else if (orderDetails.mobile.length < 1 || orderDetails.mobile.trim() === "" || orderDetails.mobile.length !== 10){
+      await showNotification ("error", "Invalid Mobile Number")
+    }
+    else{
+      // const response = await axios.post(dev_api + '/order/placeOrder', orderDetails)
+
+      // Post Body
+      // newOrder.restaurantId = req.body.restaurantId
+      // newOrder.userId = req.body.userId
+      // newOrder.payment = req.body.payment
+      // newOrder.typeOfOrder = req.body.typeOfOrder
+      // newOrder.timeOfOrder = req.body.timeOfOrder
+      // newOrder.orderStatus = req.body.orderStatus
+
+      console.log(orderDetails)
+    }
+
+    this.setState({
+      firstName: "",
+      LastName: "",
+      mobile: ""
+    })
+  }
 
   render(){
     return(
@@ -138,14 +297,18 @@ class Delivery extends React.Component {
       <Header/>
       <h1>Checkout Your Meal</h1>
       <div className="form">
-        <div className="fields fields--2">
+        <div className="fields fields--3">
           <label className="field">
             <span className="field__label" for="firstname">First name</span>
-            <input className="field__input" type="text" id="firstname"/>
+            <input className="field__input" type="text" id="firstname" value={this.state.firstName} onChange={this.onChangeFirstName}/>
           </label>
           <label className="field">
             <span className="field__label" for="lastname">Last name</span>
-            <input className="field__input" type="text" id="lastname"/>
+            <input className="field__input" type="text" id="lastname" value={this.state.lastName} onChange={this.onChangeLastName}/>
+          </label>
+          <label className="field">
+            <span className="field__label" for="mobile">Mobile Number</span>
+            <input className="field__input" type="tel" id="mobile" value={this.state.mobile} placeholder="123-456-7890" pattern="[1-9]{3}-[0-9]{3}-[0-9]{3}" onChange={this.onChangeMobile} required/>
           </label>
         </div>
         <label className="field">
@@ -221,7 +384,9 @@ class Delivery extends React.Component {
         </div>
       </div>
       <hr/>
-      <button className="button">Checkout</button>
+      <button type="submit" className="button">
+        Checkout
+      </button>
     </div>
     )
   }

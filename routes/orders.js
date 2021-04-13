@@ -43,7 +43,7 @@ router.get('/user/:id',
 });
 
 
-router.post('/', (req, res)=>{
+router.post('/placeOrder', (req, res)=>{
   // Adding an order to the DB
 
   const newOrder = new Order();
