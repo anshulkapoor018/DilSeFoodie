@@ -3,6 +3,7 @@ import Cart from '../../cart';
 import axios from 'axios';
 import Header from '../../layout/header';
 import './styles.css';
+
 // Notification imports
 import 'react-notifications/lib/notifications.css';
 import {NotificationManager} from 'react-notifications';
@@ -23,8 +24,6 @@ async function showNotification (type, message){
     NotificationManager.warning(message, "", timer);
   }
 }
-
-
 
 export default class CheckoutPage extends Component {
   constructor(props) {
@@ -120,17 +119,22 @@ class Pickup extends React.Component {
       await showNotification ("error", "Invalid Mobile Number")
     }
     else{
-      // const response = await axios.post(dev_api + '/order/placeOrder', orderDetails)
+      var userId = JSON.parse(window.sessionStorage.getItem("userDetails"))["_id"];
+      const currentResID = window.sessionStorage.getItem('resID');
+      const currentCartTotal = window.sessionStorage.getItem('cartTotal');
+      var datetime = Date().toLocaleString();
 
-      // Post Body
-      // newOrder.restaurantId = req.body.restaurantId
-      // newOrder.userId = req.body.userId
-      // newOrder.payment = req.body.payment
-      // newOrder.typeOfOrder = req.body.typeOfOrder
-      // newOrder.timeOfOrder = req.body.timeOfOrder
-      // newOrder.orderStatus = req.body.orderStatus
+      console.log(datetime);
 
-      console.log(orderDetails)
+      const orderPost = {
+        restaurantId: currentResID,
+        userId: userId,
+        payment: currentCartTotal,
+        typeOfOrder: "Pickup",
+        timeOfOrder: datetime,
+        orderStatus: "atRestaurant"
+      }
+      console.log(orderPost)
     }
 
     this.setState({
@@ -148,15 +152,15 @@ class Pickup extends React.Component {
       <div className="form">
         <div className="fields fields--3">
           <label className="field">
-            <span className="field__label" for="firstname">First name</span>
+            <span className="field__label" htmlFor="firstname">First name</span>
             <input className="field__input" type="text" id="firstname" value={this.state.firstName} onChange={this.onChangeFirstName}/>
           </label>
           <label className="field">
-            <span className="field__label" for="lastname">Last name</span>
+            <span className="field__label" htmlFor="lastname">Last name</span>
             <input className="field__input" type="text" id="lastname" value={this.state.lastName} onChange={this.onChangeLastName}/>
           </label>
           <label className="field">
-            <span className="field__label" for="mobile">Mobile Number</span>
+            <span className="field__label" htmlFor="mobile">Mobile Number</span>
             <input className="field__input" type="tel" id="mobile" value={this.state.mobile} placeholder="123-456-7890" pattern="[1-9]{3}-[0-9]{3}-[0-9]{3}" onChange={this.onChangeMobile} required/>
           </label>
         </div>
@@ -222,7 +226,7 @@ class Delivery extends React.Component {
     const value = target.value;
     // const name = target.name; 
     this.setState({
-      mobile: value,
+      address: value,
     })
   }
 
@@ -231,7 +235,7 @@ class Delivery extends React.Component {
     const value = target.value;
     // const name = target.name; 
     this.setState({
-      mobile: value,
+      zipcode: value,
     })
   }
 
@@ -240,7 +244,7 @@ class Delivery extends React.Component {
     const value = target.value;
     // const name = target.name; 
     this.setState({
-      mobile: value,
+      city: value,
     })
   }
 
@@ -249,7 +253,7 @@ class Delivery extends React.Component {
     const value = target.value;
     // const name = target.name; 
     this.setState({
-      mobile: value,
+      stateVal: value,
     })
   }
 
@@ -258,7 +262,11 @@ class Delivery extends React.Component {
     const orderDetails = {
       firstName: this.state.firstName,
       lastName: this.state.lastName,
-      mobile: this.state.mobile
+      mobile: this.state.mobile,
+      address: this.state.address,
+      zipcode: this.state.zipcode,
+      city: this.state.city,
+      stateVal: this.state.stateVal
     }
 
     if (orderDetails.firstName.length < 1 || orderDetails.firstName.trim() === ""){
@@ -270,24 +278,42 @@ class Delivery extends React.Component {
     else if (orderDetails.mobile.length < 1 || orderDetails.mobile.trim() === "" || orderDetails.mobile.length !== 10){
       await showNotification ("error", "Invalid Mobile Number")
     }
+    else if (orderDetails.address.length < 1 || orderDetails.address.trim() === ""){
+      await showNotification ("error", "Invalid Address")
+    }
+    else if (orderDetails.zipcode.length < 1 || orderDetails.zipcode.trim() === "" || orderDetails.zipcode.length !== 5){
+      await showNotification ("error", "Invalid Zipcode")
+    }
+    else if (orderDetails.city.length < 1 || orderDetails.city.trim() === ""){
+      await showNotification ("error", "Invalid City")
+    }
     else{
-      // const response = await axios.post(dev_api + '/order/placeOrder', orderDetails)
+      var userId = JSON.parse(window.sessionStorage.getItem("userDetails"))["_id"];
+      const currentResID = window.sessionStorage.getItem('resID');
+      const currentCartTotal = window.sessionStorage.getItem('cartTotal');
+      var datetime = Date().toLocaleString();
 
-      // Post Body
-      // newOrder.restaurantId = req.body.restaurantId
-      // newOrder.userId = req.body.userId
-      // newOrder.payment = req.body.payment
-      // newOrder.typeOfOrder = req.body.typeOfOrder
-      // newOrder.timeOfOrder = req.body.timeOfOrder
-      // newOrder.orderStatus = req.body.orderStatus
+      console.log(datetime);
 
-      console.log(orderDetails)
+      const orderPost = {
+        restaurantId: currentResID,
+        userId: userId,
+        payment: currentCartTotal,
+        typeOfOrder: "Delivery",
+        timeOfOrder: datetime,
+        orderStatus: "atRestaurant"
+      }
+      console.log(orderPost)
     }
 
     this.setState({
       firstName: "",
       LastName: "",
-      mobile: ""
+      mobile: "",
+      address: "",
+      zipcode: "",
+      city: "",
+      stateVal: ""
     })
   }
 
@@ -299,34 +325,34 @@ class Delivery extends React.Component {
       <div className="form">
         <div className="fields fields--3">
           <label className="field">
-            <span className="field__label" for="firstname">First name</span>
+            <span className="field__label" htmlFor="firstname">First name</span>
             <input className="field__input" type="text" id="firstname" value={this.state.firstName} onChange={this.onChangeFirstName}/>
           </label>
           <label className="field">
-            <span className="field__label" for="lastname">Last name</span>
+            <span className="field__label" htmlFor="lastname">Last name</span>
             <input className="field__input" type="text" id="lastname" value={this.state.lastName} onChange={this.onChangeLastName}/>
           </label>
           <label className="field">
-            <span className="field__label" for="mobile">Mobile Number</span>
+            <span className="field__label" htmlFor="mobile">Mobile Number</span>
             <input className="field__input" type="tel" id="mobile" value={this.state.mobile} placeholder="123-456-7890" pattern="[1-9]{3}-[0-9]{3}-[0-9]{3}" onChange={this.onChangeMobile} required/>
           </label>
         </div>
         <label className="field">
-          <span className="field__label" for="address">Address</span>
-          <input className="field__input" type="text" id="address" />
+          <span className="field__label" htmlFor="address">Address</span>
+          <input className="field__input" type="text" id="address"  value={this.state.address} onChange={this.onChangeAddress} />
         </label>
         <div className="fields fields--3">
           <label className="field">
-            <span className="field__label" for="zipcode">Zip code</span>
-            <input className="field__input" type="text" id="zipcode" />
+            <span className="field__label" htmlFor="zipcode">Zip code</span>
+            <input className="field__input" type="text" id="zipcode" value={this.state.zipcode} onChange={this.onChangeZipcode}/>
           </label>
           <label className="field">
-            <span className="field__label" for="city">City</span>
-            <input className="field__input" type="text" id="city" />
+            <span className="field__label" htmlFor="city">City</span>
+            <input className="field__input" type="text" id="city" value={this.state.city} onChange={this.onChangeCity} />
           </label>
           <label className="field">
-            <span className="field__label" for="state">State</span>
-            <select className="field__input" id="state">
+            <span className="field__label" htmlFor="state">State</span>
+            <select className="field__input" id="state" value={this.state.stateVal} onChange={this.onChangeStateVal}>
               <option value=""></option>
               <option value="AL">Alabama</option>
               <option value="AK">Alaska</option>
@@ -384,110 +410,10 @@ class Delivery extends React.Component {
         </div>
       </div>
       <hr/>
-      <button type="submit" className="button">
+      <button type="submit" className="button" onClick={this.submitCheckoutDetails.bind(this)}>
         Checkout
       </button>
     </div>
     )
   }
 }
-// export default function CheckoutPage() {
-//   return (
-//     <div className="containerCheckout">
-//       <Header/>
-//       <h1>Checkout Meal</h1>
-//       <div className="form">
-//         <div className="fields fields--2">
-//           <label className="field">
-//             <span className="field__label" for="firstname">First name</span>
-//             <input className="field__input" type="text" id="firstname"/>
-//           </label>
-//           <label className="field">
-//             <span className="field__label" for="lastname">Last name</span>
-//             <input className="field__input" type="text" id="lastname"/>
-//           </label>
-//         </div>
-//         <label className="field">
-//           <span className="field__label" for="address">Address</span>
-//           <input className="field__input" type="text" id="address" />
-//         </label>
-//         <label className="field">
-//           <span className="field__label" for="country">Country</span>
-//           <select className="field__input" id="country">
-//             <option value=""></option>
-//             <option value="unitedstates">United States</option>
-//           </select>
-//         </label>
-//         <div className="fields fields--3">
-//           <label className="field">
-//             <span className="field__label" for="zipcode">Zip code</span>
-//             <input className="field__input" type="text" id="zipcode" />
-//           </label>
-//           <label className="field">
-//             <span className="field__label" for="city">City</span>
-//             <input className="field__input" type="text" id="city" />
-//           </label>
-//           <label className="field">
-//             <span className="field__label" for="state">State</span>
-//             <select className="field__input" id="state">
-//               <option value=""></option>
-//               <option value="AL">Alabama</option>
-//               <option value="AK">Alaska</option>
-//               <option value="AZ">Arizona</option>
-//               <option value="AR">Arkansas</option>
-//               <option value="CA">California</option>
-//               <option value="CO">Colorado</option>
-//               <option value="CT">Connecticut</option>
-//               <option value="DE">Delaware</option>
-//               <option value="DC">District Of Columbia</option>
-//               <option value="FL">Florida</option>
-//               <option value="GA">Georgia</option>
-//               <option value="HI">Hawaii</option>
-//               <option value="ID">Idaho</option>
-//               <option value="IL">Illinois</option>
-//               <option value="IN">Indiana</option>
-//               <option value="IA">Iowa</option>
-//               <option value="KS">Kansas</option>
-//               <option value="KY">Kentucky</option>
-//               <option value="LA">Louisiana</option>
-//               <option value="ME">Maine</option>
-//               <option value="MD">Maryland</option>
-//               <option value="MA">Massachusetts</option>
-//               <option value="MI">Michigan</option>
-//               <option value="MN">Minnesota</option>
-//               <option value="MS">Mississippi</option>
-//               <option value="MO">Missouri</option>
-//               <option value="MT">Montana</option>
-//               <option value="NE">Nebraska</option>
-//               <option value="NV">Nevada</option>
-//               <option value="NH">New Hampshire</option>
-//               <option value="NJ">New Jersey</option>
-//               <option value="NM">New Mexico</option>
-//               <option value="NY">New York</option>
-//               <option value="NC">North Carolina</option>
-//               <option value="ND">North Dakota</option>
-//               <option value="OH">Ohio</option>
-//               <option value="OK">Oklahoma</option>
-//               <option value="OR">Oregon</option>
-//               <option value="PA">Pennsylvania</option>
-//               <option value="RI">Rhode Island</option>
-//               <option value="SC">South Carolina</option>
-//               <option value="SD">South Dakota</option>
-//               <option value="TN">Tennessee</option>
-//               <option value="TX">Texas</option>
-//               <option value="UT">Utah</option>
-//               <option value="VT">Vermont</option>
-//               <option value="VA">Virginia</option>
-//               <option value="WA">Washington</option>
-//               <option value="WV">West Virginia</option>
-//               <option value="WI">Wisconsin</option>
-//               <option value="WY">Wyoming</option>
-//             </select>
-//           </label>
-//         </div>
-//       </div>
-//       <hr/>
-//       <button className="button">Checkout</button>
-//     </div>
-//   );
-// }

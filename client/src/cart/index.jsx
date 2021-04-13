@@ -19,9 +19,10 @@ export default function Cart() {
     setCartTotal(cartTotalRef)
   });
 
-  // function removeFromCart() {
-  //   console.log("Hi there, user!");
-  // }
+  function setCartStorage() {
+    window.sessionStorage.setItem('cartTotal', formatCurrency(cartTotal));
+    window.sessionStorage.setItem('cartItems', cartItems);
+  }
 
   if (cartTotal === 0) {
     return (
@@ -43,7 +44,7 @@ export default function Cart() {
   
         <tbody>
           {cartItems.map((product) => (
-            <tr key={product.id}>
+            <tr key={product._id}>
               <td>
                 {product.name}
               </td>
@@ -87,9 +88,14 @@ export default function Cart() {
             <th></th>
           </tr>
         </thead>
-        <div class="sub-main">
-          <button class="button-cart"><span><Link className = "orderLink" to='/checkout'>Review</Link></span></button>
-        </div>
+          <button className="button-cart">
+            <span>
+              <Link className = "orderLink" to='/checkout' 
+              onClick={setCartStorage}>
+                Review
+              </Link>
+            </span>
+          </button>
       </table>
     );
   }
