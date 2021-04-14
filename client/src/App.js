@@ -9,7 +9,6 @@ import Profile from "./views/Profile/Profile";
 import RestaurantsAll from "./components/restaurant-all.component";
 import RestaurantsPage from "./components/restaurant-single.component";
 import RestaurantSearch from './components/restaurant-search.component';
-import Accessibility from "./pages/accessibility";
 import 'react-notifications/lib/notifications.css';
 import {NotificationContainer} from 'react-notifications';
 import './App.css';
@@ -24,23 +23,15 @@ import CheckoutPage from './pages/checkout';
 const StyledApp = styled.div`
   color: ${(props) => props.theme.fontColor};
   background-image:  url('${props => props.theme.background}');
+  background-size:100%;
+  background-attachment:fixed;
+  min-height:1080px;
+  /* .card-wide.background-color: '#000', */
 
 `;
-//Not sure of this implementation
 
-// export function onEnter(nextState, transition, callback) {
-//   const { pathname } = nextState.location
-//   const isLoggedIn = sessionStorage.getItem('loggedIn') === 'true'
-//   if (pathname === '/user' && isLoggedIn) {
-//     window.location = "/profile" //redirect to Home component
-//   }
-//   return callback() // go as it is.
-// }
 
-// This was placed after line 38
-//  {/* <Route exact path="/profile" component={Profile} onEnter={onEnter} /> */}
-
-function App() { 
+function App(props) { 
   const [theme, setTheme] = useState('light');
   
   let mode = document.cookie.split('; ').find(row => row.startsWith('mode'))
@@ -67,7 +58,6 @@ function App() {
               <Route path="/restaurants" render={() => <RestaurantsAll data={theme}/>} />
               <Route path="/res/:id" component={RestaurantsPage} />
               <Route path="/search" component={RestaurantSearch} />
-              <Route path="/accessibility" component={Accessibility}/>
               <Route exact path="/profile" component={Profile} />
               <Route exact path="/">
                 <Redirect to="/Home"/>

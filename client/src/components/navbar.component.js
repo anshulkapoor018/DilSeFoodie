@@ -7,8 +7,13 @@ import {lightTheme, darkTheme, GlobalStyles} from "../themes.js";
 const NavBar = (props) => {
     let path = '/user';
     let name = 'Signup';
-
     
+   
+    const handleChange = event => {
+        var x;
+        props.data === "light" ? x="dark" : x="light";
+        props.onchange(x);
+    }
 
     if (window.sessionStorage.getItem('isLoggedIn') === null || window.sessionStorage.getItem('isLoggedIn') === 'false'){
         path = path;
@@ -31,6 +36,10 @@ const NavBar = (props) => {
                 <Link className = "nav-link" to='/Home'>Home</Link>
                 <Link className = "nav-link" to='/restaurants'>Restaurant</Link>
                 <Link className = "nav-link" to={path}>{name}</Link>
+                <label class="switch">
+                <input type="checkbox"  onClick= {handleChange}/>
+                <span class="slider round"/>
+                </label>
             </div>
         </div>
     )

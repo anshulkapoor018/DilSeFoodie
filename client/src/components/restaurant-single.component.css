@@ -294,6 +294,20 @@ input[type="password"] {
     margin: 2%;
 }
 
+.card-wide-dark {
+    background-color: #000000;
+    box-sizing: border-box;
+    display: block;
+    text-align: center;
+    float: left; 
+    width: 45%;
+    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+    transition: 0.3s;
+    border-radius: 15px;
+    padding: 1%;
+    margin: 2%;
+}
+
 .card-full {
     background-color: #fafafa;
     box-sizing: border-box;

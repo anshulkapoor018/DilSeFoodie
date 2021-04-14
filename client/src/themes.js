@@ -6,15 +6,13 @@ import Dark_BG from './assets/Dark-BG.jpeg'; // Tell webpack this JS file uses t
 export const lightTheme = {
     body: '#fff',
     fontColor: '#000',
-    background: BGE3,
- 
+    background: BGE3, 
 };
 
 export const darkTheme = {
     body: "#000",
     fontColor: '#fff',
     background: Dark_BG,
-
 };
 
 
