@@ -21,7 +21,7 @@ export default function Cart() {
 
   function setCartStorage() {
     window.sessionStorage.setItem('cartTotal', formatCurrency(cartTotal));
-    window.sessionStorage.setItem('cartItems', cartItems);
+    window.sessionStorage.setItem('cartItems', JSON.stringify(cartItems));
   }
 
   if (cartTotal === 0) {

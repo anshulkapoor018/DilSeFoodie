@@ -122,19 +122,23 @@ class Pickup extends React.Component {
       var userId = JSON.parse(window.sessionStorage.getItem("userDetails"))["_id"];
       const currentResID = window.sessionStorage.getItem('resID');
       const currentCartTotal = window.sessionStorage.getItem('cartTotal');
+      const currentCartItems = window.sessionStorage.getItem('cartItems');
+
       var datetime = Date().toLocaleString();
 
-      console.log(datetime);
-
-      const orderPost = {
+      const orderPostBody = {
         restaurantId: currentResID,
         userId: userId,
         payment: currentCartTotal,
         typeOfOrder: "Pickup",
         timeOfOrder: datetime,
-        orderStatus: "atRestaurant"
+        orderStatus: "atRestaurant",
+        orderItems : JSON.parse(currentCartItems)
       }
-      console.log(orderPost)
+      const response = await axios.post(dev_api + '/order/placeOrder', orderPostBody);
+      console.log(response.data);
+      window.location.reload();
+      // window.location = "/order-history";
     }
 
     this.setState({
@@ -303,19 +307,22 @@ class Delivery extends React.Component {
       var userId = JSON.parse(window.sessionStorage.getItem("userDetails"))["_id"];
       const currentResID = window.sessionStorage.getItem('resID');
       const currentCartTotal = window.sessionStorage.getItem('cartTotal');
+      const currentCartItems = window.sessionStorage.getItem('cartItems');
+
       var datetime = Date().toLocaleString();
 
-      console.log(datetime);
-
-      const orderPost = {
+      const orderPostBody = {
         restaurantId: currentResID,
         userId: userId,
         payment: currentCartTotal,
         typeOfOrder: "Delivery",
         timeOfOrder: datetime,
-        orderStatus: "atRestaurant"
+        orderStatus: "atRestaurant",
+        orderItems : JSON.parse(currentCartItems)
       }
-      console.log(orderPost)
+      const response = await axios.post(dev_api + '/order/placeOrder', orderPostBody);
+      console.log(response.data);
+      window.location.reload();
     }
 
     this.setState({

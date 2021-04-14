@@ -54,6 +54,7 @@ router.post('/placeOrder', (req, res)=>{
   newOrder.typeOfOrder = req.body.typeOfOrder
   newOrder.timeOfOrder = req.body.timeOfOrder
   newOrder.orderStatus = req.body.orderStatus
+  newOrder.orderItems = req.body.orderItems
 
 
   newOrder.save((err, newOrder)=> {

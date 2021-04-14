@@ -1,4 +1,3 @@
-// Testing
 import React, { Component } from 'react';
 import Table from 'react-bootstrap/Table'
 import axios from 'axios'; //  Using this to make an axios call to the DB
