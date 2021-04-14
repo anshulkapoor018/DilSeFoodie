@@ -144,7 +144,14 @@ class Pickup extends React.Component {
     })
   }
 
+  routeToLogin(e){
+    e.preventDefault()
+    window.location = "/user"
+  }
+
   render(){
+    var isLoggedIn = JSON.parse(window.sessionStorage.getItem("isLoggedIn"));
+
     return(
       <div className="containerCheckout">
       <Header/>
@@ -166,9 +173,14 @@ class Pickup extends React.Component {
         </div>
       </div>
       <hr/>
-      <button type="submit" className="button" onClick={this.submitCheckoutDetails.bind(this)}>
+      {isLoggedIn
+      ? <button type="submit" className="button" onClick={this.submitCheckoutDetails.bind(this)}>
         Checkout
-      </button>
+        </button>
+      : <button type="submit" className="button" onClick={this.routeToLogin.bind(this)}>
+        Login to Proceed
+        </button>
+      }
     </div>
     )
   }
@@ -317,7 +329,14 @@ class Delivery extends React.Component {
     })
   }
 
+  routeToLogin(e){
+    e.preventDefault()
+    window.location = "/user"
+  }
+
   render(){
+    var isLoggedIn = JSON.parse(window.sessionStorage.getItem("isLoggedIn"));
+
     return(
       <div className="containerCheckout">
       <Header/>
@@ -410,9 +429,14 @@ class Delivery extends React.Component {
         </div>
       </div>
       <hr/>
-      <button type="submit" className="button" onClick={this.submitCheckoutDetails.bind(this)}>
+      {isLoggedIn
+      ? <button type="submit" className="button" onClick={this.submitCheckoutDetails.bind(this)}>
         Checkout
-      </button>
+        </button>
+      : <button type="submit" className="button" onClick={this.routeToLogin.bind(this)}>
+        Login to Proceed
+        </button>
+      }
     </div>
     )
   }
