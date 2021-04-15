@@ -26,7 +26,6 @@ const StyledApp = styled.div`
   background-size:100%;
   background-attachment:fixed;
   min-height:1080px;
-  /* .card-wide.background-color: '#000', */
 
 `;
 
