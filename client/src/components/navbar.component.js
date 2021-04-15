@@ -16,7 +16,35 @@ const NavBar = (props) => {
         props.data === "light" ? x="dark" : x="light";
         props.onchange(x);
         // var abc = document.getElementsByClassName("cardDark");
-        $('.cardDark').addClass('card').removeClass('cardDark');
+        if(props.data === "light"){
+            $('.controllers').addClass('controllers-dark').removeClass('controllers');
+            $('.selected-controllers').addClass('selected-controllers-dark').removeClass('selected-controllers');            
+            $('.search-card-center').addClass('search-card-center-dark').removeClass('search-card-center');
+            $('h1').css({"background-color":"#000000"});
+            $('h2').css({"background-color":"#000000"});
+            $('p').css({"color":"#b4fffb"});
+            $('button').css({"color":"#e8e8e8"});
+            $('.searchFields').css({"background":"black"});
+            $('.card').css({"background-color":"#000"});
+            $('.card-center').css({"background-color":"#000000"});
+            $('.card-wide').css({"background-color":"#000000"});
+
+            
+        }
+        if(props.data === "dark"){
+            $('.controllers-dark').addClass('controllers').removeClass('controllers-dark');
+            $('.selected-controllers-dark').addClass('selected-controllers').removeClass('selected-controllers-dark');
+            $('.search-card-center-dark').addClass('search-card-center').removeClass('search-card-center-dark');
+            $('h1').css({"background-color":"#fafafa"});
+            $('h2').css({"background-color":"#fafafa"});
+            $('p').css({"color":"#001514"});
+            $('button').css({"color":"#212529"});
+            $('.searchFields').css({"background":"white"});
+            $('.card').css({"background-color":"#fff"});
+            $('.card-center').css({"background-color":"#fafafa"});
+            $('.card-wide').css({"background-color":"#fafafa"});
+        }
+       
 
        
 

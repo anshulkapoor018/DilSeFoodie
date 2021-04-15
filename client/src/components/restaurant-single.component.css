@@ -349,6 +349,20 @@ input[type="password"] {
     margin-top: 5%
 }
 
+.search-card-center-dark {
+    background-color: #000000;
+    box-sizing: border-box;
+    display: block;
+    text-align: center;
+    width: 55%;
+    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+    transition: 0.3s;
+    border-radius: 15px;
+    padding: 1%;
+    margin: auto;
+    margin-top: 5%
+}
+
 .card:hover {
     box-shadow: 0 8px 16px 0 rgba(0,0,0,0.5);
 }

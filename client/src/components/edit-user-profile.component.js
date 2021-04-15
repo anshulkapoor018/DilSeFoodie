@@ -181,23 +181,35 @@ class EditUserProfile extends React.Component {
                 
                 </div>
                 <div id="cardData"  className="card-wide" id="right">
-                
-                    <label htmlFor="firstName">First Name:</label>
-                    <input name="firstName" id="firstName" type="text" value={this.state.firstName} onChange={this.onChangeFirstName} />
-                    <label htmlFor="lastName">Last Name:</label>
-                    <input name="lastName" id="lastName" type="text" value={this.state.lastName} onChange={this.onChangeLastName} />
-                    <label htmlFor="Email">Email:</label>
-                    <input name="Email" id="Email" type="text" value={this.state.email} onChange={this.onChangeEmail} readOnly/>
-                    <label htmlFor="City">City:</label>
-                    <input name="City" id="City" type="text" value={this.state.city} onChange={this.onChangeCity} />
-                    <label htmlFor="State">State:</label>
-                    <input name="State" id="State" type="text" value={this.state.state} onChange={this.onChangeState} />
-                    <label htmlFor="Age">Age:</label>
-                    <input name="Age" id="Age" type="text" value={this.state.age} onChange={this.onChangeAge} />
-                    <label htmlFor="Password">Password:</label>
-                    <input name="Password" id="Password" type="password" value={this.state.password} onChange={this.onChangePassword} />
+                    <tr>
+                        <td><label htmlFor="firstName">First Name:</label></td>
+                        <td><input name="firstName" id="firstName" type="text" value={this.state.firstName} onChange={this.onChangeFirstName} /></td>
+                    </tr>
+                    <tr>
+                        <td> <label htmlFor="lastName">Last Name:</label> </td>
+                        <td> <input name="lastName" id="lastName" type="text" value={this.state.lastName} onChange={this.onChangeLastName} /></td>
+                    </tr>
+                    <tr>
+                        <td> <label htmlFor="Email">Email:</label> </td>
+                        <td> <input name="Email" id="Email" type="text" value={this.state.email} onChange={this.onChangeEmail} readOnly/> </td> 
+                    </tr>
+                    <tr>
+                        <td> <label htmlFor="City">City:</label> </td> 
+                        <td> <input name="City" id="City" type="text" value={this.state.city} onChange={this.onChangeCity} /> </td> 
+                    </tr>
+                    <tr>
+                        <td> <label htmlFor="State">State:</label></td>
+                        <td> <input name="State" id="State" type="text" value={this.state.state} onChange={this.onChangeState} /> </td>
+                    </tr>
+                    <tr>
+                        <td> <label htmlFor="Age">Age:</label> </td>
+                        <td> <input name="Age" id="Age" type="text" value={this.state.age} onChange={this.onChangeAge} /> </td>
+                    </tr>
+                    <tr>
+                        <td> <label htmlFor="Password">Password:</label> </td>
+                        <td> <input name="Password" id="Password" type="password" value={this.state.password} onChange={this.onChangePassword} /> </td>
+                    </tr>
                     <button id="btn" type="submit" className="login-btn" onClick={this.submitregister.bind(this)}>Update</button>
-                
                 </div>
             </form>
         </div>
