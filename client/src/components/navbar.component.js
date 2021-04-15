@@ -3,9 +3,13 @@ import { Link } from 'react-router-dom';
 import './navbar.component.css';
 import styled,{ThemeProvider} from "styled-components";
 import {lightTheme, darkTheme, GlobalStyles} from "../themes.js";
+<<<<<<< HEAD
 import $ from 'jquery';
 
 
+=======
+
+>>>>>>> added darkmode
 const NavBar = (props) => {
     let path = '/user';
     let name = 'Signup';
@@ -23,6 +27,8 @@ const NavBar = (props) => {
         // abc.classList.remove("cardDark");
         // abc.className = "card";
     }
+
+    
 
     if (window.sessionStorage.getItem('isLoggedIn') === null || window.sessionStorage.getItem('isLoggedIn') === 'false'){
         path = path;
