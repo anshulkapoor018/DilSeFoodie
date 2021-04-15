@@ -36,6 +36,7 @@
     "google-map-react": "^2.1.9",
     "google-maps-react": "^2.0.6",
     "history": "5.0.0",
+    "jquery": "^3.6.0",
     "local-storage-fallback": "^4.1.2",
     "jquery": "^3.6.0",
     "mongoose": "5.12.2",

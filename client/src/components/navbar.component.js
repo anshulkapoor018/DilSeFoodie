@@ -3,6 +3,9 @@ import { Link } from 'react-router-dom';
 import './navbar.component.css';
 import styled,{ThemeProvider} from "styled-components";
 import {lightTheme, darkTheme, GlobalStyles} from "../themes.js";
+import $ from 'jquery'; 
+
+
 const NavBar = (props) => {
     let path = '/user';
     let name = 'Signup';
