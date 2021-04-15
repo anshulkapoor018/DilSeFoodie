@@ -1,3 +1,29 @@
+input[type=number]::-webkit-inner-spin-button, 
+input[type=number]::-webkit-outer-spin-button {
+   opacity: 1;
+}
+
+input[type=number] {
+  width: 20%;
+  padding: 5px 5px;
+  margin: 8px 0;
+  box-sizing: border-box;
+}
+
+.cartRemove {
+  background-position: 8px 8px;
+  background-repeat: no-repeat;
+  padding: 0;
+  border: none;
+  width: 25px;
+  height: 25px;
+}
+
+.cartRemove img {
+  width: 25px;
+  height: 25px;
+}
+
 #orders {
   font-family: Arial, Helvetica, sans-serif;
   border-collapse: collapse;

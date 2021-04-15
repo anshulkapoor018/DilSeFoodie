@@ -43,7 +43,7 @@ router.get('/user/:id',
 });
 
 
-router.post('/', (req, res)=>{
+router.post('/placeOrder', (req, res)=>{
   // Adding an order to the DB
 
   const newOrder = new Order();
@@ -54,6 +54,7 @@ router.post('/', (req, res)=>{
   newOrder.typeOfOrder = req.body.typeOfOrder
   newOrder.timeOfOrder = req.body.timeOfOrder
   newOrder.orderStatus = req.body.orderStatus
+  newOrder.orderItems = req.body.orderItems
 
 
   newOrder.save((err, newOrder)=> {

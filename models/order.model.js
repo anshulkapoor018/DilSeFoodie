@@ -7,7 +7,8 @@ const orderSchema = new mongoose.Schema({
   payment: { type: String, required: true },
   typeOfOrder: { type: String, required: true },
   timeOfOrder: { type: String, required: true },
-  orderStatus: { type: String, required: true }
+  orderStatus: { type: String, required: true },
+  orderItems: {type: Object, required: false}
 }, {
     timestamps: true,
   });

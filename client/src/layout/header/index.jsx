@@ -7,9 +7,13 @@ export default function Header({}) {
   const { cartItems } = useContext(CartContext);
   const currentResID = window.sessionStorage.getItem('resID');
   const currentResStore = '/orderItems/' + currentResID;
+  const currentResPage = '/res/' + currentResID;
   return (
     <div className='__dml header'>
       <ul>
+        <li>
+          <Link className = "orderLink" to={currentResPage}>Restaurant</Link>
+        </li>
 
         <li>
           <Link className = "orderLink" to={currentResStore}>Store</Link>

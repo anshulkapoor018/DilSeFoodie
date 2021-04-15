@@ -41,6 +41,34 @@
     "imageUrl": "https://products3.imgix.drizly.com/ci-apothic-red-dbc426614a35d54e.jpeg?auto=format%2Ccompress&fm=jpg&q=20",
     "description": "Proprietary Red Blend /13.5% ABV / California, United States"
   },
+   {
+    "restaurantId": "6068c39eab551d4fd3e16e5d",
+    "name": "Jalapeno Pepper",
+    "price": "7.30",
+    "imageUrl": "https://www.dinneratthezoo.com/wp-content/uploads/2018/09/jalapeno-popper-chicken-1.jpg",
+    "description": "Crispy bacon, egg, and melted cheddar and with a smear of our homemade firehog cream cheese"
+  },
+   {
+    "restaurantId": "6068c39eab551d4fd3e16e5d",
+    "name": "Egg Sandwich",
+    "price": "3.25",
+    "imageUrl": "https://static.toiimg.com/thumb/60018142.cms?width=1200&height=900",
+    "description": "Served on a roll or bagel."
+  },
+   {
+    "restaurantId": "6068c39eab551d4fd3e16e5d",
+    "name": "Ridge Diablo",
+    "price": "5.85",
+    "imageUrl": "https://i.pinimg.com/originals/c7/07/36/c707361b05dc10c58e1fb3342449f201.jpg",
+    "description": "Taylor Ham, Bacon, scrambled egg, and melted pepper jack. Topped with pickled jalapeños, and signature chipotle aioli"
+  },
+   {
+    "restaurantId": "6068c39eab551d4fd3e16e5d",
+    "name": "Watchung Warrior",
+    "price": "9.95",
+    "imageUrl": "https://lh3.googleusercontent.com/proxy/dfqlrcEFBwYlpz8ZRT3NdOGxTa08OreR2FSJy80xJ6kVS4h5aKh7-sS5nCgYavd_QebqyiXY_BCZ2KrrKX3ppUPLPSb1sVsy-mP55_bL8aC0M7-vRSIaYwn7wnWIPJ8TAnwytc3tJGJ8jzOmOT7W3399227wbOek_8isYVSP8_DFi2A9TJ4P-fqHs_k8-XseawlCc-pfrSR9Y_gi4q745YjgAna0KdMqS2G89-rEKwol",
+    "description": "Pastrami, scrambled egg, melted swiss, topped with honey dijon"
+  },
   {
     "restaurantId": "6068c39eab551d4fd3e16e60",
     "name": "Pizza",
@@ -49,31 +77,173 @@
     "description": "Home-style aromatic herb chicken curry. Served with basmati rice and dal."
   },
   {
-    "restaurantId": "6068c39eab551d4fd3e16e63",
-    "name": "Biryani",
-    "price": "13.00",
-    "imageUrl": "https://products3.imgix.drizly.com/ci-apothic-red-dbc426614a35d54e.jpeg?auto=format%2Ccompress&fm=jpg&q=20",
-    "description": "Proprietary Red Blend /13.5% ABV / California, United States"
+    "restaurantId": "6068c39eab551d4fd3e16e60",
+    "name": "Turk Panini",
+    "price": "11.95",
+    "imageUrl": "https://imagesvc.meredithcorp.io/v3/mm/image?url=https%3A%2F%2Fimages.media-allrecipes.com%2Fuserphotos%2F5428404.jpg",
+    "description": "Boar’s Head oven gold roasted turkey, sharp Wisconsin cheddar cheese, arugula, plum tomato and honey Dijon mustard on ciabatta."
   },
   {
+    "restaurantId": "6068c39eab551d4fd3e16e60",
+    "name": "16 oz. Seasonal Sliced Fresh Fruit",
+    "price": "6.95",
+    "imageUrl": "https://www.thecoffeehouselnk.com/wp-content/uploads/2021/03/original.jpeg",
+    "description": "Fresh greek fruit bowl"
+  },
+  {
+    "restaurantId": "6068c39eab551d4fd3e16e60",
+    "name": "Buffalo Wings",
+    "price": "8.95",
+    "imageUrl": "https://hips.hearstapps.com/hmg-prod/images/classic-buffalo-wings-horizontal-279-1547506077.jpg",
+    "description": "BBQ, Buffalo, mild, teriyaki or garlic BBQ."
+  },
+  {
+    "restaurantId": "6068c39eab551d4fd3e16e60",
+    "name": "Chicken Fingers",
+    "price": "8.95",
+    "imageUrl": "https://images-gmi-pmc.edge-generalmills.com/3973d54d-0004-4c06-a9d1-0843f3bf3efa.jpg",
+    "description": "Honey mustard, Buffalo or BBQ."
+  },
+  {
+    "restaurantId": "6068c39eab551d4fd3e16e63",
+    "name": " Chicken Biryani",
+    "price": "13.00",
+    "imageUrl": "https://www.indianhealthyrecipes.com/wp-content/uploads/2019/02/chicken-biryani-recipe.jpg",
+    "description": "Mildly spiced chicken."
+  },
+  {
+    "restaurantId": "6068c39eab551d4fd3e16e63",
+    "name": "Mango lassi",
+    "price": "4.5",
+    "imageUrl": "https://ministryofcurry.com/wp-content/uploads/2020/04/mango-lassi-2.jpg",
+    "description": "Chilled yogurt frappe"
+  },
+  {
+    "restaurantId": "6068c39eab551d4fd3e16e63",
+    "name": "Tandori Chicken",
+    "price": "15.00",
+    "imageUrl": "https://hips.hearstapps.com/hmg-prod.s3.amazonaws.com/images/chicken-tandori-1526595014.jpg",
+    "description": "Tandoori roasted half chicken. Our tandoor preparations are marinated in yogurt and spices, broiled in our charcoal fired clay oven and served on a bed of grilled onions with basmati rice and dal."
+  },
+  {
+    "restaurantId": "6068c39eab551d4fd3e16e63",
+    "name": "Samosa",
+    "price": "6.00",
+    "imageUrl": "https://static.toiimg.com/thumb/61050397.cms?width=1200&height=900",
+    "description": "Crispy triangle pastry stuffed with your choice of potatoes and peas or ground chicken and peas."
+  },
+  {
+    "restaurantId": "6068c39eab551d4fd3e16e63",
+    "name": "Chicken Tikka Masala",
+    "price": "14.00",
+    "imageUrl": "https://sizzlingpots.com/wp-content/uploads/2020/08/Chicken-Tikka-Masala-scaled.jpg",
+    "description": "Chicken tikka in a garlic tomato sauce. Served with basmati rice and dal."
+  },
+  {
+    "restaurantId": "6068c39eab551d4fd3e16e66",
+    "name": "Masala Chai",
+    "price": "3.00",
+    "imageUrl": "https://assets.bonappetit.com/photos/57acca021b334044149751b5/master/pass/bas-best-masala-chai.jpg",
+    "description": "Traditional aromatic spice tea."
+  },
+   {
     "restaurantId": "6068c39eab551d4fd3e16e66",
     "name": "Butter Paneer",
     "price": "16.00",
     "imageUrl": "https://gimmedelicious.com/wp-content/uploads/2020/01/30-Minute-Instant-Pot-Butter-Chicken-7.jpg",
     "description": "Home-style aromatic herb chicken curry. Served with basmati rice and dal."
   },
+   {
+    "restaurantId": "6068c39eab551d4fd3e16e66",
+    "name": "The Kebab Sampler",
+    "price": "11.00",
+    "imageUrl": "https://www.thespruceeats.com/thmb/mgghjeWktybcYG5_2Ky44sslDQc=/3648x3648/smart/filters:no_upscale()/traditional-shish-kebabs-335199-hero-01-f8046460cc3d4ffb99d17743465c7cd3.jpg",
+    "description": "Home-style aromatic herb chicken curry. Served with basmati rice and dal."
+  },
+   {
+    "restaurantId": "6068c39eab551d4fd3e16e66",
+    "name": "Butter Paneer",
+    "price": "16.00",
+    "imageUrl": "https://gimmedelicious.com/wp-content/uploads/2020/01/30-Minute-Instant-Pot-Butter-Chicken-7.jpg",
+    "description": "Sampler of three favorties: chicken tikka kabab, chicken ginger kabab and lamb seekh kabab."
+  },
+   {
+    "restaurantId": "6068c39eab551d4fd3e16e66",
+    "name": "Tandoori Shrimp",
+    "price": "10.00",
+    "imageUrl": "https://www.thespruceeats.com/thmb/B9vOf_s99zOOWMuaJsxkUj1syUQ=/3867x2578/filters:fill(auto,1)/tandoorishrimp-589dc7c03df78c4758879d97.jpg",
+    "description": "Marinated tandoor baked shrimp. Served with a tangy mustard sauce."
+  },
+
   {
     "restaurantId": "6068c39fab551d4fd3e16e69",
     "name": "Red Bull",
-    "price": "13.00",
-    "imageUrl": "https://products3.imgix.drizly.com/ci-apothic-red-dbc426614a35d54e.jpeg?auto=format%2Ccompress&fm=jpg&q=20",
-    "description": "Proprietary Red Blend /13.5% ABV / California, United States"
+    "price": "5.00",
+    "imageUrl": "https://images.heb.com/is/image/HEBGrocery/001476509",
+    "description": "Energy Drink"
+  },
+    {
+    "restaurantId": "6068c39fab551d4fd3e16e69",
+    "name": "Coke",
+    "price": "2.00",
+    "imageUrl": "https://images.heb.com/is/image/HEBGrocery/001397056",
+    "description": "Soft Drink"
+  },
+    {
+    "restaurantId": "6068c39fab551d4fd3e16e69",
+    "name": "Dr Pepper",
+    "price": "4.00",
+    "imageUrl": "https://www.myamericanmarket.com/977-large_default/dr-pepper-soda.jpg",
+    "description": "Sweet/Sour soft drink"
+  },
+    {
+    "restaurantId": "6068c39fab551d4fd3e16e69",
+    "name": "Arizona",
+    "price": "1.00",
+    "imageUrl": "https://images.heb.com/is/image/HEBGrocery/001660037",
+    "description": "Natural fruit Juice drin"
+  },
+    {
+    "restaurantId": "6068c39fab551d4fd3e16e69",
+    "name": "Pepsi",
+    "price": "2.00",
+    "imageUrl": "https://beverages2u.com/wp-content/uploads/2019/05/0001200010010_B.jpg",
+    "description": "Soft Drink"
+  },
+
+  {
+    "restaurantId": "6068c39fab551d4fd3e16e6a",
+    "name": "Orange Juice",
+    "price": "6.99",
+    "imageUrl": "https://www.alphafoodie.com/wp-content/uploads/2020/11/Orange-Juice-1-of-1.jpeg",
+    "description": "Drink made of natural oranges"
   },
   {
     "restaurantId": "6068c39fab551d4fd3e16e6a",
-    "name": "Juice",
-    "price": "16.00",
-    "imageUrl": "https://gimmedelicious.com/wp-content/uploads/2020/01/30-Minute-Instant-Pot-Butter-Chicken-7.jpg",
+    "name": "Sex on the Beach",
+    "price": "5.99",
+    "imageUrl": "https://i.ytimg.com/vi/KwkcKSwymro/maxresdefault.jpg",
+    "description": "CockTail Drink"
+  },
+  {
+    "restaurantId": "6068c39fab551d4fd3e16e6a",
+    "name": "Hot Choclate",
+    "price": "2.00",
+    "imageUrl": "https://assets.bonappetit.com/photos/57accdd1f1c801a1038bc794/16:9/w_1615,h_908,c_limit/Hot-Chocolate-2-of-5.jpg",
+    "description": "Beverage made of lindt chocolate"
+  },
+  {
+    "restaurantId": "6068c39fab551d4fd3e16e6a",
+    "name": " Lime Juice",
+    "price": "3.89",
+    "imageUrl": "https://cdn.shopify.com/s/files/1/1939/2455/articles/lime-juice-nutrition_900x.png?v=1590596940",
+    "description": "Refreshing Drink made of lime"
+  },
+  {
+    "restaurantId": "6068c39fab551d4fd3e16e6a",
+    "name": "Red Country Club",
+    "price": "2.00",
+    "imageUrl": "https://i.pinimg.com/600x315/f4/0e/cb/f40ecbd866351a0c64033f9572d7a652.jpg",
     "description": "Home-style aromatic herb chicken curry. Served with basmati rice and dal."
   },
   {
@@ -84,17 +254,80 @@
     "description": "Proprietary Red Blend /13.5% ABV / California, United States"
   },
   {
+    "restaurantId": "6068c39fab551d4fd3e16e6b",
+    "name": "Drums of Heaven",
+    "price": "9.99",
+    "imageUrl": "https://uploads-ssl.webflow.com/5c481361c604e53624138c2f/5c6f97072c838c912f1b5eae_lollipop.jpg",
+    "description": "Pulled chicken drumstick with soy sauce, garlic, onion, spring onion and fresh chili."
+  },
+  {
+    "restaurantId": "6068c39fab551d4fd3e16e6b",
+    "name": "Paneer ke Sholay",
+    "price": "9.99",
+    "imageUrl": "https://royalbiryani.ae/wp-content/uploads/2018/11/Paneer-ke-Sholay-1.jpg",
+    "description": "Fried paneer marianted with tomato sauce"
+  },
+  {
+    "restaurantId": "6068c39fab551d4fd3e16e6b",
+    "name": "Garlic Naan",
+    "price": "4.00",
+    "imageUrl": "https://i3p2k7k6.stackpathcdn.com/wp-content/uploads/2020/01/garlic-naan-cover_for-web.jpg",
+    "description": "Bread stuffed with garlic"
+  },
+  {
+    "restaurantId": "6068c39fab551d4fd3e16e6b",
+    "name": "Butter Naan",
+    "price": "2.00",
+    "imageUrl": "https://i.ytimg.com/vi/kA_3gY9rX4Y/maxresdefault.jpg",
+    "description": "Bread topper with butter"
+  },
+  {
     "restaurantId": "6068c39fab551d4fd3e16e6e",
     "name": "Steak",
     "price": "16.00",
     "imageUrl": "https://gimmedelicious.com/wp-content/uploads/2020/01/30-Minute-Instant-Pot-Butter-Chicken-7.jpg",
     "description": "Home-style aromatic herb chicken curry. Served with basmati rice and dal."
   },
+   {
+    "restaurantId": "6068c39fab551d4fd3e16e6e",
+    "name": "Sizzling crab cakes",
+    "price": "22.00",
+    "imageUrl": "https://ruthschris.net/wp-content/uploads/2018/10/4Z22z8RQ.jpg",
+    "description": "two jumbo lump cakes, lemon butter."
+  },
+   {
+    "restaurantId": "6068c39fab551d4fd3e16e6e",
+    "name": "Ribeye",
+    "price": "59.00",
+    "imageUrl": "https://prods3.imgix.net/images/articles/2017_03/Feature-Sous-Vide-Rib-Eye-Steak.jpg?auto=format%2Ccompress&ixjsv=2.2.3",
+    "description": "16 oz USDA Prime, marbled for flavor & deliciously juicy"
+  },
   {
     "restaurantId": "6068c39fab551d4fd3e16e6f",
-    "name": "Lassan",
-    "price": "13.00",
-    "imageUrl": "https://products3.imgix.drizly.com/ci-apothic-red-dbc426614a35d54e.jpeg?auto=format%2Ccompress&fm=jpg&q=20",
-    "description": "Proprietary Red Blend /13.5% ABV / California, United States"
+    "name": "Chopped Salad",
+    "price": "11.00",
+    "imageUrl": "https://images.themodernproper.com/billowy-turkey/production/posts/2019/Asian-Chop-Salad-11.jpg?w=1200&h=1200&q=82&fm=jpg&fit=crop&fp-x=0.5&fp-y=0.5&dm=1599768360&s=33d79f2492c0cac39b969ef2d69f4e62",
+    "description": "bacon, bleu cheese, mushroom, eggs, basil dressing"
+  },
+  {
+    "restaurantId": "6068c39fab551d4fd3e16e6f",
+    "name": "Caesar Salad",
+    "price": "11.00",
+    "imageUrl": "https://www.simplyrecipes.com/thmb/j1WtO-KNzo7D7e3j5skU2CIQGk4=/1800x1200/filters:fill(auto,1)/__opt__aboutcom__coeus__resources__content_migration__simply_recipes__uploads__2009__09__caesar-salad-horiz-a-1800-4a465eb53456465091e34138675259c2.jpg",
+    "description": "Romaine hearts, parmesan & romano, creamy caesar"
+  },
+  {
+    "restaurantId": "6068c39fab551d4fd3e16e6f",
+    "name": "Fresh Broccolli",
+    "price": "10.50",
+    "imageUrl": "https://cdn.mos.cms.futurecdn.net/r8NK24bmcMgSib5zWKKQkW.jpg",
+    "description": "simply steamed"
+  },
+  {
+    "restaurantId": "6068c39fab551d4fd3e16e6f",
+    "name": "Creamed Spinach",
+    "price": "11.00",
+    "imageUrl": "https://www.onceuponachef.com/images/2019/12/Creamed-Spinach-scaled.jpg0",
+    "description": "a ruth’s classic"
   }
 ]

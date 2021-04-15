@@ -1,13 +1,11 @@
-// Testing
 import React, { Component } from 'react';
-import Table from 'react-bootstrap/Table'
-import axios from 'axios'; //  Using this to make an axios call to the DB
-import Button from 'react-bootstrap/Button'
+import axios from 'axios';
 import Alert from 'react-bootstrap/Alert'
+import './user-order-history.component.css';
+
 const prod_api = 'https://dilsefoodie.herokuapp.com';
 const dev_api = "http://localhost:5000";
 var userObject = JSON.parse(window.sessionStorage.getItem("userDetails"));
-const cnt = 0;
 
 export default class UserOrderHistory extends Component {
   constructor(props) {
@@ -15,95 +13,78 @@ export default class UserOrderHistory extends Component {
     this.state = {
       allOrders: [],
       allres: [],
-      cnt: 0
+      cnt: 1
     };
-
-    this.getData = this.getData.bind(this);
-    this.addCnt = this.addCnt.bind(this);
-  }
-  
-  async addCnt (){
-    return 1
-
   }
 
-  
-  
-  async getData(){
-    const response = await axios.post(prod_api + '/user/order-history-all', userObject)
-    if(response.data){
-      console.log(response.data.length > 2)
-      this.setState({allOrders: response.data.orders})
+  componentDidMount() {
+    this.orderHistoryApiCall();
+    console.log(this.state.allOrders)
+  }
 
-
-      // this.state.allOrders.push(response.data.Allrestr)
-
-    }
+  async orderHistoryApiCall() {
+    var self = this;
+    axios.get(prod_api + '/order/user/' + userObject['_id'])
+    .then(function (response) {
+      self.setState({ allOrders: response.data });
+    })
   }
   
-
-
-    render() {
-      this.getData()
-
-      if(this.state.allOrders.length > 1){
-        return (
-          
-          <div className='homepage container'>
-            <h1>Order History for {userObject['firstName']}!</h1>
-           
-            <Table striped bordered hover variant="dark">
-              <thead>
-                <tr>
-                  <th>Order No#</th>
-                  <th>Restaurant Name</th>
-                  <th>Order Time</th>
-                  <th>Order type</th>
-                  <th>Amount</th>
-                  <th>Quantity</th>
-                  <th>Order Status</th>
-                
-                </tr>
-              </thead>
-              <tbody>
-              
-                {this.state.allOrders.map((item, index) => (
-                 
-                    
-                 // TODO: Find a way to Do a better For Loop to prevent current infinite loop in line:68
-                 // TODO: Find a way to get a better numbering system using counters ++
-                 // TODO: Add restaurant Name to the tabl
-                  <tr>
-                    <td >{item._id}</td>
-                    <td>Coming soon {item.restaurantId}</td>
-                    <td>{item.timeOfOrder}</td>
-                    <td>{item.typeOfOrder}</td>
-                    <td>{item.payment}</td>
-                    <td>1</td>
-                    <td><Button variant="light">{item.orderStatus}</Button></td>
-                  </tr>
-                 
-                  
-                ))}
-              
-              </tbody>
-            </Table>
-          </div>
-        );
-        
-      }
-      
+  render() {
+    console.log(this.state.allOrders);
+    var userObject = JSON.parse(window.sessionStorage.getItem("userDetails"));
+    if(this.state.cnt === 0){
       return (
-        <div className='homepage container'>
+        <div className='homepage'>
           <h1>Order History for {userObject['firstName']}!</h1>
           <Alert key={'danger'} variant={'danger'}>
-            No orders Found!
-           
+            No orders fjdnsfjhdbnfjhdsbfsjhdbfjFound!
           </Alert>
         </div>
       )
+    } else {
+      return (
+        <div className='orderTable'>
+          <table id="orders" width='100%' cellSpacing={0} cellPadding={0}>
+            <thead>
+              <tr>
+                <th>Order ID</th>
+                <th>Restaurant Name</th>
+                <th>Type Of Order</th>
+                <th>Time Of Order</th>
+                <th>Payment</th>
+                <th>Status</th>
+              </tr>
+            </thead>
       
-        
+            <tbody>
+              {this.state.allOrders.map((orders) => (
+                <tr key={orders._id}>
+                  <td>
+                    {orders._id}
+                  </td>
+                  <td>
+                    {orders.restaurantId}
+                  </td>
+                  <td>
+                    {orders.typeOfOrder}
+                  </td>
+                  <td>
+                    {orders.timeOfOrder}
+                  </td>
+                  <td>
+                    {orders.payment}
+                  </td>
+                  <td>
+                    {orders.orderStatus}
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      )
     }
+  }       
 }
 
