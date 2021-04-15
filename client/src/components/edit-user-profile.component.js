@@ -180,7 +180,7 @@ class EditUserProfile extends React.Component {
                    
                 
                 </div>
-                <div className="card-wide-dark" id="right">
+                <div id="cardData"  className="card-wide" id="right">
                 
                     <label htmlFor="firstName">First Name:</label>
                     <input name="firstName" id="firstName" type="text" value={this.state.firstName} onChange={this.onChangeFirstName} />

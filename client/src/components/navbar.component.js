@@ -3,6 +3,8 @@ import { Link } from 'react-router-dom';
 import './navbar.component.css';
 import styled,{ThemeProvider} from "styled-components";
 import {lightTheme, darkTheme, GlobalStyles} from "../themes.js";
+import $ from 'jquery';
+
 
 const NavBar = (props) => {
     let path = '/user';
@@ -13,6 +15,13 @@ const NavBar = (props) => {
         var x;
         props.data === "light" ? x="dark" : x="light";
         props.onchange(x);
+        // var abc = document.getElementsByClassName("cardDark");
+        $('.cardDark').addClass('card').removeClass('cardDark');
+
+       
+
+        // abc.classList.remove("cardDark");
+        // abc.className = "card";
     }
 
     if (window.sessionStorage.getItem('isLoggedIn') === null || window.sessionStorage.getItem('isLoggedIn') === 'false'){
