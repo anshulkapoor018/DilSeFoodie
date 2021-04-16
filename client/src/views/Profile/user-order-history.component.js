@@ -12,14 +12,25 @@ export default class UserOrderHistory extends Component {
     super(props);
     this.state = {
       allOrders: [],
-      allres: [],
-      cnt: 1
+      allres: {}
     };
   }
 
   componentDidMount() {
+    this.allResApiCall();
     this.orderHistoryApiCall();
-    console.log(this.state.allOrders)
+  }
+
+  async allResApiCall() {
+    var self = this;
+    var resDict = {}
+    axios.get(prod_api + '/restaurant/all')
+    .then(function (response) {
+      response.data.forEach(function(rest) {
+        resDict[rest["_id"]] = rest["name"];
+      })
+      self.setState({ allres: resDict });
+    })
   }
 
   async orderHistoryApiCall() {
@@ -31,9 +42,8 @@ export default class UserOrderHistory extends Component {
   }
   
   render() {
-    console.log(this.state.allOrders);
     var userObject = JSON.parse(window.sessionStorage.getItem("userDetails"));
-    if(this.state.cnt === 0){
+    if(this.state.allOrders.length === 0){
       return (
         <div className='homepage'>
           <h1>Order History for {userObject['firstName']}!</h1>
@@ -64,7 +74,7 @@ export default class UserOrderHistory extends Component {
                     {orders._id}
                   </td>
                   <td>
-                    {orders.restaurantId}
+                    {this.state.allres[orders.restaurantId]}
                   </td>
                   <td>
                     {orders.typeOfOrder}
