@@ -45,10 +45,10 @@ export default class UserOrderHistory extends Component {
     var userObject = JSON.parse(window.sessionStorage.getItem("userDetails"));
     if(this.state.allOrders.length === 0){
       return (
-        <div className='homepage'>
+        <div className='orderTable'>
           <h1>Order History for {userObject['firstName']}!</h1>
           <Alert key={'danger'} variant={'danger'}>
-            No orders fjdnsfjhdbnfjhdsbfsjhdbfjFound!
+            No orders Found!
           </Alert>
         </div>
       )
