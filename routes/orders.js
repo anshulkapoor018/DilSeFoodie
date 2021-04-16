@@ -1,5 +1,15 @@
 const router = require('express').Router();
+const nodemailer = require("nodemailer");
 let Order = require('../models/order.model');
+let User = require('../models/user.model');
+
+var transporter = nodemailer.createTransport({
+  service: 'gmail',
+  auth: {
+    user: 'dogefooddelivery@gmail.com',
+    pass: 'doge2021'
+  }
+});
 
 router.get('/:id',
   function(req, res){
@@ -65,13 +75,40 @@ router.post('/placeOrder', (req, res)=>{
         message: "Failed to create the Order"
       })
     }
-    else{
-      return res.send({
-        success: true,
-        resId: newOrder.id,
-        message: "Successfully placed Order"
-      })
-    }
+      User.findById(req.body.userId, function (err, user) { 
+        if (err){
+          return res.send({
+            success: false,
+            message: "Failed to Find User"
+          })
+        } else{
+          var mailOptions = {
+            from: 'dogefooddelivery@gmail.com',
+            to: user.email,
+            subject: 'Food Order Placed Successfully',
+            html: `<h1>Hello,</h1><p>Thank you so much for Placing an Order. We will notify you of the Status of your Order -> ${newOrder._id}.</p><br> <img src="https://res.cloudinary.com/helpinghands101/image/upload/v1618546944/orderPLaced_cgpfps.jpg" width="300" height="300">`
+          };
+          try{
+            transporter.sendMail(mailOptions, function(error, info){
+              if (error) {
+                console.log(error);
+              } else {
+                console.log('Email sent: ' + info.response);
+              }
+            });
+          }
+          catch(err){
+            res.send({
+              email: false
+            })
+          }
+          return res.send({
+            success: true,
+            resId: newOrder.id,
+            message: "Successfully placed Order"
+          })
+        } 
+      });
   })
 });
 

@@ -135,8 +135,10 @@ class Pickup extends React.Component {
         orderStatus: "atRestaurant",
         orderItems : JSON.parse(currentCartItems)
       }
-      const response = await axios.post(prod_api + '/order/placeOrder', orderPostBody);
-      console.log(response.data);
+      await axios.post(prod_api + '/order/placeOrder', orderPostBody)
+      .then(function (response) {
+        console.log(response.data);
+      })
       this.routeToOrderHistory();
     }
 
@@ -154,7 +156,9 @@ class Pickup extends React.Component {
 
   async routeToOrderHistory(){
     await showNotification ("success", "Successfully Placed Order!")
-    window.location = "/profile"
+    setTimeout(() => {
+      window.location = "/profile"
+    }, 1500)
   }
 
   render(){
@@ -324,8 +328,10 @@ class Delivery extends React.Component {
         orderStatus: "atRestaurant",
         orderItems : JSON.parse(currentCartItems)
       }
-      const response = await axios.post(prod_api + '/order/placeOrder', orderPostBody);
-      console.log(response.data);
+      await axios.post(prod_api + '/order/placeOrder', orderPostBody)
+      .then(function (response) {
+        console.log(response.data);
+      })
       this.routeToOrderHistory();
     }
 
@@ -342,7 +348,9 @@ class Delivery extends React.Component {
   
   async routeToOrderHistory(){
     await showNotification ("success", "Successfully Placed Order!")
-    window.location = "/profile"
+    setTimeout(() => {
+      window.location = "/profile"
+    }, 1500)
   }
 
   routeToLogin(e){
