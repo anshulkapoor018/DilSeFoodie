@@ -15,7 +15,7 @@ const NavBar = (props) => {
         var x;
         props.data === "light" ? x="dark" : x="light";
         props.onchange(x);
-        // var abc = document.getElementsByClassName("cardDark");
+        var abc = document.getElementsByClassName("cardDark");
         if(props.data === "light"){
             $('.controllers').addClass('controllers-dark').removeClass('controllers');
             $('.selected-controllers').addClass('selected-controllers-dark').removeClass('selected-controllers');            
@@ -28,7 +28,7 @@ const NavBar = (props) => {
             $('.card').css({"background-color":"#000"});
             $('.card-center').css({"background-color":"#000000"});
             $('.card-wide').css({"background-color":"#000000"});
-
+            $('.jumbotron').css({"background-color":"#000000"});
             
         }
         if(props.data === "dark"){
@@ -43,13 +43,9 @@ const NavBar = (props) => {
             $('.card').css({"background-color":"#fff"});
             $('.card-center').css({"background-color":"#fafafa"});
             $('.card-wide').css({"background-color":"#fafafa"});
+            $('.jumbotron').css({"background-color":"#fafafa"});
         }
-       
-
-       
-
-        // abc.classList.remove("cardDark");
-        // abc.className = "card";
+      
     }
 
     

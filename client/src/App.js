@@ -26,7 +26,7 @@ const StyledApp = styled.div`
   background-size:100%;
   background-attachment:fixed;
   min-height:1080px;
-`;
+  `;
 
 
 function App(props) { 
