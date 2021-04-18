@@ -15,7 +15,7 @@ Team Members:
 
 ## Testing Application
 #### Link to Reference 
--#### https://jestjs.io/docs/tutorial-react
+- #### https://jestjs.io/docs/tutorial-react
 
 ## Available Scripts
 
