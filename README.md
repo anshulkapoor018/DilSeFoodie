@@ -13,6 +13,9 @@ Team Members:
 3. Pranay Singh
 4. Ikenna Ibezim
 
+## Testing Application
+#### Link to Reference 
+-#### https://jestjs.io/docs/tutorial-react
 
 ## Available Scripts
 
