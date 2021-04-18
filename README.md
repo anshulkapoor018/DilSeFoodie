@@ -17,6 +17,9 @@ Team Members:
 #### Link to Reference 
 - #### https://jestjs.io/docs/tutorial-react
 
+#### To Run the general test
+- #### Run: npm test
+
 ## Available Scripts
 
 Please note that any time the server is run in these scripts `nodemon` is used in place of `node` for easier development. If you are interested in how this works follow the nodemon In the project directory, you can run:
