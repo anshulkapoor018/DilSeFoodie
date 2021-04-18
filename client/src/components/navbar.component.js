@@ -15,6 +15,8 @@ const NavBar = (props) => {
         var x;
         props.data === "light" ? x="dark" : x="light";
         props.onchange(x);
+        document.cookie = "mode ="+ props.data+';';
+
         var abc = document.getElementsByClassName("cardDark");
         if(props.data === "light"){
             $('.controllers').addClass('controllers-dark').removeClass('controllers');

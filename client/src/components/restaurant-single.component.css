@@ -321,6 +321,19 @@ input[type="password"] {
     padding: 1%;
     margin: 2%;
 }
+.card-full-dark {
+    background-color: #442222;
+    box-sizing: border-box;
+    display: block;
+    text-align: center;
+    float: left; 
+    width: 96%;
+    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+    transition: 0.3s;
+    border-radius: 15px;
+    padding: 1%;
+    margin: 2%;
+}
 .card-center{
     background-color: #fafafa;
     box-sizing: border-box;
@@ -424,6 +437,19 @@ input[type="password"] {
     bottom: 0;
     right: 15px;
     border: 3px solid #f1f1f1;
+    z-index: 900;
+    border-radius: 10px 10px 0px 0px;
+    box-shadow: 16px 16px 16px 16px rgba(0,0,0,0.2);
+}
+
+.form-popup-dark {
+    background-color: rgb(0, 0, 0);
+    width: 340px;
+    display: none;
+    position: fixed;
+    bottom: 0;
+    right: 15px;
+    border: 3px solid #000000;
     z-index: 900;
     border-radius: 10px 10px 0px 0px;
     box-shadow: 16px 16px 16px 16px rgba(0,0,0,0.2);

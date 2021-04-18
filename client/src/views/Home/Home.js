@@ -74,19 +74,40 @@ class Home extends React.PureComponent {
   }
 
   render() {
-      return (
-        <div className='homepage'>
-          <div className="search-card-center">
-            <h1>Welcome Foodies!</h1>
-            <p>Discover the best food and drinks in the Mile Square City</p>
-            <label>
-                <input id="search-bar" type="text" name="search" className = "searchFields" placeholder="Search for a restaurant or cuisine" value={this.state.SearchString} onChange={this.onChangeSearch} />
-                <button type="submit" className="btn" onClick={this.submitSearch.bind(this)}>Search</button>
-            </label>
-            <br/>
+    let mode = document.cookie.split('; ').find(row => row.startsWith('mode'))
+    mode = mode.split('=')[1]
+    // console.log(this.props.theme);
+    if(mode == "light"){
+        return (
+          <div className='homepage'>
+            <div className="search-card-center-dark">
+              <h1 style = {{backgroundColor:"#000000"}}>Welcome Foodies!</h1>
+              <p style = {{color:"#b4fffb"}}>Discover the best food and drinks in the Mile Square City</p>
+              <label>
+                  <input id="search-bar"  style={{background: "black"}} type="text" name="search" className = "searchFields" placeholder="Search for a restaurant or cuisine" value={this.state.SearchString} onChange={this.onChangeSearch} />
+                  <button type="submit" className="btn" style = {{color:"#e8e8e8"}} onClick={this.submitSearch.bind(this)}>Search</button>
+              </label>
+              <br/>
+            </div>
           </div>
+        );
+      }
+  else{
+    return (
+      <div className='homepage'>
+        <div className="search-card-center">
+          <h1>Welcome Foodies!</h1>
+          <p>Discover the best food and drinks in the Mile Square City</p>
+          <label>
+              <input id="search-bar" type="text" name="search" className = "searchFields" placeholder="Search for a restaurant or cuisine" value={this.state.SearchString} onChange={this.onChangeSearch} />
+              <button type="submit" className="btn" onClick={this.submitSearch.bind(this)}>Search</button>
+          </label>
+          <br/>
         </div>
-      );
+      </div>
+    );
+
+      }
   }
 }
 

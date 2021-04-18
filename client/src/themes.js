@@ -24,17 +24,3 @@ export const GlobalStyles = createGlobalStyle`
 
 
 `
-
-
-// $('.controllers-dark').addClass('controllers').removeClass('controllers-dark');
-// $('.selected-controllers-dark').addClass('selected-controllers').removeClass('selected-controllers-dark');
-// $('.search-card-center-dark').addClass('search-card-center').removeClass('search-card-center-dark');
-// $('h1').css({"background-color":"#fafafa"});
-// $('h2').css({"background-color":"#fafafa"});
-// $('p').css({"color":"#001514"});
-// $('button').css({"color":"#212529"});
-// $('.searchFields').css({"background":"white"});
-// $('.card').css({"background-color":"#fff"});
-// $('.card-center').css({"background-color":"#fafafa"});
-// $('.card-wide').css({"background-color":"#fafafa"});
-// $('.jumbotron').css({"background-color":"#fafafa"});

@@ -32,17 +32,33 @@ function Profile() {
 // export default Profile;
 class Profile2 extends React.PureComponent {
   render() {
-    var userObject = JSON.parse(window.sessionStorage.getItem("userDetails"));
-    return (
-      <div className='homepage'>
-        <h1>Welcome to your dashboard, {userObject['firstName']}!</h1>
-        {/* <form action={onEnter}>
-          <button type="submit" onClick={onEnter}>Logout</button>
-        </form> */}
-        <EditUserProfile/>
-      </div>
-    );
-  }
+    let mode = document.cookie.split('; ').find(row => row.startsWith('mode'))
+    mode = mode.split('=')[1]
+    if(mode=='light')
+    {
+      var userObject = JSON.parse(window.sessionStorage.getItem("userDetails"));
+      return (
+        <div className='homepage'>
+          <h1 style = {{backgroundColor:"#000000"}}>Welcome to your dashboard, {userObject['firstName']}!</h1>
+          {/* <form action={onEnter}>
+            <button type="submit" onClick={onEnter}>Logout</button>
+          </form> */}
+          <EditUserProfile/>
+        </div>
+      );
+    }
+    else{
+      var userObject = JSON.parse(window.sessionStorage.getItem("userDetails"));
+      return (
+        <div className='homepage'>
+          <h1 style = {{backgroundColor:"#000000"}}>Welcome to your dashboard, {userObject['firstName']}!</h1>
+          {/* <form action={onEnter}>
+            <button type="submit" onClick={onEnter}>Logout</button>
+          </form> */}
+          <EditUserProfile/>
+        </div>
+      );
+    }
 }
-
+}
 export default Profile;
