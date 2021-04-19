@@ -26,6 +26,23 @@ async function showNotification (type, message){
   }
 }
 
+try{
+  const response2 = axios.get(dev_api + '/stats/all')
+  console.log(response2)
+
+}
+catch(err){
+  console.log("This is working but not showing")
+  console.log(err)
+}
+
+
+
+
+// if((response.data.restDetails).length !== 0){
+// }
+
+
 class Home extends React.PureComponent {
   constructor(props){
     super(props);
@@ -43,6 +60,11 @@ class Home extends React.PureComponent {
       SearchString: value
     })
   }
+  // async allApiCall(){
+   
+    
+  // }
+  
 
   async submitSearch(e) {
     e.preventDefault();
@@ -77,6 +99,13 @@ class Home extends React.PureComponent {
       }
     }
   }
+
+  // componentDidMount() {
+  //   this.allApiCall();
+  // }
+    
+
+
 
   render() {
       return (
@@ -151,15 +180,8 @@ class Home extends React.PureComponent {
                 </Alert>
               </Col>
             </Row>
-           
           </Container>
-          
-
-          
         </div>
-        
-
-        
       );
   }
 }
