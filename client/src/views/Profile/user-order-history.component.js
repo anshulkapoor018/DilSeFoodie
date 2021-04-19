@@ -41,136 +41,14 @@ export default class UserOrderHistory extends Component {
     })
   }
   
-<<<<<<< HEAD
   render() {
     var userObject = JSON.parse(window.sessionStorage.getItem("userDetails"));
     if(this.state.allOrders.length === 0){
-=======
-
-
-    render() {
-      this.getData()
-      let mode = document.cookie.split('; ').find(row => row.startsWith('mode'))
-      mode = mode.split('=')[1]
-      if(mode=='light')
-      {
-        if(this.state.allOrders.length > 1){
-          return (
-            
-            <div className='homepage container'>
-              <h1 style = {{backgroundColor:"#000000"}} > Order History for {userObject['firstName']}!</h1>
-            
-              <Table striped bordered hover variant="dark">
-                <thead>
-                  <tr>
-                    <th>Order No#</th>
-                    <th>Restaurant Name</th>
-                    <th>Order Time</th>
-                    <th>Order type</th>
-                    <th>Amount</th>
-                    <th>Quantity</th>
-                    <th>Order Status</th>
-                  
-                  </tr>
-                </thead>
-                <tbody>
-                
-                  {this.state.allOrders.map((item, index) => (
-                  
-                      
-                  // TODO: Find a way to Do a better For Loop to prevent current infinite loop in line:68
-                  // TODO: Find a way to get a better numbering system using counters ++
-                  // TODO: Add restaurant Name to the tabl
-                    <tr>
-                      <td >{item._id}</td>
-                      <td>Coming soon {item.restaurantId}</td>
-                      <td>{item.timeOfOrder}</td>
-                      <td>{item.typeOfOrder}</td>
-                      <td>{item.payment}</td>
-                      <td>1</td>
-                      <td><Button variant="light">{item.orderStatus}</Button></td>
-                    </tr>
-                  
-                    
-                  ))}
-                
-                </tbody>
-              </Table>
-            </div>
-          );
-          
-        }
-        
-        return (
-          <div className='homepage container'>
-            <h1 style = {{backgroundColor:"#000000"}}>Order History for {userObject['firstName']}!</h1>
-            <Alert key={'danger'} variant={'danger'}>
-              No orders Found!
-            
-            </Alert>
-          </div>
-        )
-        
-          
-      }
-    else{
-      if(this.state.allOrders.length > 1){
-        return (
-          
-          <div className='homepage container'>
-            <h1>Order History for {userObject['firstName']}!</h1>
-          
-            <Table striped bordered hover variant="dark">
-              <thead>
-                <tr>
-                  <th>Order No#</th>
-                  <th>Restaurant Name</th>
-                  <th>Order Time</th>
-                  <th>Order type</th>
-                  <th>Amount</th>
-                  <th>Quantity</th>
-                  <th>Order Status</th>
-                
-                </tr>
-              </thead>
-              <tbody>
-              
-                {this.state.allOrders.map((item, index) => (
-                
-                    
-                // TODO: Find a way to Do a better For Loop to prevent current infinite loop in line:68
-                // TODO: Find a way to get a better numbering system using counters ++
-                // TODO: Add restaurant Name to the tabl
-                  <tr>
-                    <td >{item._id}</td>
-                    <td>Coming soon {item.restaurantId}</td>
-                    <td>{item.timeOfOrder}</td>
-                    <td>{item.typeOfOrder}</td>
-                    <td>{item.payment}</td>
-                    <td>1</td>
-                    <td><Button variant="light">{item.orderStatus}</Button></td>
-                  </tr>
-                
-                  
-                ))}
-              
-              </tbody>
-            </Table>
-          </div>
-        );
-        
-      }
-      
->>>>>>> pretty stable need rebase
       return (
         <div className='orderTable'>
           <h1>Order History for {userObject['firstName']}!</h1>
           <Alert key={'danger'} variant={'danger'}>
             No orders Found!
-<<<<<<< HEAD
-=======
-          
->>>>>>> pretty stable need rebase
           </Alert>
         </div>
       )
@@ -189,7 +67,6 @@ export default class UserOrderHistory extends Component {
               </tr>
             </thead>
       
-<<<<<<< HEAD
             <tbody>
               {this.state.allOrders.map((orders) => (
                 <tr key={orders._id}>
@@ -217,10 +94,6 @@ export default class UserOrderHistory extends Component {
           </table>
         </div>
       )
-=======
->>>>>>> pretty stable need rebase
     }
   }       
 }
-}
-
