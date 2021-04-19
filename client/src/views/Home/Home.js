@@ -4,6 +4,11 @@ import axios from 'axios';
 // Notification imports
 import 'react-notifications/lib/notifications.css';
 import {NotificationManager} from 'react-notifications';
+import Alert from 'react-bootstrap/Alert'
+import Container from 'react-bootstrap/Container'
+import Row from 'react-bootstrap/Row'
+import Col from 'react-bootstrap/Col'
+
 const prod_api = 'https://dilsefoodie.herokuapp.com';
 const dev_api = "http://localhost:5000";
 
@@ -85,7 +90,76 @@ class Home extends React.PureComponent {
             </label>
             <br/>
           </div>
+          <br></br><br></br><br></br>
+        
+          <Container>
+          <Col>
+                <Alert variant="light">
+            
+                  <p>
+                    What we do? 
+                  </p>
+                </Alert>
+              </Col>
+            <Row>
+              <Col>
+                <Alert variant="primary">
+            
+                  <p>
+                    We love our customers
+                  </p>
+                  <hr />
+                  <p className="mb-0">
+                    We have 2,000 + Users.
+                  </p>
+                </Alert>
+              </Col>
+              <Col>
+                <Alert variant="success">
+            
+                  <p>
+                    We have multiple partnership 
+                  </p>
+                  <hr />
+                  <p className="mb-0">
+                    We have 8,000 + Restaurants.
+                  </p>
+                </Alert>
+              </Col>
+              <Col>
+                <Alert variant="warning">
+            
+                  <p>
+                    We Offer Pickup and Delivery options 
+                  </p>
+                  <hr />
+                  <p className="mb-0">
+                    We have 4,000 + Orders.
+                  </p>
+                </Alert>
+              </Col>
+              <Col>
+                <Alert variant="dark">
+            
+                  <p>
+                    We appreciate feedbacks always! 
+                  </p>
+                  <hr />
+                  <p className="mb-0">
+                    We have 10,000 + Reviews.
+                  </p>
+                </Alert>
+              </Col>
+            </Row>
+           
+          </Container>
+          
+
+          
         </div>
+        
+
+        
       );
   }
 }
