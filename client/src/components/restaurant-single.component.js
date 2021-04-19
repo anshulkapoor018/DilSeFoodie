@@ -231,15 +231,20 @@ export default class RestaurantsPage extends React.Component {
     return(
       <div className='homepage'>
         <div style ={divStyle} className="card-wide" id ="left">
-          <h1>{restaurant.name}</h1>
-          <p className = "category">{restaurant.category}</p>
-          <p>{restaurant.address}</p>
-          <p>{restaurant.city}, {restaurant.state} {restaurant.zip}</p>
-          <button onClick={this.orderNow.bind(this)}>
-          <Link to={'/orderItems/'+this.resID}>
-              Order Now
-          </Link>
-          </button>
+          <div id="inline"> 
+            <div className="one">
+              <h5>{restaurant.name}</h5>
+              <p className = "category">{restaurant.category}</p>
+              <p>{restaurant.address}</p>
+              <p>{restaurant.city}, {restaurant.state} {restaurant.zip}</p>
+              <button className = "order search" onClick={this.orderNow.bind(this)}>
+                Order Now
+              </button>
+            </div> 
+            <div className="two">
+              <div className="imgRes"><img className = "imgThumb" src={restaurant.thumbnail} alt={restaurant.name}/></div>
+            </div> 
+          </div> 
           <br></br>
           <MapSection location={location} zoomLevel={17} />
         </div>
