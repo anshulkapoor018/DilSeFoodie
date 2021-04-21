@@ -30,7 +30,7 @@ export default function Product({
               imageUrl
             })
           }>
-          +<div>add to cart</div>
+          +
         </div>
       )}
       <div className='orderCard'>

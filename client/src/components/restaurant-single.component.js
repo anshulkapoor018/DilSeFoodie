@@ -157,9 +157,7 @@ export default class RestaurantsPage extends React.Component {
               <p className = "category">{restaurant.category}</p>
               <p>{restaurant.address}</p>
               <p>{restaurant.city}, {restaurant.state} {restaurant.zip}</p>
-              <button className = "order search" onClick={this.orderNow.bind(this)}>
-                Order Now
-              </button>
+              <div id="buttonplace" onClick={this.orderNow.bind(this)}><input type="button" value="Order Now" className="fancybutton" /></div>
             </div> 
             <div className="two">
               <div className="imgRes"><img className = "imgThumb" src={restaurant.thumbnail} alt={restaurant.name}/></div>
