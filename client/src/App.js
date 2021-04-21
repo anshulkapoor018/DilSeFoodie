@@ -33,10 +33,11 @@ function App(props) {
   const [theme, setTheme] = useState('light');
   
   let mode = document.cookie.split('; ').find(row => row.startsWith('mode'))
-  
   if(!mode){
+
     document.cookie = "mode ="+ 'dark'+';';
   }
+  
   
   const themeToggler = (data) => {
     window.localStorage.setItem('theme', data)
@@ -57,6 +58,7 @@ function App(props) {
             <Route path="/res/:id" component={RestaurantsPage} />
             <Route path="/search" component={RestaurantSearch} />
             <Route exact path="/profile" component={Profile} />
+            <Route exact path="/settings" component={settings} />
             <Route exact path="/">
               <Redirect to="/Home"/>
             </Route>

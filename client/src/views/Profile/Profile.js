@@ -51,7 +51,7 @@ class Profile2 extends React.PureComponent {
       var userObject = JSON.parse(window.sessionStorage.getItem("userDetails"));
       return (
         <div className='homepage'>
-          <h1 style = {{backgroundColor:"#000000"}}>Welcome to your dashboard, {userObject['firstName']}!</h1>
+          <h1>Welcome to your dashboard, {userObject['firstName']}!</h1>
           {/* <form action={onEnter}>
             <button type="submit" onClick={onEnter}>Logout</button>
           </form> */}

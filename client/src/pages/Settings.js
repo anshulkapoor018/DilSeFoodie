@@ -50,7 +50,6 @@ body {
 p{
   color: ${getP};
   font-size: ${getFontSize};
-
 }
 
 .switch {

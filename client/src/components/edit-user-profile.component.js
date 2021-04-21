@@ -156,9 +156,9 @@ class EditUserProfile extends React.Component {
             window.sessionStorage.setItem('isLoggedIn', response.data.status);
             window.sessionStorage.setItem('userDetails', JSON.stringify(response.data.userDetails));
         }
-        setTimeout(() => {
-           window.location.reload()
-          }, 1000)
+        // setTimeout(() => {
+        //    window.location.reload()
+        //   }, 1000)
         
     }
 
@@ -185,7 +185,7 @@ class EditUserProfile extends React.Component {
                    
                 
                 </div>
-                <div id="cardData"  className="card-wide" style = {{backgroundColor:"#000000"}} id="right">
+                <div id="cardData"  className="card-wide-dark" style = {{backgroundColor:"#000000"}} id="right">
                     <tr>
                         <td><label htmlFor="firstName">First Name:</label></td>
                         <td><input name="firstName" id="firstName" type="text" value={this.state.firstName} onChange={this.onChangeFirstName} /></td>
