@@ -136,7 +136,7 @@ export default class RestaurantsPage extends React.Component {
     var self = this;
     console.log("Order Food Now!");
     window.sessionStorage.setItem('resID', self.resID);
-    // window.location = "/orderItems/" + self.resID;
+    window.location = "/orderItems/" + self.resID;
   }
   
   render(){
@@ -157,15 +157,18 @@ export default class RestaurantsPage extends React.Component {
     return(
       <div className='homepage'>
         <div style ={divStyle} className="card-wide" style = {{backgroundColor:"#000"}} id ="left">
-          <h1 style = {{backgroundColor:"#000000"}}>{restaurant.name}</h1>
-          <p className = "category" style = {{color:"#b4fffb"}}>{restaurant.category}</p>
-          <p style = {{color:"#b4fffb"}}>{restaurant.address}</p>
-          <p style = {{color:"#b4fffb"}}>{restaurant.city}, {restaurant.state} {restaurant.zip}</p>
-          <button style = {{backgroundColor:"#7adcc6"}} onClick={this.orderNow.bind(this)}>
-            <Link to={'/orderItems/'+this.resID}>
-              Order Now
-            </Link>
-          </button>
+          <div id="inline"> 
+            <div className="one">
+              <h5 style = {{color:"#ffffff"}}>{restaurant.name}</h5>
+              <p className = "category" style = {{color:"#b4fffb"}}>{restaurant.category}</p>
+              <p style = {{color:"#b4fffb"}}>{restaurant.address}</p>
+              <p style = {{color:"#b4fffb"}}>{restaurant.city}, {restaurant.state} {restaurant.zip}</p>
+              <div id="buttonplace" onClick={this.orderNow.bind(this)}><input type="button" value="Order Now" className="fancybutton" /></div>
+            </div> 
+            <div className="two">
+              <div className="imgRes"><img className = "imgThumb" src={restaurant.thumbnail} alt={restaurant.name}/></div>
+            </div> 
+          </div> 
           <br></br>
           <MapSection location={location} zoomLevel={17} />
         </div>
@@ -237,9 +240,7 @@ export default class RestaurantsPage extends React.Component {
               <p className = "category">{restaurant.category}</p>
               <p>{restaurant.address}</p>
               <p>{restaurant.city}, {restaurant.state} {restaurant.zip}</p>
-              <button className = "order search" onClick={this.orderNow.bind(this)}>
-                Order Now
-              </button>
+              <div id="buttonplace" onClick={this.orderNow.bind(this)}><input type="button" value="Order Now" className="fancybutton" /></div>
             </div> 
             <div className="two">
               <div className="imgRes"><img className = "imgThumb" src={restaurant.thumbnail} alt={restaurant.name}/></div>
