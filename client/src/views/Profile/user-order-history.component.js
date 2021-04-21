@@ -42,59 +42,117 @@ export default class UserOrderHistory extends Component {
   }
   
   render() {
-    var userObject = JSON.parse(window.sessionStorage.getItem("userDetails"));
-    if(this.state.allOrders.length === 0){
-      return (
-        <div className='orderTable'>
-          <h1>Order History for {userObject['firstName']}!</h1>
-          <Alert key={'danger'} variant={'danger'}>
-            No orders Found!
-          </Alert>
-        </div>
-      )
-    } else {
-      return (
-        <div className='orderTable'>
-          <table id="orders" width='100%' cellSpacing={0} cellPadding={0}>
-            <thead>
-              <tr>
-                <th>Order ID</th>
-                <th>Restaurant Name</th>
-                <th>Type Of Order</th>
-                <th>Time Of Order</th>
-                <th>Payment</th>
-                <th>Status</th>
-              </tr>
-            </thead>
-      
-            <tbody>
-              {this.state.allOrders.map((orders) => (
-                <tr key={orders._id}>
-                  <td>
-                    {orders._id}
-                  </td>
-                  <td>
-                    {this.state.allres[orders.restaurantId]}
-                  </td>
-                  <td>
-                    {orders.typeOfOrder}
-                  </td>
-                  <td>
-                    {orders.timeOfOrder}
-                  </td>
-                  <td>
-                    {orders.payment}
-                  </td>
-                  <td>
-                    {orders.orderStatus}
-                  </td>
+    let mode = document.cookie.split('; ').find(row => row.startsWith('mode'))
+    mode = mode.split('=')[1]
+    if(mode==='light')
+      {
+      var userObject = JSON.parse(window.sessionStorage.getItem("userDetails"));
+      if(this.state.allOrders.length === 0){
+        return (
+          <div className='orderTable'>
+            <h1 style = {{backgroundColor: '#000000'}}>Order History for {userObject['firstName']}!</h1>
+            <Alert key={'danger'} variant={'danger'}>
+              No orders Found!
+            </Alert>
+          </div>
+        )
+      } else {
+        return (
+          <div className='orderTable'>
+            <table id="orders" width='100%' cellSpacing={0} cellPadding={0}>
+              <thead>
+                <tr>
+                  <th>Order ID</th>
+                  <th>Restaurant Name</th>
+                  <th>Type Of Order</th>
+                  <th>Time Of Order</th>
+                  <th>Payment</th>
+                  <th>Status</th>
                 </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
-      )
+              </thead>
+        
+              <tbody>
+                {this.state.allOrders.map((orders) => (
+                  <tr style = {{backgroundColor: '#1b1b1b'}} key={orders._id}>
+                    <td>
+                      {orders._id}
+                    </td>
+                    <td>
+                      {this.state.allres[orders.restaurantId]}
+                    </td>
+                    <td>
+                      {orders.typeOfOrder}
+                    </td>
+                    <td>
+                      {orders.timeOfOrder}
+                    </td>
+                    <td>
+                      {orders.payment}
+                    </td>
+                    <td>
+                      {orders.orderStatus}
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        )
+      }
+    }else{
+      var userObject = JSON.parse(window.sessionStorage.getItem("userDetails"));
+      if(this.state.allOrders.length === 0){
+        return (
+          <div className='orderTable'>
+            <h1>Order History for {userObject['firstName']}!</h1>
+            <Alert key={'danger'} variant={'danger'}>
+              No orders Found!
+            </Alert>
+          </div>
+        )
+      } else {
+        return (
+          <div className='orderTable'>
+            <table id="orders" width='100%' cellSpacing={0} cellPadding={0}>
+              <thead>
+                <tr>
+                  <th>Order ID</th>
+                  <th>Restaurant Name</th>
+                  <th>Type Of Order</th>
+                  <th>Time Of Order</th>
+                  <th>Payment</th>
+                  <th>Status</th>
+                </tr>
+              </thead>
+        
+              <tbody>
+                {this.state.allOrders.map((orders) => (
+                  <tr key={orders._id}>
+                    <td>
+                      {orders._id}
+                    </td>
+                    <td>
+                      {this.state.allres[orders.restaurantId]}
+                    </td>
+                    <td>
+                      {orders.typeOfOrder}
+                    </td>
+                    <td>
+                      {orders.timeOfOrder}
+                    </td>
+                    <td>
+                      {orders.payment}
+                    </td>
+                    <td>
+                      {orders.orderStatus}
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        )
     }
   }       
 }
-
+}

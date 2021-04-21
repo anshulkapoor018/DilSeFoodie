@@ -20,13 +20,6 @@ export const SidebarData = [
     iconOpened: <RiIcons.RiArrowUpSFill />,
   },
   {
-    title: 'Accessibility',
-    path: '/settings',
-    icon: <IoIcons.IoIosPaper />,
-    iconClosed: <RiIcons.RiArrowDownSFill />,
-    iconOpened: <RiIcons.RiArrowUpSFill />,
-  },
-  {
     title: 'Orders',
     path: '/order-history',
     icon: <FaIcons.FaCartPlus />
