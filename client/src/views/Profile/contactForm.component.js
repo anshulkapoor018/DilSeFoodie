@@ -115,7 +115,7 @@ export default class ContactUs extends React.PureComponent {
     render(){
         let mode = document.cookie.split('; ').find(row => row.startsWith('mode'))
         mode = mode.split('=')[1]
-        if(mode=='light')
+        if(mode==='light')
         {
         return(
             <div>

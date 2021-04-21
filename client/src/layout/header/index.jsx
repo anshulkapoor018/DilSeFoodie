@@ -8,22 +8,47 @@ export default function Header({}) {
   const currentResID = window.sessionStorage.getItem('resID');
   const currentResStore = '/orderItems/' + currentResID;
   const currentResPage = '/res/' + currentResID;
-  return (
-    <div className='__dml header'>
-      <ul>
-        <li>
-          <Link className = "orderLink" to={currentResPage}>Restaurant</Link>
-        </li>
+  let mode = document.cookie.split('; ').find(row => row.startsWith('mode'))
+  mode = mode.split('=')[1]
+  if(mode==='light')
+  {
+    return (
+      <div className='__dml header'>
+        <ul>
+          <li>
+            <Link className = "orderLink" style = {{color:'white'}} to={currentResPage}>Restaurant</Link>
+          </li>
 
-        <li>
-          <Link className = "orderLink" to={currentResStore}>Store</Link>
-        </li>
+          <li>
+            <Link className = "orderLink" style = {{color:'white'}} to={currentResStore}>Store</Link>
+          </li>
 
-        <li>
-          <Link className = "orderLink" to='/cart'>Cart:</Link> (
-          {cartItems.reduce((acc, item) => acc + item.qty, 0)})
-        </li>
-      </ul>
-    </div>
-  );
+          <li>
+            <Link className = "orderLink" style = {{color:'white'}} to='/cart'>Cart:</Link> (
+            {cartItems.reduce((acc, item) => acc + item.qty, 0)})
+          </li>
+        </ul>
+      </div>
+    );
+  }
+  else{
+    return (
+      <div className='__dml header'>
+        <ul>
+          <li>
+            <Link className = "orderLink" to={currentResPage}>Restaurant</Link>
+          </li>
+
+          <li>
+            <Link className = "orderLink" to={currentResStore}>Store</Link>
+          </li>
+
+          <li>
+            <Link className = "orderLink" to='/cart'>Cart:</Link> (
+            {cartItems.reduce((acc, item) => acc + item.qty, 0)})
+          </li>
+        </ul>
+      </div>
+    );
+  }
 }

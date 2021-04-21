@@ -122,7 +122,7 @@ class Restaurants extends React.Component {
   render(){
     let mode = document.cookie.split('; ').find(row => row.startsWith('mode'))
     mode = mode.split('=')[1]
-    if(mode=='light')
+    if(mode==='light')
     {
       return(
         <div className='cards'>

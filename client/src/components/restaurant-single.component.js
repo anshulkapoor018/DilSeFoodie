@@ -4,6 +4,8 @@ import './restaurant-single.component.css';
 import MapSection from '../Static/GoogleMaps';
 import StarRatings from 'react-star-ratings';
 import {NotificationManager} from 'react-notifications';
+import { Link } from 'react-router-dom';
+
 
 const prod_api = 'https://dilsefoodie.herokuapp.com';
 const dev_api = "http://localhost:5000";
@@ -134,7 +136,7 @@ export default class RestaurantsPage extends React.Component {
     var self = this;
     console.log("Order Food Now!");
     window.sessionStorage.setItem('resID', self.resID);
-    window.location = "/orderItems/" + self.resID;
+    // window.location = "/orderItems/" + self.resID;
   }
   
   render(){
@@ -150,7 +152,7 @@ export default class RestaurantsPage extends React.Component {
     };
     let mode = document.cookie.split('; ').find(row => row.startsWith('mode'))
     mode = mode.split('=')[1]
-    if(mode=='light')
+    if(mode==='light')
     {
     return(
       <div className='homepage'>
@@ -159,8 +161,10 @@ export default class RestaurantsPage extends React.Component {
           <p className = "category" style = {{color:"#b4fffb"}}>{restaurant.category}</p>
           <p style = {{color:"#b4fffb"}}>{restaurant.address}</p>
           <p style = {{color:"#b4fffb"}}>{restaurant.city}, {restaurant.state} {restaurant.zip}</p>
-          <button onClick={this.orderNow.bind(this)}>
-            Order Now
+          <button style = {{backgroundColor:"#7adcc6"}} onClick={this.orderNow.bind(this)}>
+            <Link to={'/orderItems/'+this.resID}>
+              Order Now
+            </Link>
           </button>
           <br></br>
           <MapSection location={location} zoomLevel={17} />
@@ -232,7 +236,9 @@ export default class RestaurantsPage extends React.Component {
           <p>{restaurant.address}</p>
           <p>{restaurant.city}, {restaurant.state} {restaurant.zip}</p>
           <button onClick={this.orderNow.bind(this)}>
-            Order Now
+          <Link to={'/orderItems/'+this.resID}>
+              Order Now
+          </Link>
           </button>
           <br></br>
           <MapSection location={location} zoomLevel={17} />

@@ -23,9 +23,10 @@ import CheckoutPage from './pages/checkout';
 const StyledApp = styled.div`
   color: ${(props) => props.theme.fontColor};
   background-image:  url('${props => props.theme.background}');
-  background-size:100%;
+  background-size: cover;
   background-attachment:fixed;
-  min-height:1080px;
+  min-height:170vh;
+  overflow: hidden;
   `;
 
 

@@ -1,5 +1,7 @@
 import React from 'react';
 import axios from 'axios';
+import { Link } from 'react-router-dom';
+
 
 // Notification imports
 import 'react-notifications/lib/notifications.css';
@@ -84,8 +86,10 @@ class Home extends React.PureComponent {
               <h1 style = {{backgroundColor:"#000000"}}>Welcome Foodies!</h1>
               <p style = {{color:"#b4fffb"}}>Discover the best food and drinks in the Mile Square City</p>
               <label>
-                  <input id="search-bar"  style={{background: "black"}} type="text" name="search" className = "searchFieldsDark" placeholder="Search for a restaurant or cuisine" value={this.state.SearchString} onChange={this.onChangeSearch} />
-                  <button type="submit" className="btn" style = {{color:"#e8e8e8"}} onClick={this.submitSearch.bind(this)}>Search</button>
+                  <input id="search-bar"  style={{background: "black", color: "#ffffff"}} type="text" name="search" className = "searchFields" placeholder="Search for a restaurant or cuisine" value={this.state.SearchString} onChange={this.onChangeSearch} />
+                  <button type="submit" className="btn" style = {{color:"#e8e8e8"}} onClick={this.submitSearch.bind(this)}>
+                    Search
+                  </button>
               </label>
               <br/>
             </div>

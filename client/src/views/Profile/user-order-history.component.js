@@ -44,7 +44,7 @@ export default class UserOrderHistory extends Component {
   render() {
     let mode = document.cookie.split('; ').find(row => row.startsWith('mode'))
     mode = mode.split('=')[1]
-    if(mode=='light')
+    if(mode==='light')
       {
       var userObject = JSON.parse(window.sessionStorage.getItem("userDetails"));
       if(this.state.allOrders.length === 0){

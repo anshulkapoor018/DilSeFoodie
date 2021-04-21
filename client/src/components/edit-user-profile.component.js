@@ -166,7 +166,7 @@ class EditUserProfile extends React.Component {
     let mode = document.cookie.split('; ').find(row => row.startsWith('mode'))
     mode = mode.split('=')[1]
     // console.log(JSON.stringify(this.props))
-    if(mode=='light')
+    if(mode==='light')
     {
       return (
         <div className = "card-center" style={{backgroundColor: "rgb(0, 0, 0)"}}>
