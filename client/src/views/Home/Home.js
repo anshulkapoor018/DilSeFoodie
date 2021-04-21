@@ -1,3 +1,4 @@
+/* eslint-disable no-undef */
 import React from 'react';
 import axios from 'axios';
 
@@ -8,9 +9,19 @@ import Alert from 'react-bootstrap/Alert'
 import Container from 'react-bootstrap/Container'
 import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
+import JSONTransport from 'nodemailer/lib/json-transport';
 
 const prod_api = 'https://dilsefoodie.herokuapp.com';
 const dev_api = "http://localhost:5000";
+
+// let or3 = awaitcall2()
+// console.log(or3, "OR3")
+// console.log( call_on())
+// let res3 = call_on().res3
+// let us3 = call_on().us3
+
+
+
 
 // This calls our notification handler
 async function showNotification (type, message){
@@ -26,21 +37,15 @@ async function showNotification (type, message){
   }
 }
 
-try{
-  const response2 = axios.get(dev_api + '/stats/all')
-  console.log(response2)
 
-}
-catch(err){
-  console.log("This is working but not showing")
-  console.log(err)
-}
+// Getting our data from DB
 
-
-
-
-// if((response.data.restDetails).length !== 0){
+// async function call2 (){
+//   return await call_on()
 // }
+
+// console.log(call2 ())
+
 
 
 class Home extends React.PureComponent {
@@ -48,6 +53,7 @@ class Home extends React.PureComponent {
     super(props);
     this.state={
       SearchString: "",
+      stats: [],
     };
     this.submitSearch = this.submitSearch.bind(this);
     this.onChangeSearch = this.onChangeSearch.bind(this);
@@ -60,12 +66,11 @@ class Home extends React.PureComponent {
       SearchString: value
     })
   }
-  // async allApiCall(){
-   
-    
-  // }
+  async componentDidMount(){
+    const response2 = await axios.post(dev_api + '/stats/all');
+    this.setState({stats: response2.data})
+  }
   
-
   async submitSearch(e) {
     e.preventDefault();
 
@@ -100,9 +105,7 @@ class Home extends React.PureComponent {
     }
   }
 
-  // componentDidMount() {
-  //   this.allApiCall();
-  // }
+  
     
 
 
@@ -139,7 +142,7 @@ class Home extends React.PureComponent {
                   </p>
                   <hr />
                   <p className="mb-0">
-                    We have 2,000 + Users.
+                    We have { this.state.stats.user1} + Users.
                   </p>
                 </Alert>
               </Col>
@@ -151,7 +154,7 @@ class Home extends React.PureComponent {
                   </p>
                   <hr />
                   <p className="mb-0">
-                    We have 8,000 + Restaurants.
+                    We have { this.state.stats.Allrestr} + Restaurants.
                   </p>
                 </Alert>
               </Col>
@@ -163,7 +166,7 @@ class Home extends React.PureComponent {
                   </p>
                   <hr />
                   <p className="mb-0">
-                    We have 4,000 + Orders.
+                    We have { this.state.stats.orders} + Orders.
                   </p>
                 </Alert>
               </Col>
@@ -175,7 +178,7 @@ class Home extends React.PureComponent {
                   </p>
                   <hr />
                   <p className="mb-0">
-                    We have 10,000 + Reviews.
+                    We have { this.state.stats.rev} + Reviews.
                   </p>
                 </Alert>
               </Col>

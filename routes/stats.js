@@ -10,32 +10,35 @@ let Restaurant = require('../models/restaurant.model');
 
 // Getting the stats data from DB 
 router.route('/all').post((req, res) => {  
- 
-    var total_ords = 0;
-    var total_res = 0;
-    res.send({orders: "Working"})
+  let Allrestr;
+  let orders;
+  let user1;
+  let rev;
    
-    // Order.find({}, function(err, orders){
-    //     if(err){
-    //         console.log(err)
-    //     }
-    //     orders.forEach(function(order){
-    //         total_ords+=1
-    //     });
-    // })
+  Order.count({}, function(err, orders){
+      if(err){
+          console.log(err)
+      }
+      Restaurant.count({}, function(err, Allrestr){
+        if(err){
+          console.log(err)
+        }
 
-    // Restaurant.find({}, function(err, Allrestr){
-    //     if(err){
-    //       console.log(err)
-    //     }
-    //     Allrestr.forEach(function(k){
-    //         total_res += 1
-    //     })
-    // })
+        User.count({}, function(err, user1){
+          if(err){
+            console.log(err)
+          }
 
-    // console.log(total_ords, total_res)
-    // res.send({orders: total_ords, Allrestr: total_res})
+          Review.count({}, function(err, rev){
+            if(err){
+              console.log(err)
+            }
+            res.send({orders: orders, Allrestr: Allrestr, user1: user1, rev: rev})
+          })
+        })
+      })
   })
+})
 
 
 module.exports = router;
