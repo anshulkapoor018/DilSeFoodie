@@ -123,7 +123,7 @@ function getInitialTheme(){
 }
 
 // This function acts as a component that displays the button for change of state of accessibility features
-export const Dark = () => {
+const Dark = () => {
   const [theme, setTheme] = useState(getInitialTheme) // Using reack hooks to manage state
   useEffect( 
     () => {
@@ -156,3 +156,5 @@ export const Dark = () => {
     </ThemeProvider>
   );
 };
+
+export default Dark

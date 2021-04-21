@@ -58,16 +58,10 @@ function App(props) {
             <Route path="/res/:id" component={RestaurantsPage} />
             <Route path="/search" component={RestaurantSearch} />
             <Route exact path="/profile" component={Profile} />
-            <Route exact path="/settings" component={settings} />
             <Route exact path="/">
               <Redirect to="/Home"/>
             </Route>
-            <Route exact path="/contact">
-              <Redirect to="/profile"/>
-            </Route>
-            <Route exact path="/order-history">
-              <Redirect to="/profile"/>
-            </Route>
+           
             <Layout>
             <Switch>
               <Route path='/orderItems/:id'>
