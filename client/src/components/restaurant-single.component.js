@@ -166,7 +166,7 @@ export default class RestaurantsPage extends React.Component {
               <div id="buttonplace" onClick={this.orderNow.bind(this)}><input type="button" value="Order Now" className="fancybutton" /></div>
             </div> 
             <div className="two">
-              <div className="imgRes"><img className = "imgThumb" src={restaurant.thumbnail} alt={restaurant.name}/></div>
+              <div className="imgRes"><img className = "imgThumb" style = {{filter: "drop-shadow(5px 5px 5px #ffffff)"}} src={restaurant.thumbnail} alt={restaurant.name}/></div>
             </div> 
           </div> 
           <br></br>
