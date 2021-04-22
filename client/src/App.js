@@ -47,7 +47,7 @@ function App(props) {
 
   return (
     <ThemeProvider theme = {theme ==="light" ? lightTheme: darkTheme}>
-    <GlobalStyles />
+      <GlobalStyles />
       <StyledApp>  
         <CartContext.Provider value={useCart([])}>
           <Router>
