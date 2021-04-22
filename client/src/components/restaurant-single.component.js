@@ -4,7 +4,6 @@ import './restaurant-single.component.css';
 import MapSection from '../Static/GoogleMaps';
 import StarRatings from 'react-star-ratings';
 import {NotificationManager} from 'react-notifications';
-import { Link } from 'react-router-dom';
 
 
 const prod_api = 'https://dilsefoodie.herokuapp.com';

@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import Cart from '../../cart';
 import axios from 'axios';
 import Header from '../../layout/header';
 import './styles.css';

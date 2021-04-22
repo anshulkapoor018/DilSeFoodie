@@ -2,7 +2,6 @@ import React from 'react';
 import axios from 'axios';
 import Product from './product';
 import Header from '../../layout/header';
-import products from '../../data/products.json';
 const prod_api = 'https://dilsefoodie.herokuapp.com';
 const dev_api = "http://localhost:5000";
 
