@@ -37,12 +37,14 @@ connection.once('open', () => {
 
 const usersRouter = require('./routes/users');
 const ordersRouter = require('./routes/orders');
+const statsRouter = require('./routes/stats');
 const restaurentsRouter = require('./routes/restaurants');
 const reviewsRouter = require('./routes/reviews');
 const foodItemsRouter = require('./routes/foodItems');
 
 app.use('/user', usersRouter);
 app.use('/order', ordersRouter);
+app.use('/stats', statsRouter);
 app.use('/restaurant', restaurentsRouter);
 app.use('/review', reviewsRouter);
 app.use('/menu', foodItemsRouter);

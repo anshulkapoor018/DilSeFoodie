@@ -318,6 +318,7 @@ router.route('/contact').post((req, res) => {
 
 // This gets all the order for a user with UserID and Email
 router.route('/order-history-all').post((req, res) => {  
+  
  
   var totalOrders = [];
   var total_res = [];
