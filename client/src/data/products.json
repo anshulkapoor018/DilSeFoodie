@@ -327,7 +327,35 @@
     "restaurantId": "6068c39fab551d4fd3e16e6f",
     "name": "Creamed Spinach",
     "price": "11.00",
-    "imageUrl": "https://www.onceuponachef.com/images/2019/12/Creamed-Spinach-scaled.jpg0",
+    "imageUrl": "https://www.spendwithpennies.com/wp-content/uploads/2018/11/SpendWithPennies-Creamed-Spinach-25-500x500.jpg",
     "description": "a ruth’s classic"
+  },
+  {
+    "restaurantId": "6068c39fab551d4fd3e16e72",
+    "name": "Chicken Biryani",
+    "price": "15.99",
+    "imageUrl": "https://res.cloudinary.com/helpinghands101/image/upload/v1619027469/Biryani_gq7tox.webp",
+    "description": "Chicken Biryani"
+  },
+  {
+    "restaurantId": "6068c39fab551d4fd3e16e72",
+    "name": "Bhel Puri",
+    "price": "4.99",
+    "imageUrl": "https://res.cloudinary.com/helpinghands101/image/upload/v1619027469/Bhel_Puri_jdijff.jpg",
+    "description": "Bhel Puri"
+  },
+  {
+    "restaurantId": "6068c39fab551d4fd3e16e72",
+    "name": "Tandoori Shrimp",
+    "price": "11.99",
+    "imageUrl": "https://res.cloudinary.com/helpinghands101/image/upload/v1619027469/Tandoori_Shrimp_yuqeai.jpg",
+    "description": "Tandoori Shrimp"
+  },
+  {
+    "restaurantId": "6068c39fab551d4fd3e16e72",
+    "name": "Samosa",
+    "price": "5.99",
+    "imageUrl": "https://res.cloudinary.com/helpinghands101/image/upload/v1619027469/Samosa_ly1dpn.webp",
+    "description": "Samosas"
   }
 ]

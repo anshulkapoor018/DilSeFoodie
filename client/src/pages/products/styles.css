@@ -44,7 +44,6 @@
   top: calc(50% - 100px / 2);
   left: calc(50% - 100px / 2);
   font-size: 4rem;
-  padding: 1rem;
   border: 1px solid grey;
   background-color: white;
 }

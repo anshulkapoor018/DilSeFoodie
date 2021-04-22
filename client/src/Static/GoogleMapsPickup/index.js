@@ -57,7 +57,7 @@ class MapContainer extends React.Component {
         className="map"
         google={this.props.google}
         onClick={this.onMapClicked}
-        style={{ height: '100%', position: 'relative', width: '100%' }}
+        style={{ height: '100%', position: 'relative', width: '95%'}}
         initialCenter = { coords }
         zoom={14}>
         {this.state.restList.map((item, index) => (
@@ -76,12 +76,6 @@ class MapContainer extends React.Component {
             <h1>{this.state.selectedPlace.name}</h1>
           </div>
         </InfoWindow>
-
-        {/* <InfoWindow position={{ lat: 37.765703, lng: -122.42564 }} visible>
-          <small>
-            Click on any of the markers to display an additional info.
-          </small>
-        </InfoWindow> */}
       </Map>
     );
   }

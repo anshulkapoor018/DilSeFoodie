@@ -644,3 +644,66 @@ input[type="password"] {
         float: right;
     }
 }
+
+#inline {
+    width:100%;
+    display:flex;
+    height:auto;
+} 
+
+.one {
+    width:50%;
+    float: left;
+    height:200px;
+    margin:1px;
+} 
+
+.two {
+    width:50%;
+    float: right;
+    height:200px;
+    margin:1px;
+} 
+
+.imgRes {
+    float:right;
+    /* height:auto; */
+}
+
+.imgThumb {
+    width: 250px;
+    height: 200px;
+    filter: drop-shadow(5px 5px 5px #222);
+}
+/* Order BUTTON */
+#buttonplace {
+    text-align:center;
+    padding:5px;
+}
+.fancybutton {
+    display:inline block;
+    border: none;
+    width:180px;
+    height: 50px;
+    font-size:25px;
+    color: #FFF;
+    cursor: pointer;
+    box-shadow:  4px 4px orange,4px 4px orange;;
+    background: linear-gradient(#fa6400,red);
+    background: -webkit-linear-gradient(#fa6400,red);
+    border-bottom:orange;
+    border-radius:4px;
+}
+
+.fancybutton:hover {
+    background:linear-gradient(#ff5f00,orangered);
+    background:-webkit-linear-gradient(#ff5f00,orangered);
+}
+
+.fancybutton:active {
+    box-shadow:  3px 7px orange;
+    margin-top: 3px;
+    margin-bottom:-3px;
+    background:orangered;
+    right:-5px;
+}
