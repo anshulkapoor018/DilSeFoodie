@@ -1,10 +1,25 @@
-import React from 'react';
+import React, {useState} from 'react';
 import { Link } from 'react-router-dom';
 import './navbar.component.css';
+import styled,{ThemeProvider} from "styled-components";
+import {lightTheme, darkTheme, GlobalStyles} from "../themes.js";
+import $ from 'jquery'; 
 
-const NavBar = () => {
+
+const NavBar = (props) => {
     let path = '/user';
     let name = 'Signup';
+    
+   
+    const handleChange = event => {
+        var x;
+        props.data === "light" ? x="dark" : x="light";
+        props.onchange(x);
+        document.cookie = "mode ="+ props.data+';';
+      
+    }
+
+    
 
     if (window.sessionStorage.getItem('isLoggedIn') === null || window.sessionStorage.getItem('isLoggedIn') === 'false'){
         path = path;
@@ -27,6 +42,10 @@ const NavBar = () => {
                 <Link className = "nav-link" to='/Home'>Home</Link>
                 <Link className = "nav-link" to='/restaurants'>Restaurant</Link>
                 <Link className = "nav-link" to={path}>{name}</Link>
+                <label class="switch">
+                <input type="checkbox"  onClick= {handleChange}/>
+                <span class="slider round"/>
+                </label>
             </div>
         </div>
     )

@@ -30,10 +30,14 @@ export default class ProductsPage extends React.Component {
   }
 
   render(){
+    let mode = document.cookie.split('; ').find(row => row.startsWith('mode'))
+    mode = mode.split('=')[1]
+    if(mode==='light')
+    {
     return(
     <>
       <Header />
-      <h1>Welcome to our Food Menu!</h1>
+      <h1 style = {{backgroundColor:"#000000"}}>Welcome to our Food Menu!</h1>
       <div className='products'>
         {this.state.restaurantList.map((product, index) => (
           <Product key={index} {...product} />
@@ -42,4 +46,18 @@ export default class ProductsPage extends React.Component {
     </>
     )
   }
+  else{
+    return(
+      <>
+        <Header />
+        <h1>Welcome to our Food Menu!</h1>
+        <div className='products'>
+          {this.state.restaurantList.map((product, index) => (
+            <Product key={index} {...product} />
+          ))}
+        </div>
+      </>
+      )
+  }
+}
 }

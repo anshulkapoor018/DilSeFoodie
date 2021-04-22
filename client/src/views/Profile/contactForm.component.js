@@ -113,6 +113,42 @@ export default class ContactUs extends React.PureComponent {
     }
 
     render(){
+        let mode = document.cookie.split('; ').find(row => row.startsWith('mode'))
+        mode = mode.split('=')[1]
+        if(mode==='light')
+        {
+        return(
+            <div>
+                <h1 style = {{backgroundColor:"#000000"}}>Submit a request or Complain</h1>
+                <div className="container">
+                    <form>
+                            <div className="row pt-5 mx-auto">
+                                <div className="col-8 form-group mx-auto">
+                                    <label htmlFor="name">Name</label>
+                                    <input type="text" className="form-control" onChange={this.onChangeName} value={this.state.name} placeholder="Name" name="name" disabled="disabled"/>
+                                </div>
+                                <div className="col-8 form-group pt-2 mx-auto">
+                                    <label htmlFor="email">Email</label>
+                                    <input type="email" className="form-control" onChange={this.onChangeEmail} value={this.state.email} placeholder="Email Address" name="email" disabled="disabled"/>
+                                </div>
+                                <div className="col-8 form-group pt-2 mx-auto">
+                                    <label htmlFor="subject">Enter a Subject</label>
+                                    <input type="text" className="form-control" onChange={this.onChangeSubject} value={this.state.Subject} placeholder="Subject" name="subject"/>
+                                </div>
+                                <div className="col-8 form-group pt-2 mx-auto">
+                                    <label htmlFor="message">Type a Message</label>
+                                    <textarea className="form-control" id="" cols="30" rows="8" onChange={this.onChangeMessage} value={this.state.message} placeholder="Your message" name="message"></textarea>
+                                </div>
+                                <div className="col-8 pt-3 mx-auto">
+                                    <input type="submit" className="btn btn-info" onClick={this.onSubmitForm.bind(this)} placeholder="Send Message" value="Send Message"></input>
+                                </div>
+                            </div>
+                    </form>
+                </div>
+            </div>
+        )
+    }
+    else{
         return(
             <div>
                 <h1>Submit a request or Complain</h1>
@@ -144,4 +180,5 @@ export default class ContactUs extends React.PureComponent {
             </div>
         )
     }
+}
 }

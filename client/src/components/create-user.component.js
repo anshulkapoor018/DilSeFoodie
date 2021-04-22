@@ -44,37 +44,71 @@ export default class AuthCredentials extends Component {
       window.location = "/profile"
     }
     else{
-      return(
-        <div className="root-container">
-          <div className="box-controller">
-            <div
-              className={"controller " + (this.state.isLoginOpen
-              ? "selected-controller"
-              : "")}
-              onClick={this
-              .showLoginBox
-              .bind(this)}>
-              Login
+      let mode = document.cookie.split('; ').find(row => row.startsWith('mode'))
+      mode = mode.split('=')[1]
+      // console.log(this.props.theme);
+      if(mode == "light")
+        {
+        return(
+          <div className="root-container">
+            <div className="box-controller">
+              <div
+                className={"controller-dark " + (this.state.isLoginOpen
+                ? "selected-controller-dark"
+                : "")}
+                onClick={this
+                .showLoginBox
+                .bind(this)}>
+                Login
+              </div>
+              <div
+                className={"controller-dark " + (this.state.isRegisterOpen
+                ? "selected-controller-dark"
+                : "")}
+                onClick={this
+                .showRegisterBox
+                .bind(this)}>
+                Register
+              </div>
             </div>
-            <div
-              className={"controller " + (this.state.isRegisterOpen
-              ? "selected-controller"
-              : "")}
-              onClick={this
-              .showRegisterBox
-              .bind(this)}>
-              Register
+            <div className="box-container-dark">
+              {this.state.isLoginOpen && <LoginBox/>}
+              {this.state.isRegisterOpen && <RegisterBox/>}
             </div>
           </div>
-          <div className="box-container">
-            {this.state.isLoginOpen && <LoginBox/>}
-            {this.state.isRegisterOpen && <RegisterBox/>}
+        )
+      }
+      else{
+        return(
+          <div className="root-container">
+            <div className="box-controller">
+              <div
+                className={"controller " + (this.state.isLoginOpen
+                ? "selected-controller"
+                : "")}
+                onClick={this
+                .showLoginBox
+                .bind(this)}>
+                Login
+              </div>
+              <div
+                className={"controller " + (this.state.isRegisterOpen
+                ? "selected-controller"
+                : "")}
+                onClick={this
+                .showRegisterBox
+                .bind(this)}>
+                Register
+              </div>
+            </div>
+            <div className="box-container">
+              {this.state.isLoginOpen && <LoginBox/>}
+              {this.state.isRegisterOpen && <RegisterBox/>}
+            </div>
           </div>
-        </div>
-      )
-
+        )
+      }
     }
-    
   }
 }
 
@@ -161,49 +195,97 @@ class LoginBox extends React.Component {
   }
   
   render() {
-   
-    return (
-      <div className="inner-container">
-        <div className="box">
-          <form>
-            <div className="input-group">
-              <label htmlFor="email">Email</label>
-              <input type="text" name="email" className="login-input" value={this.state.email}
-                onChange={this.onChangeEmail}placeholder="Email"/>
-            </div>
+    let mode = document.cookie.split('; ').find(row => row.startsWith('mode'))
+    mode = mode.split('=')[1]
+    // console.log(this.props.theme);
+    if(mode == "light")
+      {
+      return (
+          <div className="inner-container">
+            <div className="box">
+              <form>
+                <div className="input-group">
+                  <label htmlFor="email">Email</label>
+                  <input type="text" name="email" style={{color: "#ffffff"}} className="login-input" value={this.state.email}
+                    onChange={this.onChangeEmail}placeholder="Email"/>
+                </div>
 
-            <div className="input-group">
-              <label htmlFor="password">Password</label>
-              <input
-                type="password"
-                name="password"
-                className="login-input"
-                value={this.state.password}
-                onChange={this.onChangePassword}
-                placeholder="Password"/>
-            </div>
+                <div className="input-group">
+                  <label htmlFor="password">Password</label>
+                  <input
+                    type="password"
+                    name="password"
+                    className="login-input"
+                    value={this.state.password}
+                    onChange={this.onChangePassword}
+                    style={{color: "#ffffff"}}
+                    placeholder="Password"/>
+                </div>
 
-            <button
-              type="submit"
-              className="login-btn"
-              onClick={this
-              .submitLogin
-              .bind(this)}>Login</button>
-          </form>
-          <br/>
-          
-          {this.state.err_status ? <div class="alert alert-danger" role="alert">
-            {this.state.message}
-          </div> : ""}
-          {this.state.succes_status ? <div class="alert alert-success" role="alert">
-            {this.state.message}
-          </div> : ""}
-               
+                <button
+                  type="submit"
+                  className="login-btn"
+                  style = {{color:"#e8e8e8"}}
+                  onClick={this
+                  .submitLogin
+                  .bind(this)}>Login</button>
+              </form>
+              <br/>
+              
+              {this.state.err_status ? <div class="alert alert-danger" role="alert">
+                {this.state.message}
+              </div> : ""}
+              {this.state.succes_status ? <div class="alert alert-success" role="alert">
+                {this.state.message}
+              </div> : ""}
+                  
+            </div>
+          </div>
+        );
+  }else
+    {
+      return (
+        <div className="inner-container">
+          <div className="box">
+            <form>
+              <div className="input-group">
+                <label htmlFor="email">Email</label>
+                <input type="text" name="email" className="login-input" value={this.state.email}
+                  onChange={this.onChangeEmail}placeholder="Email"/>
+              </div>
+
+              <div className="input-group">
+                <label htmlFor="password">Password</label>
+                <input
+                  type="password"
+                  name="password"
+                  className="login-input"
+                  value={this.state.password}
+                  onChange={this.onChangePassword}
+                  placeholder="Password"/>
+              </div>
+
+              <button
+                type="submit"
+                className="login-btn"
+                onClick={this
+                .submitLogin
+                .bind(this)}>Login</button>
+            </form>
+            <br/>
+            
+            {this.state.err_status ? <div class="alert alert-danger" role="alert">
+              {this.state.message}
+            </div> : ""}
+            {this.state.succes_status ? <div class="alert alert-success" role="alert">
+              {this.state.message}
+            </div> : ""}
+                
+          </div>
         </div>
-      </div>
-    );
+      );
   }
-
+  }
 }
 
 //Register Box 
@@ -311,6 +393,76 @@ class RegisterBox extends React.Component {
   }
 
   render() {
+    let mode = document.cookie.split('; ').find(row => row.startsWith('mode'))
+    mode = mode.split('=')[1]
+    // console.log(this.props.theme);
+    if(mode == "light")
+    {
+      return (
+        <div className="inner-container">
+          <div className="box">
+            <form>
+              <div className="input-group">
+                <label htmlFor="firstName">First Name</label>
+                <input
+                  type="text"
+                  name="firstName"
+                  className="login-input"
+                  value={this.state.firstName}
+                  onChange={this.onChangeFirstName}
+                  style={{color: "#ffffff"}}
+                  placeholder="First Name"/>
+              </div>
+              <div className="input-group">
+                <label htmlFor="lastName">Last Name</label>
+                <input
+                  type="text"
+                  name="lastName"
+                  className="login-input"
+                  value={this.state.lastName}
+                  onChange={this.onChangeLastName}
+                  style={{color: "#ffffff"}}
+                  placeholder="Last Name"/>
+              </div>
+
+              <div className="input-group">
+                <label htmlFor="email">Email</label>
+                <input type="text" name="email" style={{color: "#ffffff"}} className="login-input" value={this.state.email}
+                  onChange={this.onChangeEmail}placeholder="Email"/>
+              </div>
+
+              <div className="input-group">
+                <label htmlFor="password" style={{color: "#ffffff"}}>Password</label>
+                <input
+                  type="password"
+                  name="password"
+                  className="login-input"
+                  style={{color: "#ffffff"}}
+                  value={this.state.password}
+                  onChange={this.onChangePassword}
+                  placeholder="Password"/>
+              </div>
+              <button
+                type="submit"
+                className="login-btn"
+                style = {{color:"#e8e8e8"}}
+                onClick={this
+                .submitregister
+                .bind(this)}>Register</button>
+            </form>
+
+            <br/>
+            
+            {this.state.error_status ? <div class="alert alert-danger" role="alert">
+              {this.state.message}
+            </div> : ""}
+            {this.state.success_status ? <div class="alert alert-success" role="alert">
+              {this.state.message}
+            </div> : ""}
+          </div>   
+        </div>
+      );
+  }else{
     return (
       <div className="inner-container">
         <div className="box">
@@ -338,12 +490,12 @@ class RegisterBox extends React.Component {
 
             <div className="input-group">
               <label htmlFor="email">Email</label>
-              <input type="text" name="email" className="login-input" value={this.state.email}
+              <input type="text" name="email"  className="login-input" value={this.state.email}
                 onChange={this.onChangeEmail}placeholder="Email"/>
             </div>
 
             <div className="input-group">
-              <label htmlFor="password">Password</label>
+              <label htmlFor="password" >Password</label>
               <input
                 type="password"
                 name="password"
@@ -355,6 +507,7 @@ class RegisterBox extends React.Component {
             <button
               type="submit"
               className="login-btn"
+              style = {{color:"#e8e8e8"}}
               onClick={this
               .submitregister
               .bind(this)}>Register</button>
@@ -372,4 +525,5 @@ class RegisterBox extends React.Component {
       </div>
     );
   }
+}
 }

@@ -53,6 +53,29 @@ body {
     margin-bottom: 40px;
 }
 
+.cardDark {
+    border-radius: 4px;
+    background: #fff;
+    box-shadow: 0 6px 10px rgba(0,0,0,.08), 0 0 6px rgba(0,0,0,.05);
+    transition: .3s transform cubic-bezier(.155,1.105,.295,1.12),.3s box-shadow,.3s -webkit-transform cubic-bezier(.155,1.105,.295,1.12);
+    padding: 14px 80px 18px 36px;
+    cursor: pointer;
+    background-color: #000000;
+    box-sizing: border-box;
+    display: block;
+    position: relative;
+    text-align: center;
+    float: left; 
+    width: 320px;
+    height: 200px;
+    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+    transition: 0.3s;
+    border-radius: 15px;
+    padding: 1%;
+    margin-left: 40px;
+    margin-bottom: 40px;
+}
+
 .container_res {
     height: 100vh;
     align-items: center;
@@ -79,7 +102,7 @@ body {
 
 .box-controllers {
     visibility: visible;
-    background-color: white;
+    background-color: black;
     display: -webkit-box;
     display: -ms-flexbox;
     display: flex;
@@ -95,6 +118,16 @@ body {
 
 .controllers {
     background-color: white;
+    flex: 1;
+    text-align: center;
+    height: 100%;
+    width: 100%;
+    line-height: 2;
+    cursor: pointer;
+}
+
+.controllers-dark {
+    background-color: black;
     flex: 1;
     text-align: center;
     height: 100%;
@@ -121,6 +154,11 @@ body {
     transition: border 0.5s ease-out;
     background-color: beige;
 }
+
+.selected-controllers-dark {
+    transition: border 0.5s ease-out;
+    background-color: rgb(54, 54, 29);
+} 
 
 /* Pattern styles */
 .container {

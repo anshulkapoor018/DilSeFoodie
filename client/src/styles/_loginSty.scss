@@ -48,8 +48,34 @@ $blue_theme: #70a1ff;
     border-bottom: 4px solid $blue_theme;
 }
 
+.controller-dark {
+    background-color: rgb(0, 0, 0);
+    flex: 1;
+    text-align: center;
+    height: 100%;
+    line-height: 2;
+    cursor: pointer;
+}
+
+//Currently Selected Controller
+.selected-controller-dark {
+    transition: border 0.5s ease-out;
+    border-bottom: 4px solid $blue_theme;
+}
+
 .box-container {
     background-color: white;
+    display: flex;
+    flex-direction: column;
+    max-width: 24em;
+    min-width: 21em;
+    box-shadow: 0px 0px 20px 0px rgba(15, 15, 15, 0.2);
+    border-radius: 6px;
+    padding: 24px;
+}
+
+.box-container-dark {
+    background-color: rgb(0, 0, 0);
     display: flex;
     flex-direction: column;
     max-width: 24em;
@@ -110,6 +136,18 @@ $blue_theme: #70a1ff;
     font-family: Oxygen, sans-serif;
     font-size: 19px;
     color: #3e3e42;
+    background: rgba(15, 15, 15, 0.01);
+}
+
+.login-input-dark {
+    height: 2.1em;
+    border-radius: 3px;
+    border: 1px solid $blue_theme;
+    transition: border 0.4s ease-out;
+    padding: 13px;
+    font-family: Oxygen, sans-serif;
+    font-size: 19px;
+    color: #ececff;
     background: rgba(15, 15, 15, 0.01);
 }
 

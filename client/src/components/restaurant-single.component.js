@@ -4,6 +4,8 @@ import './restaurant-single.component.css';
 import MapSection from '../Static/GoogleMaps';
 import StarRatings from 'react-star-ratings';
 import {NotificationManager} from 'react-notifications';
+import { Link } from 'react-router-dom';
+
 
 const prod_api = 'https://dilsefoodie.herokuapp.com';
 const dev_api = "http://localhost:5000";
@@ -134,7 +136,7 @@ export default class RestaurantsPage extends React.Component {
     var self = this;
     console.log("Order Food Now!");
     window.sessionStorage.setItem('resID', self.resID);
-    window.location = "/orderItems/" + self.resID;
+    // window.location = "/orderItems/" + self.resID;
   }
   
   render(){
@@ -148,6 +150,84 @@ export default class RestaurantsPage extends React.Component {
     const divStyle = {
       height: '800px',
     };
+    let mode = document.cookie.split('; ').find(row => row.startsWith('mode'))
+    mode = mode.split('=')[1]
+    if(mode==='light')
+    {
+    return(
+      <div className='homepage'>
+        <div style ={divStyle} className="card-wide" style = {{backgroundColor:"#000"}} id ="left">
+          <h1 style = {{backgroundColor:"#000000"}}>{restaurant.name}</h1>
+          <p className = "category" style = {{color:"#b4fffb"}}>{restaurant.category}</p>
+          <p style = {{color:"#b4fffb"}}>{restaurant.address}</p>
+          <p style = {{color:"#b4fffb"}}>{restaurant.city}, {restaurant.state} {restaurant.zip}</p>
+          <button style = {{backgroundColor:"#7adcc6"}} onClick={this.orderNow.bind(this)}>
+            <Link to={'/orderItems/'+this.resID}>
+              Order Now
+            </Link>
+          </button>
+          <br></br>
+          <MapSection location={location} zoomLevel={17} />
+        </div>
+        <div className="card-wide"  style = {{backgroundColor:"#000000"}} id="right">
+          <h2 style = {{backgroundColor:"#000000"}}>Reviews</h2>
+          {this.state.reviewsMap.map((item, index) => (
+            <div key = {index} className = "reviews">
+              <div className = "card-full-dark">
+                <div className="reviewHeading">
+                  <div className="reviewerName">
+                    <div className="reviewerIcon">
+                      {item.userDetails["profile"]
+                        ? <img src={item.userDetails["profile"]} alt="Profile" className="profileIcon"/>
+                        : <img src={dummyProfilePics} alt="Profile" className="profileIcon"/>
+                      }
+                    </div>
+                    <h3 className = "p_inline">{item.userDetails["name"]}</h3>
+                  </div>
+                  <div className="reviewerRating">
+                    <h3 className = "rating">Rating: {item.rating}</h3>
+                  </div>
+                </div>
+                <p style = {{color:"#b4fffb"}} >{item.reviewText}</p>
+              </div>
+            </div>
+          ))}
+        </div>
+        {isLoggedIn
+          ? <button className="open-button" onClick={this.openForm.bind(this)}>Post a Review</button>
+          : <button className="open-button" onClick={this.openLoginForm.bind(this)}>Post a Review</button>
+        }
+        <div className="form-popup-dark" id="myForm">
+          <h2>Post a Review</h2>
+            <form id="login-form" name ="loginForm" className="form-container">
+                <label>
+                    <input type="text" name="reviewText" id="reviewText" className = "inputFields" placeholder="Enter your Review" value={this.state.reviewString} onChange={this.onChangeReview} required/>
+                </label>
+                <StarRatings
+                  rating={this.state.rating}
+                  starRatedColor="red"
+                  changeRating={this.changeRating.bind(this)}
+                  numberOfStars={5}
+                  name='rating'
+                  starHoverColor="yellow"
+                  starDimension= "40px"
+                />
+                <button type="submit" className="btn" onClick={this.submitRatingForm.bind(this)}>Post!</button>
+                <button type="button" className="btn cancel" onClick={this.closeForm.bind(this)}>Cancel</button>
+            </form>
+        </div>
+        <div className="form-popup-dark" id="myLoginForm">
+          <h2>Login to post a review!</h2>
+          <form id="login-form" name ="loginForm" className="form-container">
+            <button type="submit" className="btn" id="routeToLogin" onClick={this.routeToLogin.bind(this)}>Login</button>
+            <button type="button" className="btn cancel" onClick={this.closeLoginForm.bind(this)}>Cancel</button>
+          </form>
+        </div>
+      </div>
+    )
+  }
+  
+  else{
     return(
       <div className='homepage'>
         <div style ={divStyle} className="card-wide" id ="left">
@@ -156,7 +236,9 @@ export default class RestaurantsPage extends React.Component {
           <p>{restaurant.address}</p>
           <p>{restaurant.city}, {restaurant.state} {restaurant.zip}</p>
           <button onClick={this.orderNow.bind(this)}>
-            Order Now
+          <Link to={'/orderItems/'+this.resID}>
+              Order Now
+          </Link>
           </button>
           <br></br>
           <MapSection location={location} zoomLevel={17} />
@@ -218,4 +300,5 @@ export default class RestaurantsPage extends React.Component {
       </div>
     )
   }
+}
 }

@@ -23,80 +23,161 @@ export default function Cart() {
     window.sessionStorage.setItem('cartTotal', formatCurrency(cartTotal));
     window.sessionStorage.setItem('cartItems', JSON.stringify(cartItems));
   }
-
-  if (cartTotal === 0) {
-    return (
-      <p> Your Cart is Empty </p>
-    );
-  } else {
-    return (
-      <table id="orders" width='100%' cellSpacing={0} cellPadding={0}>
-        <thead>
-          <tr>
-            <th>Product name</th>
-            <th>Product</th>
-            <th>Price</th>
-            <th>Qauntity</th>
-            <th>Subtotal</th>
-            <th>Remove</th>
-          </tr>
-        </thead>
-  
-        <tbody>
-          {cartItems.map((product) => (
-            <tr key={product._id}>
-              <td>
-                {product.name}
-              </td>
-              <td>
-                <img className = "cartImg" src={product.imageUrl} alt={product.name} />
-              </td>
-              <td>{formatCurrency(parseFloat(product.price))}</td>
-              <td>
-                <input
-                  type="number"
-                  value={product.qty}
-                  min = "1"
-                  onChange={(e) =>
-                    changeQty(product, parseInt(e.target.value))
-                  }
-                />
-              </td>
-              <td>{formatCurrency(product.price * product.qty)}</td>
-              <td>
-                <button className = "cartRemove">
-                  <img 
-                  src="https://res.cloudinary.com/helpinghands101/image/upload/v1617992448/remove_aja2kg.png" 
-                  alt="lassan" 
-                  onClick={(e) =>
-                    removeFromCart(product)
-                  }
-                  />
-                </button>
-              </td>
+  let mode = document.cookie.split('; ').find(row => row.startsWith('mode'))
+  mode = mode.split('=')[1]
+  if(mode==='light')
+    {
+    if (cartTotal === 0) {
+      return (
+        <p> Your Cart is Empty </p>
+      );
+    } else {
+      return (
+        <table id="orders" width='100%' cellSpacing={0} cellPadding={0}>
+          <thead>
+            <tr>
+              <th>Product name</th>
+              <th>Product</th>
+              <th>Price</th>
+              <th>Qauntity</th>
+              <th>Subtotal</th>
+              <th>Remove</th>
             </tr>
-          ))}
-        </tbody>
-  
-        <thead>
-          <tr>
-            <th>Cart Total</th>
-            <th></th>
-            <th></th>
-            <th></th>
-            <th>{formatCurrency(cartTotal)}</th>
-            <th></th>
-          </tr>
-        </thead>
-          <button className="button-cart">
-            <span>
-              <Link className = "orderLink" to='/checkout' 
-              onClick={setCartStorage}>
-                Review
-              </Link>
-            </span>
-          </button>
-      </table>
-    );
+          </thead>
+    
+          <tbody>
+            {cartItems.map((product) => (
+              <tr key={product._id} style = {{backgroundColor: '#1b1b1b'}}>
+                <td>
+                  {product.name}
+                </td>
+                <td>
+                  <img className = "cartImg" src={product.imageUrl} alt={product.name} />
+                </td>
+                <td>{formatCurrency(parseFloat(product.price))}</td>
+                <td>
+                  <input
+                    type="number"
+                    value={product.qty}
+                    min = "1"
+                    onChange={(e) =>
+                      changeQty(product, parseInt(e.target.value))
+                    }
+                  />
+                </td>
+                <td>{formatCurrency(product.price * product.qty)}</td>
+                <td>
+                  <button className = "cartRemove">
+                    <img 
+                    src="https://res.cloudinary.com/helpinghands101/image/upload/v1617992448/remove_aja2kg.png" 
+                    alt="lassan" 
+                    onClick={(e) =>
+                      removeFromCart(product)
+                    }
+                    />
+                  </button>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+    
+          <thead>
+            <tr>
+              <th>Cart Total</th>
+              <th></th>
+              <th></th>
+              <th></th>
+              <th>{formatCurrency(cartTotal)}</th>
+              <th></th>
+            </tr>
+          </thead>
+            <button className="button-cart">
+              <span>
+                <Link className = "orderLink" to='/checkout' 
+                onClick={setCartStorage}>
+                  Review
+                </Link>
+              </span>
+            </button>
+        </table>
+      );
+    }
   }
+    else{
+      if (cartTotal === 0) {
+        return (
+          <p> Your Cart is Empty </p>
+        );
+      } else {
+        return (
+          <table id="orders" width='100%' cellSpacing={0} cellPadding={0}>
+            <thead>
+              <tr>
+                <th>Product name</th>
+                <th>Product</th>
+                <th>Price</th>
+                <th>Qauntity</th>
+                <th>Subtotal</th>
+                <th>Remove</th>
+              </tr>
+            </thead>
+      
+            <tbody>
+              {cartItems.map((product) => (
+                <tr key={product._id}>
+                  <td>
+                    {product.name}
+                  </td>
+                  <td>
+                    <img className = "cartImg" src={product.imageUrl} alt={product.name} />
+                  </td>
+                  <td>{formatCurrency(parseFloat(product.price))}</td>
+                  <td>
+                    <input
+                      type="number"
+                      value={product.qty}
+                      min = "1"
+                      onChange={(e) =>
+                        changeQty(product, parseInt(e.target.value))
+                      }
+                    />
+                  </td>
+                  <td>{formatCurrency(product.price * product.qty)}</td>
+                  <td>
+                    <button className = "cartRemove">
+                      <img 
+                      src="https://res.cloudinary.com/helpinghands101/image/upload/v1617992448/remove_aja2kg.png" 
+                      alt="lassan" 
+                      onClick={(e) =>
+                        removeFromCart(product)
+                      }
+                      />
+                    </button>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+      
+            <thead>
+              <tr>
+                <th>Cart Total</th>
+                <th></th>
+                <th></th>
+                <th></th>
+                <th>{formatCurrency(cartTotal)}</th>
+                <th></th>
+              </tr>
+            </thead>
+              <button className="button-cart">
+                <span>
+                  <Link className = "orderLink" to='/checkout' 
+                  onClick={setCartStorage}>
+                    Review
+                  </Link>
+                </span>
+              </button>
+          </table>
+        );
+      }
+    }
 }

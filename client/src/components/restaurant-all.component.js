@@ -2,6 +2,9 @@ import './restaurant-all.component.css';
 import axios from 'axios';
 import React, { Component } from 'react';
 import MapContainer from '../Static/GoogleMapsPickup';
+import $ from 'jquery';
+import { Link } from 'react-router-dom';
+
 const prod_api = 'https://dilsefoodie.herokuapp.com';
 const dev_api = "http://localhost:5000";
 
@@ -26,6 +29,7 @@ export default class RestaurantsAll extends Component {
 
   componentDidMount() {
     this.restauranListsApiCall();
+   
   }
 
   restauranListsApiCall() {
@@ -45,22 +49,47 @@ export default class RestaurantsAll extends Component {
   }
 
   render() {
-    return(
-      <div className="root-containers">
-        <div className="box-controllers">
-          <div className={"controllers " + (this.state.isListViewOpen ? "selected-controllers" : "")} onClick={this.showListView.bind(this)}> 
-          List
+    let mode = document.cookie.split('; ').find(row => row.startsWith('mode'))
+    mode = mode.split('=')[1]
+    // console.log(this.props.theme);
+    if(mode == "light")
+    {
+      return(
+        <div className="root-containers">
+          <div className="box-controllers">
+            <div className={"controllers-dark " + (this.state.isListViewOpen ? "selected-controllers-dark" : "")} onClick={this.showListView.bind(this)}> 
+            List
+            </div>
+            <div className={"controllers-dark " + (this.state.isPickupViewOpen ? "selected-controllers-dark" : "")} onClick={this.showPickupView.bind(this)}>
+            Pickup
+            </div>
           </div>
-          <div className={"controllers " + (this.state.isPickupViewOpen ? "selected-controllers" : "")} onClick={this.showPickupView.bind(this)}>
-          Pickup
+          <div style={{ height: '100vh', width: '100%' }} className="card-fulls">
+            {this.state.isListViewOpen && <Restaurants/>}
+            {this.state.isPickupViewOpen && <MapContainer zoomLevel={17} />}
           </div>
         </div>
-        <div style={{ height: '100vh', width: '100%' }} className="card-fulls">
-          {this.state.isListViewOpen && <Restaurants/>}
-          {this.state.isPickupViewOpen && <MapContainer zoomLevel={17} />}
+      )
+    }
+    else{
+      return(
+        <div className="root-containers">
+          <div className="box-controllers">
+            <div className={"controllers " + (this.state.isListViewOpen ? "selected-controllers" : "")} onClick={this.showListView.bind(this)}> 
+            List
+            </div>
+            <div className={"controllers " + (this.state.isPickupViewOpen ? "selected-controllers" : "")} onClick={this.showPickupView.bind(this)}>
+            Pickup
+            </div>
+          </div>
+          <div style={{ height: '100vh', width: '100%' }} className="card-fulls">
+            {this.state.isListViewOpen && <Restaurants/>}
+            {this.state.isPickupViewOpen && <MapContainer zoomLevel={17} />}
+          </div>
         </div>
-      </div>
-    )
+      )
+    }
+ 
   }  
 }
 
@@ -85,24 +114,53 @@ class Restaurants extends React.Component {
   }
 
   handleClick = param => e => {
-    window.location = '/res/' + param._id
+    // path: '/res/' + param._id,
+
+    window.location.href = '/res/' + param._id
   }
 
   render(){
-    return(
-      <div className='cards'>
-        {this.state.restaurantList.map((item, index) => (
-          <div key = {index} className = "cards" onClick={this.handleClick(item)}>
-            <figure class="card">
-              <img src={item.thumbnail} alt={item.name}/>
-              <br/>
-              <h3 className = "restTitle">{item.name}</h3>
-              <p className = "restAddress">{item.address}</p>
-              <p className = "restAddress">{item.address}, {item.city}, {item.state}</p>  
-            </figure>
-          </div>
-        ))}
-      </div>
-    )
+    let mode = document.cookie.split('; ').find(row => row.startsWith('mode'))
+    mode = mode.split('=')[1]
+    if(mode==='light')
+    {
+      return(
+        <div className='cards'>
+          {this.state.restaurantList.map((item, index) => (
+            <div key = {index} className = "cards" >
+              <figure class="card" style = {{backgroundColor:"#000"}}>
+              <Link to={'/res/'+item._id}>
+                <img src={item.thumbnail} alt={item.name}/>
+                <br/>
+                <h3 className = "restTitle">{item.name}</h3>
+                <p className = "restAddress" style = {{color:"#b4fffb"}}>{item.address}</p>
+                <p className = "restAddress" style = {{color:"#b4fffb"}}>{item.address}, {item.city}, {item.state}</p>  
+                </Link>
+              </figure>
+            </div>
+          ))}
+        </div>
+      )
+    }
+    else{
+      return(
+        <div className='cards'>
+          {this.state.restaurantList.map((item, index) => (
+            <div key = {index} className = "cards">
+              <figure class="card">
+              <Link to={'/res/'+item._id}>
+
+                <img src={item.thumbnail} alt={item.name}/>
+                <br/>
+                <h3 className = "restTitle">{item.name}</h3>
+                <p className = "restAddress">{item.address}</p>
+                <p className = "restAddress">{item.address}, {item.city}, {item.state}</p>  
+                </Link>
+              </figure>
+            </div>
+          ))}
+        </div>
+      )
+    }
   }
 }
