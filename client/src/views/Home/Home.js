@@ -14,15 +14,6 @@ import JSONTransport from 'nodemailer/lib/json-transport';
 const prod_api = 'https://dilsefoodie.herokuapp.com';
 const dev_api = "http://localhost:5000";
 
-// let or3 = awaitcall2()
-// console.log(or3, "OR3")
-// console.log( call_on())
-// let res3 = call_on().res3
-// let us3 = call_on().us3
-
-
-
-
 // This calls our notification handler
 async function showNotification (type, message){
   const timer = 2000
@@ -36,17 +27,6 @@ async function showNotification (type, message){
     NotificationManager.warning(message, "", timer);
   }
 }
-
-
-// Getting our data from DB
-
-// async function call2 (){
-//   return await call_on()
-// }
-
-// console.log(call2 ())
-
-
 
 class Home extends React.PureComponent {
   constructor(props){
@@ -67,7 +47,7 @@ class Home extends React.PureComponent {
     })
   }
   async componentDidMount(){
-    const response2 = await axios.post(dev_api + '/stats/all');
+    const response2 = await axios.post(prod_api + '/stats/all');
     this.setState({stats: response2.data})
   }
   
@@ -104,11 +84,6 @@ class Home extends React.PureComponent {
       }
     }
   }
-
-  
-    
-
-
 
   render() {
       return (
