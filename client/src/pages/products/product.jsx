@@ -22,7 +22,7 @@ export default function Product({
       <div
         className={`product ${hover && 'hover'}`}
         onMouseEnter={() => setHover(true)}
-        style = {{backgroundColor:"#000000"}}
+        style = {{backgroundColor:"#000000", color:"#91d8ff"}}
         onMouseLeave={() => setHover(false)}>
         {hover && (
           <div
