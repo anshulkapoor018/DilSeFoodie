@@ -12,7 +12,6 @@ const NavBar = (props) => {
         props.data === "light" ? x="dark" : x="light";
         props.onchange(x);
         document.cookie = "mode ="+ props.data+';';
-      
     }
 
     
@@ -39,8 +38,8 @@ const NavBar = (props) => {
                 <Link className = "nav-link" to='/restaurants'>Restaurant</Link>
                 <Link className = "nav-link" to={path}>{name}</Link>
                 <label class="switch">
-                <input type="checkbox"  onClick= {handleChange}/>
-                <span class="slider round"/>
+                    <input id = "blackslider" type="checkbox" onClick= {handleChange} />
+                    <span class="slider round"/>
                 </label>
             </div>
         </div>

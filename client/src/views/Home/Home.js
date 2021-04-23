@@ -85,14 +85,18 @@ class Home extends React.PureComponent {
   }
 
   render() {
+    let mode = document.cookie.split('; ').find(row => row.startsWith('mode'))
+    mode = mode.split('=')[1]
+    // console.log(this.props.theme);
+    if(mode == "light"){
       return (
         <div className='homepage'>
-          <div className="search-card-center">
-            <h1>Welcome Foodies!</h1>
-            <p>Discover the best food and drinks in the Mile Square City</p>
+          <div className="search-card-center-dark">
+            <h1  style = {{backgroundColor:"#000000"}}>Welcome Foodies!</h1>
+            <p style = {{color:"#b4fffb"}}>Discover the best food and drinks in the Mile Square City</p>
             <label>
-                <input id="search-bar" type="text" name="search" className = "searchFields" placeholder="Search for a restaurant or cuisine" value={this.state.SearchString} onChange={this.onChangeSearch} />
-                <button type="submit" className="btn" onClick={this.submitSearch.bind(this)}>Search</button>
+                <input id="search-bar" style={{background: "black", color: "#ffffff"}} type="text" name="search" className = "searchFields" placeholder="Search for a restaurant or cuisine" value={this.state.SearchString} onChange={this.onChangeSearch} />
+                <button type="submit" className="btn"  style = {{color:"#e8e8e8"}} onClick={this.submitSearch.bind(this)}>Search</button>
             </label>
             <br/>
           </div>
@@ -100,9 +104,8 @@ class Home extends React.PureComponent {
         
           <Container>
           <Col>
-                <Alert variant="light">
-            
-                  <p>
+                <Alert variant="light" style={{background: "black", borderColor: '#2525a7'}}>      
+                  <p style = {{color:"#b4fffb"}}>
                     What we do? 
                   </p>
                 </Alert>
@@ -161,6 +164,84 @@ class Home extends React.PureComponent {
         </div>
       );
   }
+  else{
+    return (
+      <div className='homepage'>
+        <div className="search-card-center">
+          <h1>Welcome Foodies!</h1>
+          <p>Discover the best food and drinks in the Mile Square City</p>
+          <label>
+              <input id="search-bar" type="text" name="search" className = "searchFields" placeholder="Search for a restaurant or cuisine" value={this.state.SearchString} onChange={this.onChangeSearch} />
+              <button type="submit" className="btn" onClick={this.submitSearch.bind(this)}>Search</button>
+          </label>
+          <br/>
+        </div>
+        <br></br><br></br><br></br>
+      
+        <Container>
+        <Col>
+              <Alert variant="light">
+          
+                <p>
+                  What we do? 
+                </p>
+              </Alert>
+            </Col>
+          <Row>
+            <Col>
+              <Alert variant="primary">
+          
+                <p>
+                  We love our customers
+                </p>
+                <hr />
+                <p className="mb-0">
+                  We have { this.state.stats.user1} + Users.
+                </p>
+              </Alert>
+            </Col>
+            <Col>
+              <Alert variant="success">
+          
+                <p>
+                  We have multiple partnership 
+                </p>
+                <hr />
+                <p className="mb-0">
+                  We have { this.state.stats.Allrestr} + Restaurants.
+                </p>
+              </Alert>
+            </Col>
+            <Col>
+              <Alert variant="warning">
+          
+                <p>
+                  We Offer Pickup and Delivery options 
+                </p>
+                <hr />
+                <p className="mb-0">
+                  We have { this.state.stats.orders} + Orders.
+                </p>
+              </Alert>
+            </Col>
+            <Col>
+              <Alert variant="dark">
+          
+                <p>
+                  We appreciate feedbacks always! 
+                </p>
+                <hr />
+                <p className="mb-0">
+                  We have { this.state.stats.rev} + Reviews.
+                </p>
+              </Alert>
+            </Col>
+          </Row>
+        </Container>
+      </div>
+    );
+  }
+}
 }
 
 export default Home;

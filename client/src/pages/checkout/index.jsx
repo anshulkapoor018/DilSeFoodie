@@ -191,7 +191,7 @@ class Pickup extends React.Component {
       return(
         <div className="containerCheckout">
         <Header/>
-        <h1>Pickup Your Meal</h1>
+        <h1 style ={{backgroundColor:"#000000"}}>Pickup Your Meal</h1>
         <div className="form" style ={{backgroundColor:"#000000"}}>
           <div className="fields fields--3">
             <label className="field">

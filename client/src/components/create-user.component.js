@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import axios from 'axios';
 import "../styles/_loginSty.scss";
+import $ from 'jquery'
 
 // Notification imports
 import 'react-notifications/lib/notifications.css';
@@ -125,6 +126,11 @@ class LoginBox extends React.Component {
     this.onChangePassword = this.onChangePassword.bind(this);
     this.submitLogin = this.submitLogin.bind(this);
   }
+  componentDidMount(){
+    let mode = document.cookie.split('; ').find(row => row.startsWith('mode'))
+    mode = mode.split('=')[1]
+    $("#blackslider").prop('checked',true);
+}
 
   onChangeEmail(e){
     const target = e.target;
@@ -381,7 +387,7 @@ class RegisterBox extends React.Component {
       
     }
 
-    
+  
    
 
     this.setState({

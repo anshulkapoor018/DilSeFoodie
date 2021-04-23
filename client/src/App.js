@@ -19,6 +19,7 @@ import Layout from './layout';
 import ProductsPage from './pages/products';
 import CartPage from './pages/cart';
 import CheckoutPage from './pages/checkout';
+import $ from 'jquery'
 
 const StyledApp = styled.div`
   color: ${(props) => props.theme.fontColor};
@@ -31,13 +32,25 @@ const StyledApp = styled.div`
 
 
 function App(props) { 
-  const [theme, setTheme] = useState('light');
   
+  let res = 'light'
   let mode = document.cookie.split('; ').find(row => row.startsWith('mode'))
   if(!mode){
-
     document.cookie = "mode ="+ 'dark'+';';
   }
+  else{
+    res = mode.split('=')[1]
+    // console.log(res)
+    if(res==='dark'){
+      res = 'light'
+      $("#blackslider").prop('checked',false);
+    }else{
+      $("#blackslider").prop('checked',true);
+      res = 'dark'
+    }
+  }
+  const [theme, setTheme] = useState(res);
+
   
   
   const themeToggler = (data) => {

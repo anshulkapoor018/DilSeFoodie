@@ -4,6 +4,7 @@ import './restaurant-single.component.css';
 import MapSection from '../Static/GoogleMaps';
 import StarRatings from 'react-star-ratings';
 import {NotificationManager} from 'react-notifications';
+import { Link } from 'react-router-dom';
 
 
 const prod_api = 'https://dilsefoodie.herokuapp.com';
@@ -135,7 +136,7 @@ export default class RestaurantsPage extends React.Component {
     var self = this;
     console.log("Order Food Now!");
     window.sessionStorage.setItem('resID', self.resID);
-    window.location = "/orderItems/" + self.resID;
+    // window.location = "/orderItems/" + self.resID;
   }
   
   render(){
@@ -162,7 +163,10 @@ export default class RestaurantsPage extends React.Component {
               <p className = "category" style = {{color:"#b4fffb"}}>{restaurant.category}</p>
               <p style = {{color:"#b4fffb"}}>{restaurant.address}</p>
               <p style = {{color:"#b4fffb"}}>{restaurant.city}, {restaurant.state} {restaurant.zip}</p>
-              <div id="buttonplace" onClick={this.orderNow.bind(this)}><input type="button" value="Order Now" className="fancybutton" /></div>
+              <Link to={'/orderItems/'+this.resID}>
+                <div id="buttonplace"><input type="button" value="Order Now" className="fancybutton" />
+                </div>
+              </Link>
             </div> 
             <div className="two">
               <div className="imgRes"><img className = "imgThumb" style = {{filter: "drop-shadow(5px 5px 5px #ffffff)"}} src={restaurant.thumbnail} alt={restaurant.name}/></div>
@@ -239,7 +243,10 @@ export default class RestaurantsPage extends React.Component {
               <p className = "category">{restaurant.category}</p>
               <p>{restaurant.address}</p>
               <p>{restaurant.city}, {restaurant.state} {restaurant.zip}</p>
-              <div id="buttonplace" onClick={this.orderNow.bind(this)}><input type="button" value="Order Now" className="fancybutton" /></div>
+              <Link to={'/orderItems/'+this.resID}>
+                <div id="buttonplace"><input type="button" value="Order Now" className="fancybutton" />
+                </div>
+              </Link>
             </div> 
             <div className="two">
               <div className="imgRes"><img className = "imgThumb" src={restaurant.thumbnail} alt={restaurant.name}/></div>

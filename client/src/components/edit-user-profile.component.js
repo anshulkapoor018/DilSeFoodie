@@ -1,5 +1,7 @@
 import React from 'react';
 import axios from 'axios';
+import $ from 'jquery'
+
 // Notification imports
 import 'react-notifications/lib/notifications.css';
 import {NotificationManager} from 'react-notifications';
@@ -29,7 +31,14 @@ async function showNotification (type, message){
 //     }
 // }
 
+
 class EditUserProfile extends React.Component {
+
+    componentDidMount(){
+        let mode = document.cookie.split('; ').find(row => row.startsWith('mode'))
+        mode = mode.split('=')[1]
+        $("#blackslider").prop('checked',true);
+    }
 
     constructor(props) {
         super(props);
@@ -165,7 +174,6 @@ class EditUserProfile extends React.Component {
     render() {
     let mode = document.cookie.split('; ').find(row => row.startsWith('mode'))
     mode = mode.split('=')[1]
-    // console.log(JSON.stringify(this.props))
     if(mode==='light')
     {
       return (
