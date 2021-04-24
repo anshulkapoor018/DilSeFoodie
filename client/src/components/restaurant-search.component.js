@@ -1,6 +1,7 @@
 import React from 'react';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
+import $ from 'jquery';
 
 const prod_api = 'https://dilsefoodie.herokuapp.com';
 const dev_api = "http://localhost:5000";
@@ -16,8 +17,12 @@ export default class RestaurantSearch extends React.Component {
   }
 
   componentDidMount() {
-    console.log(this.state.resID);
+    // console.log(this.state.resID);
     this.restauranListApiCall();
+    let mode = document.cookie.split('; ').find(row => row.startsWith('mode'))
+    mode = mode.split('=')[1]
+    $("#blackslider").prop('checked',true);
+
   }
 
   restauranListApiCall() {
