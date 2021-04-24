@@ -2,11 +2,10 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import './navbar.component.css';
 
-const NavBar = (props) => {
+function NavBar(props) {
     let path = '/user';
     let name = 'Signup';
     
-   
     const handleChange = event => {
         var x;
         props.data === "light" ? x="dark" : x="light";
@@ -14,13 +13,10 @@ const NavBar = (props) => {
         document.cookie = "mode ="+ props.data+';';
     }
 
-    
-
     if (window.sessionStorage.getItem('isLoggedIn') === null || window.sessionStorage.getItem('isLoggedIn') === 'false'){
         path = path;
         name = name;
-    }
-    else{
+    } else{
         var userObject = JSON.parse(window.sessionStorage.getItem("userDetails"));
         path = '/profile';
         name = userObject['firstName'];

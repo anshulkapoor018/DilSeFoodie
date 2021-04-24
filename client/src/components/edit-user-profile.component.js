@@ -24,14 +24,6 @@ async function showNotification (type, message){
     }
 }
 
-// This makes sure that a user is authenticated before seeing this page
-// function CheckSession(){
-//     if (window.sessionStorage.getItem('isLoggedIn') === null || window.sessionStorage.getItem('isLoggedIn') === 'false'){
-//         window.location = "/user"
-//     }
-// }
-
-
 class EditUserProfile extends React.Component {
 
     componentDidMount(){

@@ -23,19 +23,5 @@ export const SidebarData = [
     title: 'Orders',
     path: '/order-history',
     icon: <FaIcons.FaCartPlus />
-  },
-  {
-    title: 'Favourites',
-    path: '/team',
-    icon: <IoIcons.IoMdPeople />
-  },
-  {
-    title: 'Notifications',
-    path: '/messages',
-    icon: <FaIcons.FaEnvelopeOpenText />,
-
-    iconClosed: <RiIcons.RiArrowDownSFill />,
-    iconOpened: <RiIcons.RiArrowUpSFill />,
-  },
-  
+  }
 ];

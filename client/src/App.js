@@ -30,17 +30,15 @@ const StyledApp = styled.div`
   overflow: hidden;
   `;
 
-
-function App(props) { 
-  
+function App(props) {
   let res = 'light'
+  const [theme, setTheme] = useState(res);
   let mode = document.cookie.split('; ').find(row => row.startsWith('mode'))
   if(!mode){
     document.cookie = "mode ="+ 'dark'+';';
   }
   else{
     res = mode.split('=')[1]
-    // console.log(res)
     if(res==='dark'){
       res = 'light'
       $("#blackslider").prop('checked',false);
@@ -49,10 +47,7 @@ function App(props) {
       res = 'dark'
     }
   }
-  const [theme, setTheme] = useState(res);
 
-  
-  
   const themeToggler = (data) => {
     window.localStorage.setItem('theme', data)
     setTheme(data)
