@@ -5,7 +5,11 @@ import './styles.css';
 
 export default function Header({}) {
   const { cartItems } = useContext(CartContext);
-  const currentResID = window.sessionStorage.getItem('resID');
+  // const currentResID = window.sessionStorage.getItem('resID');
+  let currentResID = window.location.href;
+  currentResID= currentResID.split('/')[4]
+
+  
   const currentResStore = '/orderItems/' + currentResID;
   const currentResPage = '/res/' + currentResID;
   let mode = document.cookie.split('; ').find(row => row.startsWith('mode'))
@@ -17,10 +21,6 @@ export default function Header({}) {
         <ul>
           <li>
             <Link className = "orderLink" style = {{color:'white'}} to={currentResPage}>Restaurant</Link>
-          </li>
-
-          <li>
-            <Link className = "orderLink" style = {{color:'white'}} to={currentResStore}>Store</Link>
           </li>
 
           <li>
@@ -37,10 +37,6 @@ export default function Header({}) {
         <ul>
           <li>
             <Link className = "orderLink" to={currentResPage}>Restaurant</Link>
-          </li>
-
-          <li>
-            <Link className = "orderLink" to={currentResStore}>Store</Link>
           </li>
 
           <li>

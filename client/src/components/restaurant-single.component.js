@@ -207,7 +207,7 @@ export default class RestaurantsPage extends React.Component {
           <h2>Post a Review</h2>
             <form id="login-form" name ="loginForm" className="form-container">
                 <label>
-                    <input type="text" name="reviewText" id="reviewText" className = "inputFields" placeholder="Enter your Review" value={this.state.reviewString} onChange={this.onChangeReview} required/>
+                    <input type="text" name="reviewText" id="reviewText" className = "inputFieldsDark"  placeholder="Enter your Review" value={this.state.reviewString} onChange={this.onChangeReview} required/>
                 </label>
                 <StarRatings
                   rating={this.state.rating}
@@ -218,15 +218,15 @@ export default class RestaurantsPage extends React.Component {
                   starHoverColor="yellow"
                   starDimension= "40px"
                 />
-                <button type="submit" className="btn" onClick={this.submitRatingForm.bind(this)}>Post!</button>
-                <button type="button" className="btn cancel" onClick={this.closeForm.bind(this)}>Cancel</button>
+                <button type="submit" className="btnDark" onClick={this.submitRatingForm.bind(this)}>Post!</button>
+                <button type="button" className="btnDark cancel" onClick={this.closeForm.bind(this)}>Cancel</button>
             </form>
         </div>
         <div className="form-popup-dark" id="myLoginForm">
           <h2>Login to post a review!</h2>
           <form id="login-form" name ="loginForm" className="form-container">
-            <button type="submit" className="btn" id="routeToLogin" onClick={this.routeToLogin.bind(this)}>Login</button>
-            <button type="button" className="btn cancel" onClick={this.closeLoginForm.bind(this)}>Cancel</button>
+            <button type="submit" className="btnDark" id="routeToLogin" onClick={this.routeToLogin.bind(this)}>Login</button>
+            <button type="button" className="btnDark cancel" onClick={this.closeLoginForm.bind(this)}>Cancel</button>
           </form>
         </div>
       </div>

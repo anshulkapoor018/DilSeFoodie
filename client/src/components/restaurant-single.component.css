@@ -107,6 +107,28 @@ input[type="password"] {
     box-sizing: border-box;
     border: 2px solid rgba(0, 0, 0, 0.02);
 }
+
+
+.inputFieldsDark{
+    display: block;
+    text-align: center;
+    text-align-last: center;
+    margin: auto;
+    margin-bottom: 15px;
+    width: 75%;
+    color: #e3fffe;
+    font-weight: bold;
+    font-size: medium;
+    letter-spacing: 1px;
+    background-color: rgba(136, 126, 126, 0.04);
+    padding: 10px 20px;
+    border: none;
+    border-radius: 20px;
+    outline: none;
+    box-sizing: border-box;
+    border: 2px solid rgba(0, 0, 0, 0.02);
+}
+
 #profilePicture{
     padding-left: 30px;
 }
@@ -227,6 +249,17 @@ input[type="password"] {
     color: #0076cb;
     font-size: large;
     background-color: #fafafa;
+    border: 2px solid #0076cb;
+    border-radius: 5em;
+    padding: 8px;
+    margin: 15px;
+    text-align: center;
+}
+
+.btnDark{
+    color: #ffffff;
+    font-size: large;
+    background-color: #000000;
     border: 2px solid #0076cb;
     border-radius: 5em;
     padding: 8px;
