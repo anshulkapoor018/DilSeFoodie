@@ -10,7 +10,7 @@ import Container from 'react-bootstrap/Container'
 import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
 
-import './Home.css'
+// import './Home.css'
 const prod_api = 'https://dilsefoodie.herokuapp.com';
 const dev_api = "http://localhost:5000";
 
@@ -93,7 +93,7 @@ class Home extends React.PureComponent {
       return (
         <div className='homepage'>
           <div className="search-card-center-dark">
-            <h1  style = {{backgroundColor:"#000000"}}>Welcome Foodies!</h1>
+            <h1 style = {{backgroundColor:"#000000"}}>Welcome Foodies!</h1>
             <p style = {{color:"#b4fffb"}}>Discover the best food and drinks in the Mile Square City</p>
             <label>
                 <input id="search-bar" style={{background: "black", color: "#ffffff"}} type="text" name="search" className = "searchFields" placeholder="Search for a restaurant or cuisine" value={this.state.SearchString} onChange={this.onChangeSearch} />
