@@ -26,13 +26,11 @@ const StyledApp = styled.div`
   background-image:  url('${props => props.theme.background}');
   background-size: cover;
   background-attachment:fixed;
-  min-height:170vh;
-  overflow: hidden;
+  min-height: 300vh;
   `;
 
 function App(props) {
   let res = 'light'
-  const [theme, setTheme] = useState(res);
   let mode = document.cookie.split('; ').find(row => row.startsWith('mode'))
   if(!mode){
     document.cookie = "mode ="+ 'dark'+';';
@@ -47,6 +45,8 @@ function App(props) {
       res = 'dark'
     }
   }
+  const [theme, setTheme] = useState(res);
+
 
   const themeToggler = (data) => {
     window.localStorage.setItem('theme', data)

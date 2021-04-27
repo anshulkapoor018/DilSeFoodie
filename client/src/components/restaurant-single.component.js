@@ -134,9 +134,8 @@ export default class RestaurantsPage extends React.Component {
   orderNow(e){
     e.preventDefault();
     var self = this;
-    console.log("Order Food Now!");
     window.sessionStorage.setItem('resID', self.resID);
-    // window.location = "/orderItems/" + self.resID;
+    window.location = "/orderItems/" + self.resID;
   }
   
   render(){
@@ -163,10 +162,7 @@ export default class RestaurantsPage extends React.Component {
               <p className = "category" style = {{color:"#b4fffb"}}>{restaurant.category}</p>
               <p style = {{color:"#b4fffb"}}>{restaurant.address}</p>
               <p style = {{color:"#b4fffb"}}>{restaurant.city}, {restaurant.state} {restaurant.zip}</p>
-              <Link to={'/orderItems/'+this.resID}>
-                <div id="buttonplace"><input type="button" value="Order Now" className="fancybutton" />
-                </div>
-              </Link>
+              <div id="buttonplace"><input type="button" value="Order Now" className="fancybutton" onClick={this.orderNow}/></div>
             </div> 
             <div className="two">
               <div className="imgRes"><img className = "imgThumb" style = {{filter: "drop-shadow(5px 5px 5px #ffffff)"}} src={restaurant.thumbnail} alt={restaurant.name}/></div>
@@ -207,7 +203,7 @@ export default class RestaurantsPage extends React.Component {
           <h2>Post a Review</h2>
             <form id="login-form" name ="loginForm" className="form-container">
                 <label>
-                    <input type="text" name="reviewText" id="reviewText" className = "inputFields" placeholder="Enter your Review" value={this.state.reviewString} onChange={this.onChangeReview} required/>
+                    <input type="text" name="reviewText" id="reviewText" className = "inputFieldsDark"  placeholder="Enter your Review" value={this.state.reviewString} onChange={this.onChangeReview} required/>
                 </label>
                 <StarRatings
                   rating={this.state.rating}
@@ -218,15 +214,15 @@ export default class RestaurantsPage extends React.Component {
                   starHoverColor="yellow"
                   starDimension= "40px"
                 />
-                <button type="submit" className="btn" onClick={this.submitRatingForm.bind(this)}>Post!</button>
-                <button type="button" className="btn cancel" onClick={this.closeForm.bind(this)}>Cancel</button>
+                <button type="submit" className="btnDark" onClick={this.submitRatingForm.bind(this)}>Post!</button>
+                <button type="button" className="btnDark cancel" onClick={this.closeForm.bind(this)}>Cancel</button>
             </form>
         </div>
         <div className="form-popup-dark" id="myLoginForm">
           <h2>Login to post a review!</h2>
           <form id="login-form" name ="loginForm" className="form-container">
-            <button type="submit" className="btn" id="routeToLogin" onClick={this.routeToLogin.bind(this)}>Login</button>
-            <button type="button" className="btn cancel" onClick={this.closeLoginForm.bind(this)}>Cancel</button>
+            <button type="submit" className="btnDark" id="routeToLogin" onClick={this.routeToLogin.bind(this)}>Login</button>
+            <button type="button" className="btnDark cancel" onClick={this.closeLoginForm.bind(this)}>Cancel</button>
           </form>
         </div>
       </div>
