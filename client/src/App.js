@@ -26,8 +26,7 @@ const StyledApp = styled.div`
   background-image:  url('${props => props.theme.background}');
   background-size: cover;
   background-attachment:fixed;
-  min-height:180vh;
-  overflow: hidden;
+  min-height: 300vh;
   `;
 
 function App(props) {

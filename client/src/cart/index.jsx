@@ -116,7 +116,7 @@ export default function Cart() {
                 <th>Product name</th>
                 <th>Product</th>
                 <th>Price</th>
-                <th>Qauntity</th>
+                <th>Quantity</th>
                 <th>Subtotal</th>
                 <th>Remove</th>
               </tr>

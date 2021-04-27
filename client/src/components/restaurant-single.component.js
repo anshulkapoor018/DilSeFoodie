@@ -134,9 +134,8 @@ export default class RestaurantsPage extends React.Component {
   orderNow(e){
     e.preventDefault();
     var self = this;
-    console.log("Order Food Now!");
     window.sessionStorage.setItem('resID', self.resID);
-    // window.location = "/orderItems/" + self.resID;
+    window.location = "/orderItems/" + self.resID;
   }
   
   render(){
@@ -163,10 +162,7 @@ export default class RestaurantsPage extends React.Component {
               <p className = "category" style = {{color:"#b4fffb"}}>{restaurant.category}</p>
               <p style = {{color:"#b4fffb"}}>{restaurant.address}</p>
               <p style = {{color:"#b4fffb"}}>{restaurant.city}, {restaurant.state} {restaurant.zip}</p>
-              <Link to={'/orderItems/'+this.resID}>
-                <div id="buttonplace"><input type="button" value="Order Now" className="fancybutton" />
-                </div>
-              </Link>
+              <div id="buttonplace"><input type="button" value="Order Now" className="fancybutton" onClick={this.orderNow}/></div>
             </div> 
             <div className="two">
               <div className="imgRes"><img className = "imgThumb" style = {{filter: "drop-shadow(5px 5px 5px #ffffff)"}} src={restaurant.thumbnail} alt={restaurant.name}/></div>

@@ -12,15 +12,11 @@ function Profile() {
   if (window.sessionStorage.getItem('isLoggedIn') === 'true' ){
     return (
       <Router>
-       
-        
           <Route exact path='/profile' component={Profile2} />
           <Route exact path="/contact" component={ContactUs} />
           <Route path='/settings' component={Dark} />
           <Route path='/order-history' component={UserOrderHistory} />
           <Route path='/team' exact component={Team} />
-          
-       
         <Sidebar />
       </Router>
     );

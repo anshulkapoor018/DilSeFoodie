@@ -9,7 +9,6 @@ const prod_api = 'https://dilsefoodie.herokuapp.com';
 const dev_api = "http://localhost:5000";
 
 export default class RestaurantsAll extends Component {
-
   constructor(props) {
     super(props);
     this.state = {
@@ -115,7 +114,7 @@ class Restaurants extends React.Component {
 
   handleClick = param => e => {
     // path: '/res/' + param._id,
-
+    window.sessionStorage.setItem('resID', param._id);
     window.location.href = '/res/' + param._id
   }
 
@@ -128,14 +127,12 @@ class Restaurants extends React.Component {
         <div className='cards'>
           {this.state.restaurantList.map((item, index) => (
             <div key = {index} className = "cards" >
-              <figure class="card" style = {{backgroundColor:"#000"}}>
-              <Link to={'/res/'+item._id}>
+              <figure class="card" style = {{backgroundColor:"#000"}} onClick={this.handleClick(item)} >
                 <img src={item.thumbnail} alt={item.name}/>
                 <br/>
                 <h3 className = "restTitle">{item.name}</h3>
                 <p className = "restAddress" style = {{color:"#b4fffb"}}>{item.address}</p>
                 <p className = "restAddress" style = {{color:"#b4fffb"}}>{item.address}, {item.city}, {item.state}</p>  
-                </Link>
               </figure>
             </div>
           ))}
@@ -147,15 +144,12 @@ class Restaurants extends React.Component {
         <div className='cards'>
           {this.state.restaurantList.map((item, index) => (
             <div key = {index} className = "cards">
-              <figure class="card">
-              <Link to={'/res/'+item._id}>
-
+              <figure class="card" onClick={this.handleClick(item)}>
                 <img src={item.thumbnail} alt={item.name}/>
                 <br/>
                 <h3 className = "restTitle">{item.name}</h3>
                 <p className = "restAddress">{item.address}</p>
-                <p className = "restAddress">{item.address}, {item.city}, {item.state}</p>  
-                </Link>
+                <p className = "restAddress">{item.address}, {item.city}, {item.state}</p>
               </figure>
             </div>
           ))}
