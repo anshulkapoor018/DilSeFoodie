@@ -9,11 +9,28 @@
     border-radius: 5px;
     padding: 1%;
     margin: auto;
-    margin-top: 1%;
-    opacity: 80%;
+    opacity: 92%;
+}
+
+.search-card-center-dark {
+    background-color: rgba(255,255,255, 0.5);
+    box-sizing: border-box;
+    display: block;
+    text-align: center;
+    width: 45%;
+    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+    transition: 0.3s;
+    border-radius: 5px;
+    padding: 1%;
+    margin: auto;
+    opacity: 92%;
 }
 
 .search-card-center:hover {
+    opacity: 100%;
+}
+
+.search-card-center-dark:hover {
     opacity: 100%;
 }
 
@@ -43,4 +60,30 @@
     border: 1px solid #cf4300;
 }
 
+.fancybuttonSearch {
+    border: none;
+    width:180px;
+    height: 50px;
+    font-size:25px;
+    color: #FFF;
+    cursor: pointer;
+    box-shadow:  4px 4px orange,4px 4px orange;;
+    background: linear-gradient(#fa6400,red);
+    background: -webkit-linear-gradient(#fa6400,red);
+    border-bottom:orange;
+    border-radius:4px;
+}
 
+.fancybuttonSearchDark {
+    border: none;
+    width:180px;
+    height: 50px;
+    font-size:25px;
+    color: #FFF;
+    cursor: pointer;
+    box-shadow:  4px 4px rgb(97, 63, 1),4px 4px orange;;
+    background: linear-gradient(#7e3302,red);
+    background: -webkit-linear-gradient(#7e3302,red);
+    border-bottom:orange;
+    border-radius:4px;
+}

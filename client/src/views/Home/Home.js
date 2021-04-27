@@ -10,6 +10,7 @@ import Container from 'react-bootstrap/Container'
 import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
 
+import './Home.css'
 const prod_api = 'https://dilsefoodie.herokuapp.com';
 const dev_api = "http://localhost:5000";
 
@@ -96,24 +97,24 @@ class Home extends React.PureComponent {
             <p style = {{color:"#b4fffb"}}>Discover the best food and drinks in the Mile Square City</p>
             <label>
                 <input id="search-bar" style={{background: "black", color: "#ffffff"}} type="text" name="search" className = "searchFields" placeholder="Search for a restaurant or cuisine" value={this.state.SearchString} onChange={this.onChangeSearch} />
-                <button type="submit" className="btn"  style = {{color:"#e8e8e8"}} onClick={this.submitSearch.bind(this)}>Search</button>
+                <br></br>
+                <button type="submit" className="fancybuttonSearchDark"  style = {{color:"#e8e8e8"}} onClick={this.submitSearch.bind(this)}>Search</button>
             </label>
             <br/>
           </div>
-          <br></br><br></br><br></br>
+          <br></br><br></br>
         
           <Container>
-          <Col>
+            <Col>
                 <Alert variant="light" style={{background: "black", borderColor: '#2525a7'}}>      
-                  <p style = {{color:"#b4fffb"}}>
+                  <h2 style = {{color:"#b4fffb"}}>
                     What we do? 
-                  </p>
+                  </h2>
                 </Alert>
-              </Col>
+            </Col>
             <Row>
               <Col>
                 <Alert variant="primary">
-            
                   <p>
                     We love our customers
                   </p>
@@ -125,7 +126,6 @@ class Home extends React.PureComponent {
               </Col>
               <Col>
                 <Alert variant="success">
-            
                   <p>
                     We have multiple partnership 
                   </p>
@@ -137,19 +137,17 @@ class Home extends React.PureComponent {
               </Col>
               <Col>
                 <Alert variant="warning">
-            
                   <p>
                     We Offer Pickup and Delivery options 
                   </p>
                   <hr />
                   <p className="mb-0">
-                    We have { this.state.stats.orders} + Orders.
+                    We have done { this.state.stats.orders} + Orders.
                   </p>
                 </Alert>
               </Col>
               <Col>
                 <Alert variant="dark">
-            
                   <p>
                     We appreciate feedbacks always! 
                   </p>
@@ -172,25 +170,24 @@ class Home extends React.PureComponent {
           <p>Discover the best food and drinks in the Mile Square City</p>
           <label>
               <input id="search-bar" type="text" name="search" className = "searchFields" placeholder="Search for a restaurant or cuisine" value={this.state.SearchString} onChange={this.onChangeSearch} />
-              <button type="submit" className="btn" onClick={this.submitSearch.bind(this)}>Search</button>
+              <br></br>
+              <button type="submit" className="fancybuttonSearch" onClick={this.submitSearch.bind(this)}>Search</button>
           </label>
           <br/>
         </div>
-        <br></br><br></br><br></br>
+        <br></br><br></br>
       
         <Container>
-        <Col>
-              <Alert variant="light">
-          
-                <p>
-                  What we do? 
-                </p>
-              </Alert>
-            </Col>
+          <Col>
+            <Alert variant="light">
+              <h2>
+                What we do?
+              </h2>
+            </Alert>
+          </Col>
           <Row>
             <Col>
               <Alert variant="primary">
-          
                 <p>
                   We love our customers
                 </p>
@@ -202,7 +199,6 @@ class Home extends React.PureComponent {
             </Col>
             <Col>
               <Alert variant="success">
-          
                 <p>
                   We have multiple partnership 
                 </p>
@@ -214,19 +210,17 @@ class Home extends React.PureComponent {
             </Col>
             <Col>
               <Alert variant="warning">
-          
                 <p>
                   We Offer Pickup and Delivery options 
                 </p>
                 <hr />
                 <p className="mb-0">
-                  We have { this.state.stats.orders} + Orders.
+                  We have done { this.state.stats.orders} + Orders.
                 </p>
               </Alert>
             </Col>
             <Col>
               <Alert variant="dark">
-          
                 <p>
                   We appreciate feedbacks always! 
                 </p>
