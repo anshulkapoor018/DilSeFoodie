@@ -29,6 +29,7 @@ class EditUserProfile extends React.Component {
     componentDidMount(){
         let mode = document.cookie.split('; ').find(row => row.startsWith('mode'))
         mode = mode.split('=')[1]
+        $("#blackslider").prop('checked',true);
     }
 
     constructor(props) {
