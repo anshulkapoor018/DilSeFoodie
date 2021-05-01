@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 import $ from 'jquery';
 
 const prod_api = 'https://dilsefoodie.herokuapp.com';
-const dev_api = "http://localhost:5000";
+// const dev_api = "http://localhost:5000";
 
 
 export default class RestaurantSearch extends React.Component {

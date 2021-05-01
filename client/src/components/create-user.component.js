@@ -7,7 +7,8 @@ import $ from 'jquery'
 import 'react-notifications/lib/notifications.css';
 import {NotificationManager} from 'react-notifications';
 const prod_api = 'https://dilsefoodie.herokuapp.com';
-const dev_api = "http://localhost:5000";
+// const dev_api = "http://localhost:5000";
+
 // This calls our notification handler
 async function showNotification (type, message){
   const timer = 2000

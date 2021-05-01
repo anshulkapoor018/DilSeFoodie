@@ -36,7 +36,6 @@ router.get('/:id',
 
 router.post('/', (req, res)=>{
 // Add a new Restaurant
-
   const newRes = new Restaurant();
 
   newRes.name = req.body.name

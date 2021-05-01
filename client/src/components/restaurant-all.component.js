@@ -2,11 +2,9 @@ import './restaurant-all.component.css';
 import axios from 'axios';
 import React, { Component } from 'react';
 import MapContainer from '../Static/GoogleMapsPickup';
-import $ from 'jquery';
-import { Link } from 'react-router-dom';
 
 const prod_api = 'https://dilsefoodie.herokuapp.com';
-const dev_api = "http://localhost:5000";
+// const dev_api = "http://localhost:5000";
 
 export default class RestaurantsAll extends Component {
   constructor(props) {
@@ -28,7 +26,6 @@ export default class RestaurantsAll extends Component {
 
   componentDidMount() {
     this.restauranListsApiCall();
-   
   }
 
   restauranListsApiCall() {

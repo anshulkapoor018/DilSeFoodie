@@ -9,7 +9,7 @@ import $ from 'jquery'
 
 
 const prod_api = 'https://dilsefoodie.herokuapp.com';
-const dev_api = "http://localhost:5000";
+// const dev_api = "http://localhost:5000";
 
 var dummyProfilePics = "https://res.cloudinary.com/helpinghands101/image/upload/v1615598217/user_mcyfxd.png"
 var userObject = JSON.parse(window.sessionStorage.getItem("userDetails"));

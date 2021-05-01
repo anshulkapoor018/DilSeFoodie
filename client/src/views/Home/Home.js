@@ -12,7 +12,7 @@ import Col from 'react-bootstrap/Col'
 
 // import './Home.css'
 const prod_api = 'https://dilsefoodie.herokuapp.com';
-const dev_api = "http://localhost:5000";
+// const dev_api = "http://localhost:5000";
 
 // This calls our notification handler
 async function showNotification (type, message){

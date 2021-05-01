@@ -7,7 +7,8 @@ import 'react-notifications/lib/notifications.css';
 import {NotificationManager} from 'react-notifications';
 
 const prod_api = 'https://dilsefoodie.herokuapp.com';
-const dev_api = "http://localhost:5000";
+// const dev_api = "http://localhost:5000";
+
 var userObject = JSON.parse(window.sessionStorage.getItem("userDetails"));
 
 // This calls our notification handler

@@ -9,12 +9,6 @@ const session = require('express-session');
 const chalk = require('chalk');
 require('dotenv').config();
 
-
-// const multerHelper = require('utils/multer');
-// const cloudinaryHelper = require('utils/cloudinary');
-// const fs = require('fs')
-
-
 app.use(cors());
 app.use(express.json());
 
