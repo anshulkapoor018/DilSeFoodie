@@ -21,7 +21,9 @@ export default class RestaurantSearch extends React.Component {
     this.restauranListApiCall();
     let mode = document.cookie.split('; ').find(row => row.startsWith('mode'))
     mode = mode.split('=')[1]
-    $("#blackslider").prop('checked',true);
+    if (mode === "light"){
+      $("#blackslider").prop('checked',true);
+    }
   }
 
   restauranListApiCall() {

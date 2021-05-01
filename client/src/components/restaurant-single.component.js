@@ -5,6 +5,7 @@ import MapSection from '../Static/GoogleMaps';
 import StarRatings from 'react-star-ratings';
 import {NotificationManager} from 'react-notifications';
 import { Link } from 'react-router-dom';
+import $ from 'jquery'
 
 
 const prod_api = 'https://dilsefoodie.herokuapp.com';
@@ -51,6 +52,12 @@ export default class RestaurantsPage extends React.Component {
   componentDidMount() {
     this.restauranListApiCall();
     this.reviewListApiCall();
+    let mode = document.cookie.split('; ').find(row => row.startsWith('mode'))
+    mode = mode.split('=')[1]
+    console.log(mode)
+    if (mode === "light"){
+      $("#blackslider").prop('checked',true);
+    }
   }
 
   openInNewTab = (url) => {
