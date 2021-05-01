@@ -31,6 +31,13 @@ export default class AuthCredentials extends Component {
       isRegisterOpen: false,
     };
   }
+  componentDidMount(){
+    let mode = document.cookie.split('; ').find(row => row.startsWith('mode'))
+    mode = mode.split('=')[1]
+    if (mode === "light"){
+      $("#blackslider").prop('checked',true);
+    }
+}
 
   showLoginBox() {
     this.setState({isLoginOpen: true, isRegisterOpen: false});
@@ -126,11 +133,7 @@ class LoginBox extends React.Component {
     this.onChangePassword = this.onChangePassword.bind(this);
     this.submitLogin = this.submitLogin.bind(this);
   }
-  componentDidMount(){
-    let mode = document.cookie.split('; ').find(row => row.startsWith('mode'))
-    mode = mode.split('=')[1]
-    $("#blackslider").prop('checked',true);
-}
+
 
   onChangeEmail(e){
     const target = e.target;
@@ -211,16 +214,17 @@ class LoginBox extends React.Component {
             <div className="box">
               <form>
                 <div className="input-group">
-                  <label htmlFor="email">Email</label>
-                  <input type="text" name="email" style={{color: "#ffffff"}} className="login-input" value={this.state.email}
+                  <label for = "email" htmlFor="email">Email</label>
+                  <input type="text" id="email" name="email" style={{color: "#ffffff"}} className="login-input" value={this.state.email}
                     onChange={this.onChangeEmail}placeholder="Email"/>
                 </div>
 
                 <div className="input-group">
-                  <label htmlFor="password">Password</label>
+                  <label for ="password" htmlFor="password">Password</label>
                   <input
                     type="password"
                     name="password"
+                    id="password"
                     className="login-input"
                     value={this.state.password}
                     onChange={this.onChangePassword}
@@ -255,16 +259,17 @@ class LoginBox extends React.Component {
           <div className="box">
             <form>
               <div className="input-group">
-                <label htmlFor="email">Email</label>
-                <input type="text" name="email" className="login-input" value={this.state.email}
+                <label for = "email"  htmlFor="email">Email</label>
+                <input type="text" id="email" name="email" className="login-input" value={this.state.email}
                   onChange={this.onChangeEmail}placeholder="Email"/>
               </div>
 
               <div className="input-group">
-                <label htmlFor="password">Password</label>
+                <label for ="password" htmlFor="password">Password</label>
                 <input
                   type="password"
                   name="password"
+                  id="password"
                   className="login-input"
                   value={this.state.password}
                   onChange={this.onChangePassword}

@@ -29,6 +29,9 @@ class EditUserProfile extends React.Component {
     componentDidMount(){
         let mode = document.cookie.split('; ').find(row => row.startsWith('mode'))
         mode = mode.split('=')[1]
+        if (mode === "light"){
+            $("#blackslider").prop('checked',true);
+          }
     }
 
     constructor(props) {
@@ -180,8 +183,9 @@ class EditUserProfile extends React.Component {
                     <br></br>
                     <br></br>
                     <br></br>
-                    <input type="file" id="img" name="myImage" accept="image/*" className="w-100" onChange={this.onImageChange}/>
-                   
+                    <label>
+                        <input type="file" id="img" name="myImage" accept="image/*" className="w-100" onChange={this.onImageChange}/>
+                   </label>
                 
                 </div>
                 <div id="cardData"  className="card-wide-dark" style = {{backgroundColor:"#000000"}} id="right">
@@ -233,9 +237,9 @@ else{
                     <br></br>
                     <br></br>
                     <br></br>
+                    <label>
                     <input type="file" id="img" name="myImage" accept="image/*" className="w-100" onChange={this.onImageChange}/>
-                   
-                
+                   </label>
                 </div>
                 <div id="cardData"  className="card-wide" id="right">
                     <tr>

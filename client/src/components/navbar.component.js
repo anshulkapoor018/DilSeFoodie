@@ -30,9 +30,9 @@ function NavBar(props) {
 
             {/* Page Links */}
             <div className = "nav-items">
-                <Link className = "nav-link" to='/Home'>Home</Link>
-                <Link className = "nav-link" to='/restaurants'>Restaurant</Link>
-                <Link className = "nav-link" to={path}>{name}</Link>
+                <Link className = "nav-link" style = {{fontSize: "1.3em"}} to='/Home'>Home</Link>
+                <Link className = "nav-link" style = {{fontSize: "1.3em"}} to='/restaurants'>Restaurant</Link>
+                <Link className = "nav-link" style = {{fontSize: "1.3em"}} to={path}>{name}</Link>
                 <label class="switch">
                     <input id = "blackslider" type="checkbox" onClick= {handleChange} />
                     <span class="slider round"/>
