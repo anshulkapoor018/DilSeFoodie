@@ -4,7 +4,7 @@ import Alert from 'react-bootstrap/Alert'
 import './user-order-history.component.css';
 
 const prod_api = 'https://dilsefoodie.herokuapp.com';
-// const dev_api = "http://localhost:5000";
+const dev_api = "http://localhost:5000";
 
 var userObject = JSON.parse(window.sessionStorage.getItem("userDetails"));
 
@@ -25,7 +25,7 @@ export default class UserOrderHistory extends Component {
   async allResApiCall() {
     var self = this;
     var resDict = {}
-    axios.get(prod_api + '/restaurant/all')
+    axios.get(dev_api + '/restaurant/all')
     .then(function (response) {
       response.data.forEach(function(rest) {
         resDict[rest["_id"]] = rest["name"];
@@ -36,7 +36,7 @@ export default class UserOrderHistory extends Component {
 
   async orderHistoryApiCall() {
     var self = this;
-    axios.get(prod_api + '/order/user/' + userObject['_id'])
+    axios.get(dev_api + '/order/user/' + userObject['_id'])
     .then(function (response) {
       self.setState({ allOrders: response.data });
     })

@@ -3,7 +3,7 @@ import axios from 'axios';
 import Product from './product';
 import Header from '../../layout/header';
 const prod_api = 'https://dilsefoodie.herokuapp.com';
-// const dev_api = "http://localhost:5000";
+const dev_api = "http://localhost:5000";
 
 export default class ProductsPage extends React.Component {
   constructor(props) {
@@ -21,7 +21,7 @@ export default class ProductsPage extends React.Component {
 
   restauranListApiCall() {
     var self = this;
-    axios.get(prod_api + '/menu/restaurant/' + decodeURI(((window.location.pathname).split("/"))[2]))
+    axios.get(dev_api + '/menu/restaurant/' + decodeURI(((window.location.pathname).split("/"))[2]))
     .then(function (response) {
       console.log(response.data);
       self.setState({ restaurantList: response.data });

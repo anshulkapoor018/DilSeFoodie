@@ -3,7 +3,7 @@ import axios from 'axios';
 import {Map, InfoWindow, Marker, GoogleApiWrapper} from 'google-maps-react';
 
 const prod_api = 'https://dilsefoodie.herokuapp.com';
-// const dev_api = "http://localhost:5000";
+const dev_api = "http://localhost:5000";
 
 class MapContainer extends React.Component {
   state = {
@@ -20,7 +20,7 @@ class MapContainer extends React.Component {
 
   restauranListApiCall() {
     var self = this;
-    axios.get(prod_api + '/restaurant/all')
+    axios.get(dev_api + '/restaurant/all')
     .then(function (response) {
       console.log(response.data);
       self.setState({ restList: response.data });

@@ -7,7 +7,7 @@ import 'react-notifications/lib/notifications.css';
 import {NotificationManager} from 'react-notifications';
 
 const prod_api = 'https://dilsefoodie.herokuapp.com';
-// const dev_api = "http://localhost:5000";
+const dev_api = "http://localhost:5000";
 
 var userObject = JSON.parse(window.sessionStorage.getItem("userDetails"));
 
@@ -150,7 +150,7 @@ class EditUserProfile extends React.Component {
             }
         };
 
-        const response = await axios.post(prod_api + '/user/update_profile', formData, config)
+        const response = await axios.post(dev_api + '/user/update_profile', formData, config)
         if(response.data.message){
             await showNotification ("error", "Updates failed, Please try again");
             // display the error message and  notification here

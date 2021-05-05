@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 import $ from 'jquery';
 
 const prod_api = 'https://dilsefoodie.herokuapp.com';
-// const dev_api = "http://localhost:5000";
+const dev_api = "http://localhost:5000";
 
 
 export default class RestaurantSearch extends React.Component {
@@ -31,7 +31,7 @@ export default class RestaurantSearch extends React.Component {
     const search = {
       SearchString: self.state.resID
     }
-    axios.post(prod_api + '/restaurant/search', search)
+    axios.post(dev_api + '/restaurant/search', search)
     .then(function (response) {
       console.log(response.data.restDetails);
       self.setState({ restaurantList: response.data.restDetails });
