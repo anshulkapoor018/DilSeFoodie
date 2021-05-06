@@ -94,7 +94,7 @@ input[type="password"] {
     text-align-last: center;
     margin: auto;
     margin-bottom: 15px;
-    width: 75%;
+    width: 300px;
     color: #001514;
     font-weight: bold;
     font-size: medium;
@@ -115,7 +115,7 @@ input[type="password"] {
     text-align-last: center;
     margin: auto;
     margin-bottom: 15px;
-    width: 75%;
+    width: 300px;
     color: #e3fffe;
     font-weight: bold;
     font-size: medium;
