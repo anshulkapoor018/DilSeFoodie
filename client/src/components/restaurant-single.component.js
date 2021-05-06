@@ -242,7 +242,7 @@ export default class RestaurantsPage extends React.Component {
   else{
     return(
       <div className='homepage'>
-        <div style ={divStyle} className="card-wide" id ="left">
+        <div style ={divStyle} className="card-wide" style = {{backgroundColor:"#fafafa"}} id ="left">
           <div id="inline"> 
             <div className="one">
               <h5>{restaurant.name}</h5>
