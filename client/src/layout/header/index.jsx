@@ -5,9 +5,9 @@ import './styles.css';
 
 export default function Header({}) {
   const { cartItems } = useContext(CartContext);
-  // const currentResID = window.sessionStorage.getItem('resID');
-  let currentResID = window.location.href;
-  currentResID= currentResID.split('/')[4]
+  const currentResID = window.sessionStorage.getItem('resID');
+  // let currentResID = window.location.href;
+  // currentResID= currentResID.split('/')[4]
 
   
   const currentResStore = '/orderItems/' + currentResID;
@@ -24,6 +24,10 @@ export default function Header({}) {
           </li>
 
           <li>
+            <Link className = "orderLink" to={currentResStore}>Menu</Link>
+          </li>
+
+          <li>
             <Link className = "orderLink" style = {{color:'white'}} to='/cart'>Cart:</Link> (
             {cartItems.reduce((acc, item) => acc + item.qty, 0)})
           </li>
@@ -37,6 +41,10 @@ export default function Header({}) {
         <ul>
           <li>
             <Link className = "orderLink" to={currentResPage}>Restaurant</Link>
+          </li>
+
+          <li>
+            <Link className = "orderLink" to={currentResStore}>Menu</Link>
           </li>
 
           <li>
