@@ -20,7 +20,7 @@ class MapContainer extends React.Component {
 
   restauranListApiCall() {
     var self = this;
-    axios.get(dev_api + '/restaurant/all')
+    axios.get(prod_api + '/restaurant/all')
     .then(function (response) {
       console.log(response.data);
       self.setState({ restList: response.data });

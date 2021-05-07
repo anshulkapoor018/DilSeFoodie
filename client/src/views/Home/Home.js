@@ -47,7 +47,7 @@ class Home extends React.PureComponent {
     })
   }
   async componentDidMount(){
-    const response2 = await axios.post(dev_api + '/stats/all');
+    const response2 = await axios.post(prod_api + '/stats/all');
     this.setState({stats: response2.data})
   }
   
@@ -65,7 +65,7 @@ class Home extends React.PureComponent {
     else{
       // Changed to Promises to Async (Refractored)
       try{
-        const response = await axios.post(dev_api + '/restaurant/search', search)
+        const response = await axios.post(prod_api + '/restaurant/search', search)
         console.log(response.data.restDetails)
         if((response.data.restDetails).length !== 0){
           await showNotification("success" ,"Search Found!")

@@ -21,7 +21,7 @@ export default class ProductsPage extends React.Component {
 
   restauranListApiCall() {
     var self = this;
-    axios.get(dev_api + '/menu/restaurant/' + decodeURI(((window.location.pathname).split("/"))[2]))
+    axios.get(prod_api + '/menu/restaurant/' + decodeURI(((window.location.pathname).split("/"))[2]))
     .then(function (response) {
       console.log(response.data);
       self.setState({ restaurantList: response.data });

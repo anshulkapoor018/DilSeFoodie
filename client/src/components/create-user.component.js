@@ -170,7 +170,7 @@ class LoginBox extends React.Component {
       await showNotification ("error", "Invalid Password");
     }
     else{
-      const response = await axios.post(dev_api + '/user/login', user)
+      const response = await axios.post(prod_api + '/user/login', user)
       console.log(response.data.message)
       if (response.data.message){
         await showNotification ("error", "Wrong email or password");
@@ -376,7 +376,7 @@ class RegisterBox extends React.Component {
     }
    
     else{
-      const response = await axios.post(dev_api + '/user/signup', user)
+      const response = await axios.post(prod_api + '/user/signup', user)
       console.log(response.data.success)
       if(response.data.email_use === true){
         await showNotification ("error", "Sign up failed, Email Already Exists!")

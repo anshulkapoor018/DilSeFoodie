@@ -25,7 +25,7 @@ export default class UserOrderHistory extends Component {
   async allResApiCall() {
     var self = this;
     var resDict = {}
-    axios.get(dev_api + '/restaurant/all')
+    axios.get(prod_api + '/restaurant/all')
     .then(function (response) {
       response.data.forEach(function(rest) {
         resDict[rest["_id"]] = rest["name"];
@@ -36,7 +36,7 @@ export default class UserOrderHistory extends Component {
 
   async orderHistoryApiCall() {
     var self = this;
-    axios.get(dev_api + '/order/user/' + userObject['_id'])
+    axios.get(prod_api + '/order/user/' + userObject['_id'])
     .then(function (response) {
       self.setState({ allOrders: response.data });
     })

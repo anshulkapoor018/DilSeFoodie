@@ -67,7 +67,7 @@ export default class RestaurantsPage extends React.Component {
 
   restauranListApiCall() {
     var self = this;
-    axios.get(dev_api + '/restaurant/'+self.resID)
+    axios.get(prod_api + '/restaurant/'+self.resID)
     .then(function (response) {
       self.setState({ restaurantDetails: response.data });
     })
@@ -75,7 +75,7 @@ export default class RestaurantsPage extends React.Component {
 
   reviewListApiCall() {
     var self = this;
-    axios.get(dev_api + '/review/restaurant/' + self.resID)
+    axios.get(prod_api + '/review/restaurant/' + self.resID)
     .then(function (response) {
       self.setState({ reviewsMap: response.data });
     })
@@ -124,7 +124,7 @@ export default class RestaurantsPage extends React.Component {
         reviewText: this.state.reviewString,
         rating: self.state.rating
       }
-      const response = await axios.post(dev_api + '/review/add', reviewBody);
+      const response = await axios.post(prod_api + '/review/add', reviewBody);
       console.log(response.data);
       window.location.reload();
     }

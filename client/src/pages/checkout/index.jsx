@@ -156,7 +156,7 @@ class Pickup extends React.Component {
         orderStatus: "atRestaurant",
         orderItems : JSON.parse(currentCartItems)
       }
-      await axios.post(dev_api + '/order/placeOrder', orderPostBody)
+      await axios.post(prod_api + '/order/placeOrder', orderPostBody)
       .then(function (response) {
         console.log(response.data);
       })
@@ -386,7 +386,7 @@ class Delivery extends React.Component {
         orderStatus: "atRestaurant",
         orderItems : JSON.parse(currentCartItems)
       }
-      await axios.post(dev_api + '/order/placeOrder', orderPostBody)
+      await axios.post(prod_api + '/order/placeOrder', orderPostBody)
       .then(function (response) {
         console.log(response.data);
       })

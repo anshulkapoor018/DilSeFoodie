@@ -93,7 +93,7 @@ export default class ContactUs extends React.PureComponent {
          
         }
         else{
-            const response = await axios.post(dev_api + '/user/contact', form)
+            const response = await axios.post(prod_api + '/user/contact', form)
             console.log(response.data.message)
             if (response.data.success === false && response.data.redirect === '/contact'){
                 await showNotification ("error", "Email Failed to send, Please contact Admin");
