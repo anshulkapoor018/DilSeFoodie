@@ -4,7 +4,7 @@ import Alert from 'react-bootstrap/Alert'
 import './user-order-history.component.css';
 
 const prod_api = 'https://dilsefoodie.herokuapp.com';
-// const dev_api = "http://localhost:5000";
+const dev_api = "http://localhost:5000";
 
 var userObject = JSON.parse(window.sessionStorage.getItem("userDetails"));
 

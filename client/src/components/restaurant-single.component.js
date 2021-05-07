@@ -9,7 +9,7 @@ import $ from 'jquery'
 
 
 const prod_api = 'https://dilsefoodie.herokuapp.com';
-// const dev_api = "http://localhost:5000";
+const dev_api = "http://localhost:5000";
 
 var dummyProfilePics = "https://res.cloudinary.com/helpinghands101/image/upload/v1615598217/user_mcyfxd.png"
 var userObject = JSON.parse(window.sessionStorage.getItem("userDetails"));
@@ -162,7 +162,7 @@ export default class RestaurantsPage extends React.Component {
     {
     return(
       <div className='homepage'>
-        <div style ={divStyle} className="card-wide" style = {{backgroundColor:"#000"}} id ="left">
+        <div className="card-wide" style = {{backgroundColor:"#000"}} id ="left">
           <div id="inline"> 
             <div className="one">
               <h5 style = {{color:"#ffffff"}}>{restaurant.name}</h5>
@@ -179,7 +179,7 @@ export default class RestaurantsPage extends React.Component {
             </div> 
           </div> 
           <br></br>
-          <MapSection location={location} zoomLevel={17} />
+          <MapSection className="singleMap" location={location} zoomLevel={17} />
         </div>
         <div className="card-wide"  style = {{backgroundColor:"#000000"}} id="right">
           <h2 style = {{backgroundColor:"#000000"}}>Reviews</h2>
@@ -242,7 +242,7 @@ export default class RestaurantsPage extends React.Component {
   else{
     return(
       <div className='homepage'>
-        <div style ={divStyle} className="card-wide" id ="left">
+        <div className="card-wide" style = {{backgroundColor:"#fafafa"}} id ="left">
           <div id="inline"> 
             <div className="one">
               <h5>{restaurant.name}</h5>
@@ -259,7 +259,7 @@ export default class RestaurantsPage extends React.Component {
             </div> 
           </div> 
           <br></br>
-          <MapSection location={location} zoomLevel={17} />
+          <MapSection className="singleMap" location={location} zoomLevel={17} />
         </div>
         <div className="card-wide" id="right">
           <h2>Reviews</h2>

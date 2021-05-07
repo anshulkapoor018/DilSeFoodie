@@ -4,7 +4,7 @@ import React, { Component } from 'react';
 import MapContainer from '../Static/GoogleMapsPickup';
 
 const prod_api = 'https://dilsefoodie.herokuapp.com';
-// const dev_api = "http://localhost:5000";
+const dev_api = "http://localhost:5000";
 
 export default class RestaurantsAll extends Component {
   constructor(props) {

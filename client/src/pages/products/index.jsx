@@ -3,7 +3,7 @@ import axios from 'axios';
 import Product from './product';
 import Header from '../../layout/header';
 const prod_api = 'https://dilsefoodie.herokuapp.com';
-// const dev_api = "http://localhost:5000";
+const dev_api = "http://localhost:5000";
 
 export default class ProductsPage extends React.Component {
   constructor(props) {
