@@ -1,7 +1,14 @@
-# Welcome to the Capstone-Studio-Project!
+# Welcome to Full Stack Restaurant Rating Project!
 ## Team Name: DogeCoin
 
+## Project is Hosted on HEROKU - http://dilsefoodie.herokuapp.com
+
 _Topic: Restaurant Rating and Online Ordering System_
+
+## Project Features
+
+1. Fully responsive ReactJS Application aggregating restaurant details with Backend using MongoDB Cloud Atlas and hosted on HEROKU
+2. Features Developed: User Dashboard, Login Authentication, Backend API’s using NodeJS, Food Ordering, Food Cart, Database management, Restaurant Reviews
 
 ### Introduction
 As modern consumers, we greatly benefit from product recommendation applications. In particular, it is convenient to get a list of restaurants that match our preferences without much clicking, comparing, and browsing through long lists of reviews for each and every single business. 
