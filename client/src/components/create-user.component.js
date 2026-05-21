@@ -1,541 +1,353 @@
 import React, { Component } from 'react';
 import axios from 'axios';
-import "../styles/_loginSty.scss";
-import $ from 'jquery'
+import { FaLock, FaRegUserCircle, FaSignInAlt, FaUserPlus } from 'react-icons/fa';
+import '../styles/_loginSty.scss';
 import apiBaseUrl from '../config/api';
 
-// Notification imports
 import 'react-notifications/lib/notifications.css';
-import {NotificationManager} from 'react-notifications';
-const dev_api = apiBaseUrl;
+import { NotificationManager } from 'react-notifications';
 
-// This calls our notification handler
-async function showNotification (type, message){
-  const timer = 2000
-  if (type === "error"){
-    NotificationManager.error(message, "", timer);
+function showNotification(type, message) {
+  const timer = 2000;
+
+  if (type === 'error') {
+    NotificationManager.error(message, '', timer);
+  } else if (type === 'success') {
+    NotificationManager.success(message, '', timer);
+  } else if (type === 'warning') {
+    NotificationManager.warning(message, '', timer);
   }
-  else if (type === "success"){
-    NotificationManager.success(message, "", timer);
-  }
-  else if (type === "warning"){
-    NotificationManager.warning(message, "", timer);
-  }
+}
+
+function isEmailValid(email) {
+  return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+}
+
+function storeUserSession(userDetails) {
+  window.sessionStorage.setItem('isLoggedIn', 'true');
+  window.sessionStorage.setItem('userDetails', JSON.stringify(userDetails));
 }
 
 export default class AuthCredentials extends Component {
- 
   constructor(props) {
     super(props);
     this.state = {
-      isLoginOpen: true,
-      isRegisterOpen: false,
+      activePanel: 'login'
     };
   }
-  componentDidMount(){
-    let mode = document.cookie.split('; ').find(row => row.startsWith('mode'))
-    mode = mode.split('=')[1]
-    if (mode === "light"){
-      $("#blackslider").prop('checked',true);
-    }
-}
 
-  showLoginBox() {
-    this.setState({isLoginOpen: true, isRegisterOpen: false});
+  componentDidMount() {
+    if (window.sessionStorage.getItem('isLoggedIn') === 'true') {
+      window.location = '/profile';
+    }
   }
 
-  showRegisterBox() {
-    this.setState({isRegisterOpen: true, isLoginOpen: false});
+  setActivePanel(activePanel) {
+    this.setState({ activePanel });
   }
 
   render() {
-    if (window.sessionStorage.getItem('isLoggedIn') === 'true'){
-      window.location = "/profile"
-    }
-    else{
-      let mode = document.cookie.split('; ').find(row => row.startsWith('mode'))
-      mode = mode.split('=')[1]
-      // console.log(this.props.theme);
-      if(mode == "light")
-        {
-        return(
-          <div className="root-container">
-            <div className="box-controller">
-              <div
-                className={"controller-dark " + (this.state.isLoginOpen
-                ? "selected-controller-dark"
-                : "")}
-                onClick={this
-                .showLoginBox
-                .bind(this)}>
-                Login
-              </div>
-              <div
-                className={"controller-dark " + (this.state.isRegisterOpen
-                ? "selected-controller-dark"
-                : "")}
-                onClick={this
-                .showRegisterBox
-                .bind(this)}>
-                Register
-              </div>
-            </div>
-            <div className="box-container-dark">
-              {this.state.isLoginOpen && <LoginBox/>}
-              {this.state.isRegisterOpen && <RegisterBox/>}
-            </div>
+    const { activePanel } = this.state;
+
+    return (
+      <main className="auth-page">
+        <section className="auth-shell">
+          <div className="auth-hero">
+            <p className="auth-kicker">account console</p>
+            <h1>{activePanel === 'login' ? 'Welcome back.' : 'Join the table.'}</h1>
+            <p>
+              Sign in to keep orders, checkout, and your local food trail connected.
+            </p>
           </div>
-        )
-      }
-      else{
-        return(
-          <div className="root-container">
-            <div className="box-controller">
-              <div
-                className={"controller " + (this.state.isLoginOpen
-                ? "selected-controller"
-                : "")}
-                onClick={this
-                .showLoginBox
-                .bind(this)}>
+
+          <div className="auth-card">
+            <div className="auth-tabs" aria-label="Account mode">
+              <button
+                className={activePanel === 'login' ? 'is-selected' : ''}
+                type="button"
+                onClick={() => this.setActivePanel('login')}
+              >
+                <FaSignInAlt />
                 Login
-              </div>
-              <div
-                className={"controller " + (this.state.isRegisterOpen
-                ? "selected-controller"
-                : "")}
-                onClick={this
-                .showRegisterBox
-                .bind(this)}>
+              </button>
+              <button
+                className={activePanel === 'register' ? 'is-selected' : ''}
+                type="button"
+                onClick={() => this.setActivePanel('register')}
+              >
+                <FaUserPlus />
                 Register
-              </div>
+              </button>
             </div>
-            <div className="box-container">
-              {this.state.isLoginOpen && <LoginBox/>}
-              {this.state.isRegisterOpen && <RegisterBox/>}
-            </div>
+
+            {activePanel === 'login' ? (
+              <LoginBox />
+            ) : (
+              <RegisterBox onRegistered={() => this.setActivePanel('login')} />
+            )}
           </div>
-        )
-      }
-    }
+        </section>
+      </main>
+    );
   }
 }
 
-//Login Box
 class LoginBox extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      email: "",
-      password: "",
+      email: '',
+      password: '',
+      isSubmitting: false
     };
-    
-    this.onChangeEmail = this.onChangeEmail.bind(this);
-    this.onChangePassword = this.onChangePassword.bind(this);
-    this.submitLogin = this.submitLogin.bind(this);
   }
 
-
-  onChangeEmail(e){
-    const target = e.target;
-    const value = target.value;
-    // const name = target.name; 
-    this.setState({
-      email: value
-    })
-  }
-  onChangePassword(e){
-    const target = e.target;
-    const value = target.value;
-    // const name = target.name; 
-    this.setState({
-      password: value
-    })
+  onChange = (event) => {
+    const { name, value } = event.target;
+    this.setState({ [name]: value });
   }
 
-  async submitLogin(e) {
-    e.preventDefault();
-    
-    
-    const user = {
-      email: this.state.email,
-      password: this.state.password
-    }
-
-    // Checking for empty inputs 
-    if (user.email.length < 3 || user.email.trim() === ""){
-      await showNotification ("error", "Invalid Email");
-    }
-    else if (user.password.length < 6 || user.password.trim() === ""){
-      await showNotification ("error", "Invalid Password");
-    }
-    else{
-      const response = await axios.post(dev_api + '/user/login', user)
-      console.log(response.data.message)
-      if (response.data.message){
-        await showNotification ("error", "Wrong email or password");
-      }
-      else{
-            
-        if (response.data.redirect === '/') {
-          window.sessionStorage.setItem('isLoggedIn', response.data.status);
-          window.sessionStorage.setItem('userDetails', JSON.stringify(response.data.userDetails));
-
-          await showNotification ("success", "Login Successful")
-          
-          // add a delay for 2 seconds 
-          setTimeout(() => {
-            window.location = "/profile"
-          }, 1000)
-        
-        } 
-      
-        else if (response.data.redirect === '/login'){
-          window.location = "/user"
-        }
-      }
-
-    }
-  
-    this.setState({
-      email: this.state.email,
-      password: this.state.password
-    })      
-
-  }
-  
-  render() {
-    let mode = document.cookie.split('; ').find(row => row.startsWith('mode'))
-    mode = mode.split('=')[1]
-    // console.log(this.props.theme);
-    if(mode == "light")
-      {
-      return (
-          <div className="inner-container">
-            <div className="box">
-              <form>
-                <div className="input-group">
-                  <label for = "email" htmlFor="email">Email</label>
-                  <input type="text" id="email" name="email" style={{color: "#ffffff"}} className="login-input" value={this.state.email}
-                    onChange={this.onChangeEmail}placeholder="Email"/>
-                </div>
-
-                <div className="input-group">
-                  <label for ="password" htmlFor="password">Password</label>
-                  <input
-                    type="password"
-                    name="password"
-                    id="password"
-                    className="login-input"
-                    value={this.state.password}
-                    onChange={this.onChangePassword}
-                    style={{color: "#ffffff"}}
-                    placeholder="Password"/>
-                </div>
-
-                <button
-                  type="submit"
-                  className="login-btn"
-                  style = {{color:"#e8e8e8"}}
-                  onClick={this
-                  .submitLogin
-                  .bind(this)}>Login</button>
-              </form>
-              <br/>
-              
-              {this.state.err_status ? <div class="alert alert-danger" role="alert">
-                {this.state.message}
-              </div> : ""}
-              {this.state.succes_status ? <div class="alert alert-success" role="alert">
-                {this.state.message}
-              </div> : ""}
-                  
-            </div>
-          </div>
-        );
-  }else
-    {
-      return (
-        <div className="inner-container">
-          <div className="box">
-            <form>
-              <div className="input-group">
-                <label for = "email"  htmlFor="email">Email</label>
-                <input type="text" id="email" name="email" className="login-input" value={this.state.email}
-                  onChange={this.onChangeEmail}placeholder="Email"/>
-              </div>
-
-              <div className="input-group">
-                <label for ="password" htmlFor="password">Password</label>
-                <input
-                  type="password"
-                  name="password"
-                  id="password"
-                  className="login-input"
-                  value={this.state.password}
-                  onChange={this.onChangePassword}
-                  placeholder="Password"/>
-              </div>
-
-              <button
-                type="submit"
-                className="login-btn"
-                onClick={this
-                .submitLogin
-                .bind(this)}>Login</button>
-            </form>
-            <br/>
-            
-            {this.state.err_status ? <div class="alert alert-danger" role="alert">
-              {this.state.message}
-            </div> : ""}
-            {this.state.succes_status ? <div class="alert alert-success" role="alert">
-              {this.state.message}
-            </div> : ""}
-                
-          </div>
-        </div>
-      );
-  }
-  }
-}
-
-//Register Box 
-class RegisterBox extends React.Component {
-
-  constructor(props) {
-    super(props);
-    this.state = {
-      firstName: "",
-      lastName: "",
-      email: "",
-      password: ""
-    };
-
-    this.onChangeFirstName = this.onChangeFirstName.bind(this);
-    this.onChangeLastName = this.onChangeLastName.bind(this);
-    this.onChangeEmail = this.onChangeEmail.bind(this);
-    this.onChangePassword = this.onChangePassword.bind(this);
-    this.submitregister = this.submitregister.bind(this);
-  }
-
-  onChangeFirstName(e){
-    const target = e.target;
-    const value = target.value;
-    const name = target.name; 
-    this.setState({
-      firstName: value,
-    })
-  }
-  onChangeLastName(e){
-    const target = e.target;
-    const value = target.value;
-    const name = target.name; 
-    this.setState({
-      lastName: value,
-    })
-  }
-  onChangeEmail(e){
-    const target = e.target;
-    const value = target.value;
-    const name = target.name; 
-    this.setState({
-      email: value,
-    })
-  }
-  onChangePassword(e){
-    const target = e.target;
-    const value = target.value;
-    const name = target.name; 
-    this.setState({
-      password: value,
-    })
-  }
-
-  async submitregister(e) {
-    e.preventDefault();
+  submitLogin = async (event) => {
+    event.preventDefault();
 
     const user = {
-      firstName: this.state.firstName,
-      lastName: this.state.lastName,
-      email: this.state.email,
+      email: this.state.email.trim().toLowerCase(),
       password: this.state.password
+    };
+
+    if (!isEmailValid(user.email)) {
+      showNotification('error', 'Enter a valid email.');
+      return;
     }
 
-    if (user.firstName.length < 1 || user.firstName.trim() === ""){
-      await showNotification ("error", "Invalid Firstname")
+    if (user.password.length < 6) {
+      showNotification('error', 'Password must be at least 6 characters.');
+      return;
     }
-    else if (user.lastName.length < 1 || user.lastName.trim() === ""){
-      await showNotification ("error", "Invalid Lastname")
-    }
-    else if (user.email.length < 3 || user.email.trim() === ""){
-      await showNotification ("error", "Invalid Email")
-    }
-    else if (user.password.length < 6 || user.password.trim() === ""){
-      await showNotification ("error", "Invalid Password")
-    }
-   
-    else{
-      const response = await axios.post(dev_api + '/user/signup', user)
-      console.log(response.data.success)
-      if(response.data.email_use === true){
-        await showNotification ("error", "Sign up failed, Email Already Exists!")
+
+    this.setState({ isSubmitting: true });
+
+    try {
+      const response = await axios.post(`${apiBaseUrl}/user/login`, user);
+
+      if (response.data.message) {
+        showNotification('error', 'Wrong email or password.');
+        this.setState({ isSubmitting: false });
+        return;
       }
-      else if (response.data.success === false){
-        await showNotification ("error", "Sign up failed, Please try again!")
-      }
-      else if (response.data.success === true){
-        await showNotification ("success", "You have Successfully Signed up!")
+
+      if (response.data.redirect === '/') {
+        storeUserSession(response.data.userDetails);
+        showNotification('success', 'Login successful.');
         setTimeout(() => {
-          window.location = "/user"
-        }, 1500)
+          window.location = '/profile';
+        }, 700);
+      } else {
+        this.setState({ isSubmitting: false });
       }
-      
+    } catch (error) {
+      showNotification('error', 'Login failed. Please try again.');
+      this.setState({ isSubmitting: false });
     }
-
-  
-   
-
-    this.setState({
-      firstName: this.state.firstName,
-      LastName: this.state.lastName,
-      email: this.state.email,
-      password: this.state.password
-    })
   }
 
   render() {
-    let mode = document.cookie.split('; ').find(row => row.startsWith('mode'))
-    mode = mode.split('=')[1]
-    // console.log(this.props.theme);
-    if(mode == "light")
-    {
-      return (
-        <div className="inner-container">
-          <div className="box">
-            <form>
-              <div className="input-group">
-                <label htmlFor="firstName">First Name</label>
-                <input
-                  type="text"
-                  name="firstName"
-                  className="login-input"
-                  value={this.state.firstName}
-                  onChange={this.onChangeFirstName}
-                  style={{color: "#ffffff"}}
-                  placeholder="First Name"/>
-              </div>
-              <div className="input-group">
-                <label htmlFor="lastName">Last Name</label>
-                <input
-                  type="text"
-                  name="lastName"
-                  className="login-input"
-                  value={this.state.lastName}
-                  onChange={this.onChangeLastName}
-                  style={{color: "#ffffff"}}
-                  placeholder="Last Name"/>
-              </div>
-
-              <div className="input-group">
-                <label htmlFor="email">Email</label>
-                <input type="text" name="email" style={{color: "#ffffff"}} className="login-input" value={this.state.email}
-                  onChange={this.onChangeEmail}placeholder="Email"/>
-              </div>
-
-              <div className="input-group">
-                <label htmlFor="password" style={{color: "#ffffff"}}>Password</label>
-                <input
-                  type="password"
-                  name="password"
-                  className="login-input"
-                  style={{color: "#ffffff"}}
-                  value={this.state.password}
-                  onChange={this.onChangePassword}
-                  placeholder="Password"/>
-              </div>
-              <button
-                type="submit"
-                className="login-btn"
-                style = {{color:"#e8e8e8"}}
-                onClick={this
-                .submitregister
-                .bind(this)}>Register</button>
-            </form>
-
-            <br/>
-            
-            {this.state.error_status ? <div class="alert alert-danger" role="alert">
-              {this.state.message}
-            </div> : ""}
-            {this.state.success_status ? <div class="alert alert-success" role="alert">
-              {this.state.message}
-            </div> : ""}
-          </div>   
-        </div>
-      );
-  }else{
     return (
-      <div className="inner-container">
-        <div className="box">
-          <form>
-            <div className="input-group">
-              <label htmlFor="firstName">First Name</label>
-              <input
-                type="text"
-                name="firstName"
-                className="login-input"
-                value={this.state.firstName}
-                onChange={this.onChangeFirstName}
-                placeholder="First Name"/>
-            </div>
-            <div className="input-group">
-              <label htmlFor="lastName">Last Name</label>
-              <input
-                type="text"
-                name="lastName"
-                className="login-input"
-                value={this.state.lastName}
-                onChange={this.onChangeLastName}
-                placeholder="Last Name"/>
-            </div>
+      <form className="auth-form" onSubmit={this.submitLogin}>
+        <label className="auth-field">
+          <span>Email</span>
+          <div>
+            <FaRegUserCircle />
+            <input
+              type="email"
+              name="email"
+              value={this.state.email}
+              onChange={this.onChange}
+              placeholder="you@example.com"
+              autoComplete="email"
+            />
+          </div>
+        </label>
 
-            <div className="input-group">
-              <label htmlFor="email">Email</label>
-              <input type="text" name="email"  className="login-input" value={this.state.email}
-                onChange={this.onChangeEmail}placeholder="Email"/>
-            </div>
+        <label className="auth-field">
+          <span>Password</span>
+          <div>
+            <FaLock />
+            <input
+              type="password"
+              name="password"
+              value={this.state.password}
+              onChange={this.onChange}
+              placeholder="password"
+              autoComplete="current-password"
+            />
+          </div>
+        </label>
 
-            <div className="input-group">
-              <label htmlFor="password" >Password</label>
-              <input
-                type="password"
-                name="password"
-                className="login-input"
-                value={this.state.password}
-                onChange={this.onChangePassword}
-                placeholder="Password"/>
-            </div>
-            <button
-              type="submit"
-              className="login-btn"
-              style = {{color:"#e8e8e8"}}
-              onClick={this
-              .submitregister
-              .bind(this)}>Register</button>
-          </form>
-
-          <br/>
-          
-          {this.state.error_status ? <div class="alert alert-danger" role="alert">
-            {this.state.message}
-          </div> : ""}
-          {this.state.success_status ? <div class="alert alert-success" role="alert">
-            {this.state.message}
-          </div> : ""}
-        </div>   
-      </div>
+        <button className="auth-button" type="submit" disabled={this.state.isSubmitting}>
+          {this.state.isSubmitting ? 'Signing in' : 'Login'}
+        </button>
+      </form>
     );
   }
 }
+
+class RegisterBox extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      firstName: '',
+      lastName: '',
+      email: '',
+      password: '',
+      isSubmitting: false
+    };
+  }
+
+  onChange = (event) => {
+    const { name, value } = event.target;
+    this.setState({ [name]: value });
+  }
+
+  submitRegister = async (event) => {
+    event.preventDefault();
+
+    const user = {
+      firstName: this.state.firstName.trim(),
+      lastName: this.state.lastName.trim(),
+      email: this.state.email.trim().toLowerCase(),
+      password: this.state.password
+    };
+
+    if (user.firstName.length < 2) {
+      showNotification('error', 'First name must be at least 2 characters.');
+      return;
+    }
+
+    if (user.lastName.length < 2) {
+      showNotification('error', 'Last name must be at least 2 characters.');
+      return;
+    }
+
+    if (!isEmailValid(user.email)) {
+      showNotification('error', 'Enter a valid email.');
+      return;
+    }
+
+    if (user.password.length < 6) {
+      showNotification('error', 'Password must be at least 6 characters.');
+      return;
+    }
+
+    this.setState({ isSubmitting: true });
+
+    try {
+      const signupResponse = await axios.post(`${apiBaseUrl}/user/signup`, user);
+
+      if (signupResponse.data.email_use === true) {
+        showNotification('error', 'An account with this email already exists.');
+        this.setState({ isSubmitting: false });
+        return;
+      }
+
+      if (signupResponse.data.success === false) {
+        showNotification('error', signupResponse.data.message || 'Signup failed. Please try again.');
+        this.setState({ isSubmitting: false });
+        return;
+      }
+
+      const loginResponse = await axios.post(`${apiBaseUrl}/user/login`, {
+        email: user.email,
+        password: user.password
+      });
+
+      if (loginResponse.data && loginResponse.data.userDetails) {
+        storeUserSession(loginResponse.data.userDetails);
+        showNotification('success', 'Account created. You are signed in.');
+        setTimeout(() => {
+          window.location = '/profile';
+        }, 700);
+        return;
+      }
+
+      showNotification('success', 'Account created. Please sign in.');
+      this.props.onRegistered();
+      this.setState({ ...user, password: '', isSubmitting: false });
+    } catch (error) {
+      showNotification('error', 'Signup failed. Please try again.');
+      this.setState({ isSubmitting: false });
+    }
+  }
+
+  render() {
+    return (
+      <form className="auth-form" onSubmit={this.submitRegister}>
+        <div className="auth-field-grid">
+          <label className="auth-field">
+            <span>First name</span>
+            <div>
+              <FaRegUserCircle />
+              <input
+                type="text"
+                name="firstName"
+                value={this.state.firstName}
+                onChange={this.onChange}
+                placeholder="First"
+                autoComplete="given-name"
+              />
+            </div>
+          </label>
+
+          <label className="auth-field">
+            <span>Last name</span>
+            <div>
+              <FaRegUserCircle />
+              <input
+                type="text"
+                name="lastName"
+                value={this.state.lastName}
+                onChange={this.onChange}
+                placeholder="Last"
+                autoComplete="family-name"
+              />
+            </div>
+          </label>
+        </div>
+
+        <label className="auth-field">
+          <span>Email</span>
+          <div>
+            <FaRegUserCircle />
+            <input
+              type="email"
+              name="email"
+              value={this.state.email}
+              onChange={this.onChange}
+              placeholder="you@example.com"
+              autoComplete="email"
+            />
+          </div>
+        </label>
+
+        <label className="auth-field">
+          <span>Password</span>
+          <div>
+            <FaLock />
+            <input
+              type="password"
+              name="password"
+              value={this.state.password}
+              onChange={this.onChange}
+              placeholder="6+ characters"
+              autoComplete="new-password"
+            />
+          </div>
+        </label>
+
+        <button className="auth-button" type="submit" disabled={this.state.isSubmitting}>
+          {this.state.isSubmitting ? 'Creating account' : 'Create account'}
+        </button>
+      </form>
+    );
+  }
 }
