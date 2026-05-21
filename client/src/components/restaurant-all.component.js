@@ -1,6 +1,7 @@
 import './restaurant-all.component.css';
 import axios from 'axios';
 import React, { Component } from 'react';
+import { FaMapMarkedAlt, FaSearch, FaThLarge } from 'react-icons/fa';
 import MapContainer from '../Static/GoogleMapsPickup';
 import apiBaseUrl from '../config/api';
 
@@ -10,18 +11,12 @@ export default class RestaurantsAll extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      isListViewOpen: true,
-      isPickupViewOpen: false,
-      restaurantListView: []
+      activeView: 'list',
+      activeCategory: 'All',
+      searchTerm: '',
+      restaurantList: [],
+      isLoading: true,
     };
-  }
-
-  showListView() {
-    this.setState({isListViewOpen: true, isPickupViewOpen: false});
-  }
-
-  showPickupView() {
-    this.setState({isPickupViewOpen: true, isListViewOpen: false});
   }
 
   componentDidMount() {
@@ -29,129 +24,170 @@ export default class RestaurantsAll extends Component {
   }
 
   restauranListsApiCall() {
-    var self = this;
-    let markers = []
     axios.get(dev_api + '/restaurant/all')
-    .then(function (response) {
-      response.data.forEach(rest => 
-        markers.push({
-          'name': rest.name,
-          'latitude': rest.latitude,
-          'longitude': rest.longitude
-        })
-      );
-      self.setState({ restaurantListView: markers });
-    })
+      .then((response) => {
+        this.setState({
+          restaurantList: response.data || [],
+          isLoading: false,
+        });
+      })
+      .catch((error) => {
+        console.log(error);
+        this.setState({ isLoading: false });
+      });
+  }
+
+  setView(activeView) {
+    this.setState({ activeView });
+  }
+
+  setCategory(activeCategory) {
+    this.setState({ activeCategory });
+  }
+
+  onSearchChange = (event) => {
+    this.setState({ searchTerm: event.target.value });
+  }
+
+  getFilteredRestaurants() {
+    const { activeCategory, restaurantList, searchTerm } = this.state;
+    const query = searchTerm.trim().toLowerCase();
+
+    return restaurantList.filter((restaurant) => {
+      const matchesCategory = activeCategory === 'All' || restaurant.category === activeCategory;
+      const matchesSearch = !query ||
+        restaurant.name.toLowerCase().includes(query) ||
+        restaurant.category.toLowerCase().includes(query) ||
+        restaurant.city.toLowerCase().includes(query);
+
+      return matchesCategory && matchesSearch;
+    });
   }
 
   render() {
-    let mode = document.cookie.split('; ').find(row => row.startsWith('mode'))
-    mode = mode.split('=')[1]
-    // console.log(this.props.theme);
-    if(mode == "light")
-    {
-      return(
-        <div className="root-containers">
-          <div className="box-controllers">
-            <div className={"controllers-dark " + (this.state.isListViewOpen ? "selected-controllers-dark" : "")} onClick={this.showListView.bind(this)}> 
-            List
+    const { activeCategory, activeView, isLoading, restaurantList, searchTerm } = this.state;
+    const categories = ['All'].concat(
+      Array.from(new Set(restaurantList.map((restaurant) => restaurant.category))).sort()
+    );
+    const filteredRestaurants = this.getFilteredRestaurants();
+
+    return (
+      <main className="restaurants-page">
+        <section className="restaurants-shell">
+          <div className="restaurants-hero">
+            <div>
+              <span className="restaurants-kicker">restaurant index</span>
+              <h1>Pick the next craving.</h1>
             </div>
-            <div className={"controllers-dark " + (this.state.isPickupViewOpen ? "selected-controllers-dark" : "")} onClick={this.showPickupView.bind(this)}>
-            Pickup
+            <p>
+              Search the local board, filter by cuisine, then jump into menus or pickup mode.
+            </p>
+          </div>
+
+          <div className="restaurants-console">
+            <div className="restaurants-search">
+              <label htmlFor="restaurant-search">scan restaurants</label>
+              <div className="restaurants-search__control">
+                <FaSearch />
+                <input
+                  id="restaurant-search"
+                  type="search"
+                  placeholder="pizza, indian, hoboken..."
+                  value={searchTerm}
+                  onChange={this.onSearchChange}
+                />
+              </div>
+            </div>
+
+            <div className="restaurants-view-toggle" aria-label="Restaurant view">
+              <button
+                className={activeView === 'list' ? 'is-active' : ''}
+                type="button"
+                onClick={() => this.setView('list')}
+              >
+                <FaThLarge />
+                list
+              </button>
+              <button
+                className={activeView === 'pickup' ? 'is-active' : ''}
+                type="button"
+                onClick={() => this.setView('pickup')}
+              >
+                <FaMapMarkedAlt />
+                pickup
+              </button>
             </div>
           </div>
-          <div style={{ height: '100vh', width: '100%' }} className="card-fulls">
-            {this.state.isListViewOpen && <Restaurants/>}
-            {this.state.isPickupViewOpen && <MapContainer zoomLevel={17} />}
+
+          <div className="restaurants-category-strip" aria-label="Cuisine filters">
+            {categories.map((category) => (
+              <button
+                className={activeCategory === category ? 'is-active' : ''}
+                key={category}
+                type="button"
+                onClick={() => this.setCategory(category)}
+              >
+                {category}
+              </button>
+            ))}
           </div>
-        </div>
-      )
-    }
-    else{
-      return(
-        <div className="root-containers">
-          <div className="box-controllers">
-            <div className={"controllers " + (this.state.isListViewOpen ? "selected-controllers" : "")} onClick={this.showListView.bind(this)}> 
-            List
+
+          {activeView === 'list' ? (
+            <RestaurantsGrid restaurants={filteredRestaurants} isLoading={isLoading} />
+          ) : (
+            <div className="restaurants-map-panel">
+              <MapContainer zoomLevel={17} />
             </div>
-            <div className={"controllers " + (this.state.isPickupViewOpen ? "selected-controllers" : "")} onClick={this.showPickupView.bind(this)}>
-            Pickup
-            </div>
-          </div>
-          <div style={{ height: '100vh', width: '100%' }} className="card-fulls">
-            {this.state.isListViewOpen && <Restaurants/>}
-            {this.state.isPickupViewOpen && <MapContainer zoomLevel={17} />}
-          </div>
-        </div>
-      )
-    }
- 
-  }  
+          )}
+        </section>
+      </main>
+    );
+  }
 }
 
-class Restaurants extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      restaurantList: []
-    };
+class RestaurantsGrid extends React.Component {
+  handleClick = (restaurant) => () => {
+    window.sessionStorage.setItem('resID', restaurant._id);
+    window.location.href = '/res/' + restaurant._id;
   }
 
-  componentDidMount() {
-    this.restauranListApiCall();
-  }
+  render() {
+    const { isLoading, restaurants } = this.props;
 
-  restauranListApiCall() {
-    var self = this;
-    axios.get(dev_api + '/restaurant/all')
-    .then(function (response) {
-      self.setState({ restaurantList: response.data });
-    })
-  }
-
-  handleClick = param => e => {
-    // path: '/res/' + param._id,
-    window.sessionStorage.setItem('resID', param._id);
-    window.location.href = '/res/' + param._id
-  }
-
-  render(){
-    let mode = document.cookie.split('; ').find(row => row.startsWith('mode'))
-    mode = mode.split('=')[1]
-    if(mode==='light')
-    {
-      return(
-        <div className='cards'>
-          {this.state.restaurantList.map((item, index) => (
-            <div key = {index} className = "cards" >
-              <figure class="card" style = {{backgroundColor:"#000"}} onClick={this.handleClick(item)} >
-                <img src={item.thumbnail} alt={item.name}/>
-                <br/>
-                <h3 className = "restTitle">{item.name}</h3>
-                <p className = "restAddress" style = {{color:"#b4fffb"}}>{item.address}</p>
-                <p className = "restAddress" style = {{color:"#b4fffb"}}>{item.address}, {item.city}, {item.state}</p>  
-              </figure>
-            </div>
-          ))}
-        </div>
-      )
+    if (isLoading) {
+      return <div className="restaurants-empty">loading local spots...</div>;
     }
-    else{
-      return(
-        <div className='cards'>
-          {this.state.restaurantList.map((item, index) => (
-            <div key = {index} className = "cards">
-              <figure class="card" onClick={this.handleClick(item)}>
-                <img src={item.thumbnail} alt={item.name}/>
-                <br/>
-                <h3 className = "restTitle">{item.name}</h3>
-                <p className = "restAddress">{item.address}</p>
-                <p className = "restAddress">{item.address}, {item.city}, {item.state}</p>
-              </figure>
-            </div>
-          ))}
-        </div>
-      )
+
+    if (!restaurants.length) {
+      return <div className="restaurants-empty">no restaurants match this scan.</div>;
     }
+
+    return (
+      <section className="restaurants-grid" aria-label="Restaurant list">
+        {restaurants.map((restaurant, index) => (
+          <article
+            className="restaurant-card"
+            key={restaurant._id}
+            onClick={this.handleClick(restaurant)}
+            tabIndex="0"
+            role="button"
+          >
+            <div className="restaurant-card__image">
+              <img src={restaurant.thumbnail} alt={restaurant.name} />
+              <span>{String(index + 1).padStart(2, '0')}</span>
+            </div>
+            <div className="restaurant-card__body">
+              <div className="restaurant-card__meta">
+                <span>{restaurant.category}</span>
+                <span>{restaurant.city}</span>
+              </div>
+              <h2>{restaurant.name}</h2>
+              <p>{restaurant.address}, {restaurant.city}, {restaurant.state}</p>
+              <button type="button">open menu</button>
+            </div>
+          </article>
+        ))}
+      </section>
+    );
   }
 }

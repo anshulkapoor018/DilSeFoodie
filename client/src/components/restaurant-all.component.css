@@ -1,244 +1,331 @@
-/* body {
-    margin: 0;
+.restaurants-page {
+  width: min(1240px, calc(100% - 40px));
+  margin: 0 auto;
+  padding: 28px 0 70px;
+  color: #141414;
 }
 
-.App {
-    text-align: center;
-    background: #282c34;
+.restaurants-shell {
+  padding: 18px;
+  border: 2px solid #141414;
+  border-radius: 8px;
+  background:
+    linear-gradient(90deg, rgba(20, 20, 20, 0.045) 1px, transparent 1px),
+    linear-gradient(rgba(20, 20, 20, 0.045) 1px, transparent 1px),
+    #f6eddb;
+  background-size: 28px 28px;
+  box-shadow: 8px 8px 0 #141414;
 }
 
-.App-logo {
-    height: 40vmin;
+.restaurants-hero {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(260px, 420px);
+  gap: 22px;
+  align-items: end;
+  padding: 10px 8px 22px;
 }
 
-.App-header {
-    background-color: #282c34;
-    min-height: 100vh;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    font-size: calc(10px + 2vmin);
-    color: white;
+.restaurants-kicker {
+  display: inline-flex;
+  width: max-content;
+  margin-bottom: 14px;
+  padding: 8px 11px;
+  border: 2px solid #141414;
+  border-radius: 999px;
+  background: #d8ff62;
+  font-family: "Courier New", monospace;
+  font-size: 0.72rem;
+  font-weight: 900;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
 }
 
-.App-link {
-    color: #09d3ac;
+.restaurants-hero h1 {
+  margin: 0;
+  padding: 0;
+  color: #141414;
+  background: transparent;
+  font-size: clamp(3.2rem, 7vw, 6.8rem);
+  line-height: 0.86;
+  font-weight: 950;
+  letter-spacing: 0;
+  text-align: left;
 }
 
-.content {
-    margin: 0 auto;
-} */
-
-.root-containers {
-    width: 100%;
-    height: 100%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-direction: column;
+.restaurants-hero p {
+  margin: 0;
+  color: #252525;
+  font-size: 1.08rem;
+  font-weight: 800;
+  line-height: 1.5;
 }
 
-.box-controllers {
-    visibility: visible;
-    background-color: black;
-    display: -webkit-box;
-    display: -ms-flexbox;
-    display: flex;
-    max-width: 24em;
-    min-width: 21em;
-    height: 35px;
-    -webkit-box-shadow: 0px 0px 20px 0px rgba(15, 15, 15, 0.2);
-    box-shadow: 0px 0px 20px 0px rgba(15, 15, 15, 0.2);
-    margin-bottom: 30px;
-    align-items: center;
-    transition: visibility 0.5s ease-out;
+.restaurants-console {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 16px;
+  align-items: end;
+  margin-top: 8px;
 }
 
-.controllers {
-    background-color: white;
-    flex: 1;
-    text-align: center;
-    height: 100%;
-    width: 100%;
-    line-height: 2;
-    cursor: pointer;
+.restaurants-search,
+.restaurants-view-toggle,
+.restaurants-empty,
+.restaurants-map-panel {
+  border: 2px solid #141414;
+  border-radius: 8px;
+  background: #fff8e8;
+  box-shadow: 5px 5px 0 #141414;
 }
 
-.controllers-dark {
-    background-color: black;
-    flex: 1;
-    text-align: center;
-    height: 100%;
-    width: 100%;
-    line-height: 2;
-    cursor: pointer;
+.restaurants-search {
+  padding: 12px;
 }
 
-.card-fulls {
-    background-color: transparent;
-    box-sizing: border-box;
-    display: block;
-    text-align: center;
-    float: left; 
-    width: 96%;
-    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
-    transition: 0.3s;
-    border-radius: 15px;
-    padding: 1%;
-    margin: 2%;
+.restaurants-search label {
+  display: block;
+  margin-bottom: 8px;
+  font-family: "Courier New", monospace;
+  font-size: 0.72rem;
+  font-weight: 900;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
 }
 
-.selected-controllers {
-    transition: border 0.5s ease-out;
-    background-color: beige;
+.restaurants-search__control {
+  display: grid;
+  grid-template-columns: 28px minmax(0, 1fr);
+  gap: 10px;
+  align-items: center;
 }
 
-.selected-controllers-dark {
-    transition: border 0.5s ease-out;
-    background-color: rgb(54, 54, 29);
-} 
-
-/* Pattern styles */
-.container {
-    display: table;
-    width: 100%;
+.restaurants-search__control svg {
+  color: #ff4b2f;
+  font-size: 1.15rem;
 }
 
-
-.abs,
-.cards .card figcaption,
-.cards .card:after,
-.news .card figcaption,
-.news .card:after,
-.news .article figcaption {
-  position: absolute;
+.restaurants-search input {
+  min-width: 0;
+  height: 54px;
+  padding: 0 14px;
+  border: 2px solid #141414;
+  border-radius: 6px;
+  color: #141414;
+  background: #fffdf6;
+  font-size: 1rem;
+  font-weight: 850;
+  outline: none;
 }
-.rel,
-.cards .card,
-.news .card,
-.news .article {
+
+.restaurants-view-toggle {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(96px, 1fr));
+  gap: 8px;
+  padding: 8px;
+}
+
+.restaurants-view-toggle button,
+.restaurants-category-strip button,
+.restaurant-card button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  min-height: 44px;
+  border: 2px solid #141414;
+  border-radius: 6px;
+  color: #141414;
+  background: #fff8e8;
+  font-weight: 950;
+  text-transform: lowercase;
+  cursor: pointer;
+}
+
+.restaurants-view-toggle button.is-active {
+  background: #5ee0ff;
+}
+
+.restaurants-category-strip {
+  display: flex;
+  gap: 10px;
+  margin: 18px 0 22px;
+  overflow-x: auto;
+  padding: 4px 4px 10px;
+}
+
+.restaurants-category-strip button {
+  flex: 0 0 auto;
+  min-height: 40px;
+  padding: 0 14px;
+  font-family: "Courier New", monospace;
+  font-size: 0.82rem;
+  letter-spacing: 0.02em;
+}
+
+.restaurants-category-strip button.is-active {
+  background: #ffd84d;
+}
+
+.restaurants-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 16px;
+}
+
+.restaurant-card {
+  display: grid;
+  grid-template-rows: 220px minmax(0, 1fr);
+  overflow: hidden;
+  border: 2px solid #141414;
+  border-radius: 8px;
+  background: #fff8e8;
+  box-shadow: 5px 5px 0 #141414;
+  cursor: pointer;
+  transition: transform 140ms ease, box-shadow 140ms ease;
+}
+
+.restaurant-card:hover,
+.restaurant-card:focus {
+  transform: translate(-3px, -3px);
+  box-shadow: 8px 8px 0 #141414;
+  outline: none;
+}
+
+.restaurant-card__image {
   position: relative;
+  overflow: hidden;
+  border-bottom: 2px solid #141414;
+  background: #141414;
 }
-.fix {
-  position: fixed;
-}
-.dfix {
-  display: inline;
-}
-.dib {
-  display: inline-block;
-}
-.db {
+
+.restaurant-card__image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
   display: block;
 }
-.dn {
-  display: none;
-}
-.df,
-.cards,
-.news {
-  display: flex;
-}
-.dif {
+
+.restaurant-card__image span {
+  position: absolute;
+  top: 12px;
+  left: 12px;
   display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 44px;
+  min-height: 34px;
+  border: 2px solid #141414;
+  border-radius: 999px;
+  background: #d8ff62;
+  font-family: "Courier New", monospace;
+  font-weight: 900;
 }
-.dg {
+
+.restaurant-card__body {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: 16px;
+}
+
+.restaurant-card__meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.restaurant-card__meta span {
+  display: inline-flex;
+  align-items: center;
+  min-height: 28px;
+  padding: 0 9px;
+  border: 2px solid #141414;
+  border-radius: 999px;
+  background: #5ee0ff;
+  font-family: "Courier New", monospace;
+  font-size: 0.72rem;
+  font-weight: 900;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.restaurant-card__meta span:last-child {
+  background: #ffd84d;
+}
+
+.restaurant-card h2 {
+  margin: 0;
+  color: #141414;
+  font-size: 1.55rem;
+  line-height: 1.05;
+  font-weight: 950;
+}
+
+.restaurant-card p {
+  margin: 0;
+  color: #333;
+  font-size: 0.98rem;
+  font-weight: 760;
+  line-height: 1.35;
+}
+
+.restaurant-card button {
+  width: max-content;
+  margin-top: auto;
+  padding: 0 14px;
+  background: #ff6b35;
+}
+
+.restaurants-empty {
+  min-height: 180px;
   display: grid;
+  place-items: center;
+  color: #141414;
+  font-family: "Courier New", monospace;
+  font-weight: 900;
+  text-transform: uppercase;
 }
-.dig {
-  display: inline-grid;
-}
-.vm{
-  vertical-align: middle;
-}
-body {
-  background: #24282f;
-  font-family: 'Alegreya Sans';
-}
-.wrapper {
-  padding: 15px;
-}
-.cards{
-  flex-flow: row wrap;
-}
-.cards .card,
-.card {
-  margin: 30px;
-  width: 400px;
-  height: 400px;
+
+.restaurants-map-panel {
+  min-height: 680px;
   overflow: hidden;
-  box-shadow: 0 5px 10px rgba(0,0,0,0.8);
-  transform-origin: center top;
-  transform-style: preserve-3d;
-  transform: translateZ(0);
-  transition: 0.3s;
-}
-.cards .card img,
-.card img {
-  width: 100%;
-  height: 200px;
-}
-.cards .card figcaption,
-.card figcaption {
-  bottom: 0;
-  left: 0;
-  right: 0;
-  padding: 20px;
-  padding-bottom: 10px;
-  font-size: 20px;
-  background: none;
-  color: #fff;
-  transform: translateY(100%);
-  transition: 0.3s;
-}
-.cards .card:after,
-.card:after {
-  content: '';
-  z-index: 10;
-  width: 200%;
-  height: 100%;
-  top: -90%;
-  left: -20px;
-  opacity: 0.1;
-  transform: rotate(45deg);
-  background: linear-gradient(to top, transparent, #fff 15%, rgba(255,255,255,0.5));
-  transition: 0.3s;
-}
-.cards .card:hover,
-.card:hover,
-.card:focus,
-.card:focus,
-.cards .card:active,
-.card:active {
-  box-shadow: 0 8px 16px 3px rgba(0,0,0,0.6);
-  transform: translateY(-3px) scale(1.05) rotateX(15deg);
-}
-.cards .card:hover figcaption,
-.card:hover figcaption,
-.cards .card:focus figcaption,
-.card:focus figcaption,
-.cards .card:active figcaption,
-.card:active figcaption {
-  transform: none;
-}
-.cards .card:hover:after,
-.card:hover:after,
-.cards .card:focus:after,
-.card:focus:after,
-.cards .card:active:after,
-.card:active:after {
-  transform: rotate(25deg);
-  top: -40%;
-  opacity: 0.15;
+  padding: 10px;
 }
 
-.restTitle { color: #7c795d; font-family: 'Source Sans Pro', sans-serif; font-size: 28px; font-weight: 400; line-height: 32px; margin: 0 0 24px; }
+.restaurants-map-panel > div {
+  min-height: 650px;
+}
 
-.restAddress { color: #4c4a37; font-family: 'Source Sans Pro', sans-serif; font-size: 18px; line-height: 32px; margin: 0 0 24px; }
+@media (max-width: 980px) {
+  .restaurants-hero,
+  .restaurants-console {
+    grid-template-columns: 1fr;
+  }
 
+  .restaurants-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
 
-.card:hover h3 {
-  color: #f86503;
-  font-weight: 420
+  .restaurants-view-toggle {
+    width: max-content;
+  }
+}
+
+@media (max-width: 640px) {
+  .restaurants-page {
+    width: min(100% - 24px, 560px);
+  }
+
+  .restaurants-shell {
+    padding: 12px;
+    box-shadow: 5px 5px 0 #141414;
+  }
+
+  .restaurants-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .restaurants-view-toggle {
+    width: 100%;
+  }
 }
