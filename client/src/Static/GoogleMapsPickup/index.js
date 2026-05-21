@@ -2,6 +2,7 @@ import React from 'react'
 import axios from 'axios';
 import {Map, InfoWindow, Marker, GoogleApiWrapper} from 'google-maps-react';
 import apiBaseUrl from '../../config/api';
+import './index.css';
 
 const dev_api = apiBaseUrl;
 
@@ -53,30 +54,33 @@ class MapContainer extends React.Component {
     const coords = { lat: 40.7337675, lng: -74.0680271 };
     if (!this.props.loaded) return <div>Loading...</div>;
     return (
-      <Map
-        className="map"
-        google={this.props.google}
-        onClick={this.onMapClicked}
-        style={{ height: '100%', position: 'relative', width: '95%'}}
-        initialCenter = { coords }
-        zoom={14}>
-        {this.state.restList.map((item, index) => (
-          <Marker
-          key = {index}
-          name={item.name}
-          onClick={this.onMarkerClick}
-          position={{ lat: item.latitude, lng: item.longitude }}
-        />
-        ))}
-        <InfoWindow
-          marker={this.state.activeMarker}
-          onClose={this.onInfoWindowClose}
-          visible={this.state.showingInfoWindow}>
-          <div>
-            <h1>{this.state.selectedPlace.name}</h1>
-          </div>
-        </InfoWindow>
-      </Map>
+      <div className="pickup-map">
+        <Map
+          className="map"
+          containerStyle={{ height: '100%', position: 'relative', width: '100%' }}
+          google={this.props.google}
+          onClick={this.onMapClicked}
+          style={{ height: '100%', position: 'relative', width: '100%' }}
+          initialCenter = { coords }
+          zoom={14}>
+          {this.state.restList.map((item, index) => (
+            <Marker
+            key = {index}
+            name={item.name}
+            onClick={this.onMarkerClick}
+            position={{ lat: item.latitude, lng: item.longitude }}
+          />
+          ))}
+          <InfoWindow
+            marker={this.state.activeMarker}
+            onClose={this.onInfoWindowClose}
+            visible={this.state.showingInfoWindow}>
+            <div>
+              <h1>{this.state.selectedPlace.name}</h1>
+            </div>
+          </InfoWindow>
+        </Map>
+      </div>
     );
   }
 }

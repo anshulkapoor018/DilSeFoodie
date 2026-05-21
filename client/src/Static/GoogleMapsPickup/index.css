@@ -5,6 +5,21 @@
     padding-left: 10px;
     text-align: center;
   }
+
+.pickup-map {
+  position: relative;
+  width: 100%;
+  height: 650px;
+  overflow: hidden;
+  border-radius: 6px;
+}
+
+.pickup-map > div,
+.pickup-map .map {
+  width: 100% !important;
+  height: 100% !important;
+  max-width: 100%;
+}
   
   .google-map {
     width: 100%;

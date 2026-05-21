@@ -287,13 +287,16 @@
 }
 
 .restaurants-map-panel {
-  min-height: 680px;
+  width: 100%;
+  min-height: 674px;
   overflow: hidden;
   padding: 10px;
+  box-sizing: border-box;
 }
 
 .restaurants-map-panel > div {
-  min-height: 650px;
+  width: 100%;
+  max-width: 100%;
 }
 
 @media (max-width: 980px) {
