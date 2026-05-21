@@ -1,7 +1,20 @@
 import { useState } from 'react';
 
+function getStoredCartItems() {
+  if (typeof window === 'undefined') {
+    return [];
+  }
+
+  try {
+    const storedItems = window.sessionStorage.getItem('cartItems');
+    return storedItems ? JSON.parse(storedItems) : [];
+  } catch (error) {
+    return [];
+  }
+}
+
 export default function useCart() {
-  const [cartItems, setCartItems] = useState([]);
+  const [cartItems, setCartItems] = useState(getStoredCartItems);
 
   function addToCart(product) {
     setCartItems((prev) => {
