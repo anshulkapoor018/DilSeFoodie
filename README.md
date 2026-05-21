@@ -1,70 +1,197 @@
-# Welcome to Full Stack Restaurant Rating Project!
-## Team Name: DogeCoin
+# DilSeFoodie
 
-## Project is Hosted on HEROKU - http://dilsefoodie.herokuapp.com
+DilSeFoodie is a full-stack restaurant discovery, review, and food ordering app focused on local restaurants around Jersey City and Hoboken. The project has been modernized from its original Heroku-era setup into a cleaner local development experience with a refreshed React UI, seeded local restaurant menus, and a first-pass Vercel API scaffold.
 
-_Topic: Restaurant Rating and Online Ordering System_
+## What It Does
 
-## Project Features
+- Browse local restaurants by cuisine, location, and search term.
+- View restaurant detail pages with address, category, website, reviews, and ordering actions.
+- Explore pickup mode on a map-backed restaurant index.
+- Browse restaurant-specific menus.
+- Add menu items to a cart, adjust quantities, and review totals.
+- Complete checkout as delivery or pickup.
+- Sign up, log in, and access a profile/order history flow.
+- Seed realistic local restaurants and menu items for development.
 
-1. Fully responsive ReactJS Application aggregating restaurant details with Backend using MongoDB Cloud Atlas and hosted on HEROKU
-2. Features Developed: User Dashboard, Login Authentication, Backend API’s using NodeJS, Food Ordering, Food Cart, Database management, Restaurant Reviews
+## Tech Stack
 
-### Introduction
-As modern consumers, we greatly benefit from product recommendation applications. In particular, it is convenient to get a list of restaurants that match our preferences without much clicking, comparing, and browsing through long lists of reviews for each and every single business. 
-Thus, our project focuses on creating a repository of restaurant ratings from users, for other users to search and browse by restaurant category and name, Also, Provide an experience to Order food from a restaurant in their vicinity.
+- React 17
+- React Router
+- Node.js and Express
+- MongoDB with Mongoose
+- Google Maps integrations
+- Cloudinary integration hooks
+- Nodemailer integration hooks
+- Vercel serverless API scaffold
 
-Team Members:
-1. Anshul Kapoor
-2. Arun Nalluri
-3. Pranay Singh
-4. Ikenna Ibezim
+## Modernization Updates
 
-## Testing Application
-#### Link to Reference 
-- #### https://jestjs.io/docs/tutorial-react
+The app now includes:
 
-#### To Run the general test
-- #### Run: npm test
+- A refreshed Teenage Engineering-inspired visual system.
+- Modernized home, restaurant index, restaurant detail, menu, cart, checkout, search results, and auth screens.
+- Local dev ports standardized to:
+  - Frontend: `http://localhost:3002`
+  - Backend: `http://localhost:5001`
+- API base URL support through `client/src/config/api.js`.
+- Local menu seeding for 11 restaurants and 44 menu items.
+- Initial Vercel routing files:
+  - `api/index.js`
+  - `vercel.json`
+  - `config/db.js`
 
-#### To Run Link test
-- #### Run: npm test Test/Link.react.test.js
+## Local Setup
 
-## Available Scripts
+Install root dependencies:
 
-Please note that any time the server is run in these scripts `nodemon` is used in place of `node` for easier development. If you are interested in how this works follow the nodemon In the project directory, you can run:
+```bash
+npm install
+```
 
-### `npm run-script dev`
+Install client dependencies:
 
-Runs both the client app and the server app in development mode.<br>
-Open [http://localhost:3000](http://localhost:3000) to view the client in the browser.
-Server Runs on http://localhost:5000
+```bash
+npm run client-install
+```
 
-### `npm run-script client`
+Create a `.env` file in the project root:
 
-Runs just the client app in development mode.<br>
-Open [http://localhost:3000](http://localhost:3000) to view the client in the browser.
+```bash
+MONGODB_URI=mongodb://127.0.0.1:27017/dilsefoodie
+SESSION_SECRET=make-a-long-random-string-here
+```
 
+For local development, make sure MongoDB is running.
 
-### `npm run-script server`
+## Seed Local Data
 
-Runs just the server in development mode.<br>
+Seed or refresh local restaurants and menu items:
 
-## File structure
-#### `Project Wireframes` - This holds all of our Design Files
-#### `public` - This holds all of our static files
-#### `src`
-- #### `assets` - This folder holds assets such as images, docs, and fonts
-- #### `components` - This folder holds all of the different components that will make up our views and use state functions to manage data
-- #### `Static` - This folder holds all of the different components that are Static Templates and reusable
-- #### `views` - These represent a unique page on the website i.e. Home or About. These are still normal react components
-- #### `App.js` - This is what renders all of our browser routes and different views
-- #### `index.js` - This is what renders the react app by rendering App.js, should not change
-- #### `package.json` - Defines npm behaviors and packages for the client
-#### `backend` - Holds the server application
-- #### `models` - This holds all of our data models
-- #### `routes` - This holds all of our HTTP to URL path associations for each unique url
-- #### `server.js` - Defines npm behaviors and packages for the client
-- #### `package.json` - Defines npm behaviors and packages for the client
-#### `.gitignore` - Tells git which files to ignore
-#### `README` - This file!
+```bash
+npm run seed:local-menus
+```
+
+This upserts the local restaurant list and refreshes each restaurant menu. It currently seeds:
+
+- 11 restaurants
+- 44 menu items
+
+## Run Locally
+
+Start the backend and frontend together:
+
+```bash
+npm run dev
+```
+
+Open:
+
+```text
+http://localhost:3002
+```
+
+The backend API runs at:
+
+```text
+http://localhost:5001
+```
+
+## Useful Scripts
+
+```bash
+npm run dev
+```
+
+Runs the Express server and React client together.
+
+```bash
+npm run server
+```
+
+Runs only the Express server on port `5001`.
+
+```bash
+npm run client
+```
+
+Runs only the React client on port `3002`.
+
+```bash
+npm run seed:local-menus
+```
+
+Seeds local restaurants and menu items.
+
+```bash
+npm run vercel-build
+```
+
+Runs the current production build command used for Vercel-style builds.
+
+## Environment Variables
+
+Current local/deployment variables:
+
+```bash
+MONGODB_URI=
+SESSION_SECRET=
+```
+
+Planned cleanup variables for Vercel readiness:
+
+```bash
+CLOUDINARY_CLOUD_NAME=
+CLOUDINARY_API_KEY=
+CLOUDINARY_API_SECRET=
+EMAIL_USER=
+EMAIL_PASS=
+```
+
+Some older backend routes still contain legacy email credentials in source. Before a real production deployment, those should be moved fully into environment variables and any exposed credentials should be rotated.
+
+## Vercel Notes
+
+The project is not fully Vercel-ready yet, but the first scaffold is in place. The frontend can build, and the Express app has an initial serverless entry under `api/index.js`.
+
+Before production deployment, the remaining work is:
+
+- Move all backend secrets to environment variables.
+- Convert backend routes route-by-route for Vercel serverless behavior.
+- Confirm MongoDB Atlas connection settings.
+- Confirm upload/email flows in a serverless environment.
+- Clean up legacy warnings and dependency audit issues.
+
+## Project Structure
+
+```text
+api/                 Vercel serverless API entry
+client/              React application
+client/src/components
+client/src/views
+client/src/pages
+client/src/cart
+config/              Shared backend configuration
+models/              Mongoose models
+routes/              Express route handlers
+seed/                Local seed data and seed scripts
+server.js            Local Express server
+vercel.json          Initial Vercel routing config
+```
+
+## Current Known Warnings
+
+The app builds successfully, but the build still reports older warnings in untouched legacy areas, including:
+
+- Some unused imports
+- Some duplicate JSX props
+- A few old lint warnings
+- Dependency audit warnings from the older package set
+
+These are candidates for future cleanup.
+
+## Team Members:
+
+Anshul Kapoor
+Arun Nalluri
+Pranay Singh
+Ikenna Ibezim
