@@ -1,633 +1,348 @@
-import React, { Component } from 'react';
+import React, { useContext, useMemo, useState } from 'react';
 import axios from 'axios';
-import Header from '../../layout/header';
-import './styles.css';
-import apiBaseUrl from '../../config/api';
-
-// Notification imports
+import { Link } from 'react-router-dom';
+import { FaBicycle, FaCheckCircle, FaMapMarkerAlt, FaReceipt, FaShoppingBasket, FaStore } from 'react-icons/fa';
 import 'react-notifications/lib/notifications.css';
-import {NotificationManager} from 'react-notifications';
+import { NotificationManager } from 'react-notifications';
+import Header from '../../layout/header';
+import CartContext from '../../cart/context';
+import { formatCurrency } from '../../modules/string';
+import apiBaseUrl from '../../config/api';
+import './styles.css';
 
-const dev_api = apiBaseUrl;
+const STATES = [
+  'AL',
+  'AK',
+  'AZ',
+  'AR',
+  'CA',
+  'CO',
+  'CT',
+  'DE',
+  'DC',
+  'FL',
+  'GA',
+  'HI',
+  'ID',
+  'IL',
+  'IN',
+  'IA',
+  'KS',
+  'KY',
+  'LA',
+  'ME',
+  'MD',
+  'MA',
+  'MI',
+  'MN',
+  'MS',
+  'MO',
+  'MT',
+  'NE',
+  'NV',
+  'NH',
+  'NJ',
+  'NM',
+  'NY',
+  'NC',
+  'ND',
+  'OH',
+  'OK',
+  'OR',
+  'PA',
+  'RI',
+  'SC',
+  'SD',
+  'TN',
+  'TX',
+  'UT',
+  'VT',
+  'VA',
+  'WA',
+  'WV',
+  'WI',
+  'WY'
+];
 
-// This calls our notification handler
-async function showNotification (type, message){
-  const timer = 1500
-  if (type === "error"){
-    NotificationManager.error(message, "", timer);
-  }
-  else if (type === "success"){
-    NotificationManager.success(message, "", timer);
-  }
-  else if (type === "warning"){
-    NotificationManager.warning(message, "", timer);
+const emptyForm = {
+  firstName: '',
+  lastName: '',
+  mobile: '',
+  address: '',
+  zipcode: '',
+  city: '',
+  stateVal: 'NJ'
+};
+
+function showNotification(type, message) {
+  const timer = 1500;
+  if (type === 'error') {
+    NotificationManager.error(message, '', timer);
+  } else if (type === 'success') {
+    NotificationManager.success(message, '', timer);
+  } else if (type === 'warning') {
+    NotificationManager.warning(message, '', timer);
   }
 }
 
-export default class CheckoutPage extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      isDeliveryViewOpen: true,
-      isPickupViewOpen: false
+function getSessionJson(key, fallback) {
+  try {
+    const value = window.sessionStorage.getItem(key);
+    return value ? JSON.parse(value) : fallback;
+  } catch (error) {
+    return fallback;
+  }
+}
+
+function normalizePhone(value) {
+  return value.replace(/\D/g, '');
+}
+
+export default function CheckoutPage() {
+  const { cartItems } = useContext(CartContext);
+  const [orderType, setOrderType] = useState('Delivery');
+  const [form, setForm] = useState(emptyForm);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+
+  const storedCartItems = getSessionJson('cartItems', []);
+  const orderItems = cartItems.length ? cartItems : storedCartItems;
+  const cartQuantity = orderItems.reduce((total, item) => total + item.qty, 0);
+  const cartTotal = orderItems.reduce((total, item) => total + parseFloat(item.price || 0) * item.qty, 0);
+  const isLoggedIn = getSessionJson('isLoggedIn', false);
+
+  const summaryRows = useMemo(
+    () => [
+      ['items', cartQuantity],
+      ['method', orderType.toLowerCase()],
+      ['payment', formatCurrency(cartTotal)]
+    ],
+    [cartQuantity, cartTotal, orderType]
+  );
+
+  function updateField(event) {
+    const { name, value } = event.target;
+    setForm((current) => ({ ...current, [name]: value }));
+  }
+
+  function validateForm() {
+    const phone = normalizePhone(form.mobile);
+
+    if (!form.firstName.trim()) return 'First name is required.';
+    if (!form.lastName.trim()) return 'Last name is required.';
+    if (phone.length !== 10) return 'Enter a 10 digit mobile number.';
+
+    if (orderType === 'Delivery') {
+      if (!form.address.trim()) return 'Delivery address is required.';
+      if (!form.city.trim()) return 'City is required.';
+      if (!form.stateVal.trim()) return 'State is required.';
+      if (!/^\d{5}$/.test(form.zipcode.trim())) return 'Enter a 5 digit zip code.';
+    }
+
+    if (!orderItems.length) return 'Your cart is empty.';
+    return '';
+  }
+
+  function routeToLogin(event) {
+    event.preventDefault();
+    window.location = '/user';
+  }
+
+  async function submitCheckoutDetails(event) {
+    event.preventDefault();
+    const validationError = validateForm();
+
+    if (validationError) {
+      showNotification('error', validationError);
+      return;
+    }
+
+    const userDetails = getSessionJson('userDetails', {});
+    const currentResID = window.sessionStorage.getItem('resID');
+
+    setIsSubmitting(true);
+
+    const orderPostBody = {
+      restaurantId: currentResID,
+      userId: userDetails._id,
+      payment: formatCurrency(cartTotal),
+      typeOfOrder: orderType,
+      timeOfOrder: new Date().toLocaleString(),
+      orderStatus: 'atRestaurant',
+      orderItems
     };
-  }
 
-  showListView() {
-    this.setState({isDeliveryViewOpen: true, isPickupViewOpen: false});
-  }
+    try {
+      const response = await axios.post(`${apiBaseUrl}/order/placeOrder`, orderPostBody);
 
-  showPickupView() {
-    this.setState({isPickupViewOpen: true, isDeliveryViewOpen: false});
-  }
-
-  render() {
-    let mode = document.cookie.split('; ').find(row => row.startsWith('mode'))
-    mode = mode.split('=')[1]
-    if(mode==='light')
-    {
-      return(
-        <div className="root-containers">
-          <div className="box-controllers">
-            <div className={"controllers-dark " + (this.state.isDeliveryViewOpen ? "selected-controllers-dark" : "")} onClick={this.showListView.bind(this)}> 
-            Delivery
-            </div>
-            <div className={"controllers-dark " + (this.state.isPickupViewOpen ? "selected-controllers-dark" : "")} onClick={this.showPickupView.bind(this)}>
-            Pickup
-            </div>
-          </div>
-          <div style={{ height: '75vh', width: '100%' }} className="card-fulls">
-            {this.state.isDeliveryViewOpen && <Delivery/>}
-            {this.state.isPickupViewOpen && <Pickup />}
-          </div>
-        </div>
-      )
-  } else{
-    return(
-      <div className="root-containers">
-        <div className="box-controllers">
-          <div className={"controllers " + (this.state.isDeliveryViewOpen ? "selected-controllers" : "")} onClick={this.showListView.bind(this)}> 
-          Delivery
-          </div>
-          <div className={"controllers " + (this.state.isPickupViewOpen ? "selected-controllers" : "")} onClick={this.showPickupView.bind(this)}>
-          Pickup
-          </div>
-        </div>
-        <div style={{ height: '75vh', width: '100%' }} className="card-fulls">
-          {this.state.isDeliveryViewOpen && <Delivery/>}
-          {this.state.isPickupViewOpen && <Pickup />}
-        </div>
-      </div>
-    )
-  }
-}
-}
-
-class Pickup extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      firstName: "",
-      lastName: "",
-      mobile: ""
-    };
-    this.onChangeFirstName = this.onChangeFirstName.bind(this);
-    this.onChangeLastName = this.onChangeLastName.bind(this);
-    this.onChangeMobile = this.onChangeMobile.bind(this);
-  }
-
-  onChangeFirstName(e){
-    const target = e.target;
-    const value = target.value;
-    // const name = target.name; 
-    this.setState({
-      firstName: value,
-    })
-  }
-  onChangeLastName(e){
-    const target = e.target;
-    const value = target.value;
-    // const name = target.name; 
-    this.setState({
-      lastName: value,
-    })
-  }
-
-  onChangeMobile(e){
-    const target = e.target;
-    const value = target.value;
-    // const name = target.name; 
-    this.setState({
-      mobile: value,
-    })
-  }
-
-  async submitCheckoutDetails(e) {
-    e.preventDefault();
-    const orderDetails = {
-      firstName: this.state.firstName,
-      lastName: this.state.lastName,
-      mobile: this.state.mobile
-    }
-
-    if (orderDetails.firstName.length < 1 || orderDetails.firstName.trim() === ""){
-      await showNotification ("error", "Invalid Firstname")
-    }
-    else if (orderDetails.lastName.length < 1 || orderDetails.lastName.trim() === ""){
-      await showNotification ("error", "Invalid Lastname")
-    }
-    else if (orderDetails.mobile.length < 1 || orderDetails.mobile.trim() === "" || orderDetails.mobile.length !== 10){
-      await showNotification ("error", "Invalid Mobile Number")
-    }
-    else{
-      var userId = JSON.parse(window.sessionStorage.getItem("userDetails"))["_id"];
-      const currentResID = window.sessionStorage.getItem('resID');
-      const currentCartTotal = window.sessionStorage.getItem('cartTotal');
-      const currentCartItems = window.sessionStorage.getItem('cartItems');
-
-      var datetime = Date().toLocaleString();
-
-      const orderPostBody = {
-        restaurantId: currentResID,
-        userId: userId,
-        payment: currentCartTotal,
-        typeOfOrder: "Pickup",
-        timeOfOrder: datetime,
-        orderStatus: "atRestaurant",
-        orderItems : JSON.parse(currentCartItems)
+      if (response.data && response.data.success === false) {
+        showNotification('error', response.data.message || 'Order could not be placed.');
+        setIsSubmitting(false);
+        return;
       }
-      await axios.post(dev_api + '/order/placeOrder', orderPostBody)
-      .then(function (response) {
-        console.log(response.data);
-      })
-      this.routeToOrderHistory();
+
+      window.sessionStorage.setItem('cartTotal', formatCurrency(cartTotal));
+      window.sessionStorage.setItem('cartItems', JSON.stringify(orderItems));
+      showNotification('success', 'Successfully placed order!');
+      setForm(emptyForm);
+      setTimeout(() => {
+        window.location = '/profile';
+      }, 1500);
+    } catch (error) {
+      showNotification('error', 'Order could not be placed.');
+      setIsSubmitting(false);
     }
-
-    this.setState({
-      firstName: "",
-      LastName: "",
-      mobile: ""
-    })
   }
 
-  routeToLogin(e){
-    e.preventDefault()
-    window.location = "/user"
+  if (!orderItems.length) {
+    return (
+      <>
+        <Header />
+        <main className='checkout-page'>
+          <section className='checkout-shell checkout-shell--empty'>
+            <div className='checkout-empty'>
+              <div className='checkout-empty__icon'>
+                <FaShoppingBasket />
+              </div>
+              <p className='checkout-kicker'>checkout console</p>
+              <h1>Cart needs a dish first.</h1>
+              <p>Add at least one menu item before checkout so the kitchen has something to work with.</p>
+              <Link className='checkout-button checkout-button--ghost' to='/restaurants'>
+                Browse restaurants
+              </Link>
+            </div>
+          </section>
+        </main>
+      </>
+    );
   }
 
-  async routeToOrderHistory(){
-    await showNotification ("success", "Successfully Placed Order!")
-    setTimeout(() => {
-      window.location = "/profile"
-    }, 1500)
-  }
-
-  render(){
-    var isLoggedIn = JSON.parse(window.sessionStorage.getItem("isLoggedIn"));
-    let mode = document.cookie.split('; ').find(row => row.startsWith('mode'))
-    mode = mode.split('=')[1]
-    if(mode==='light')
-      {
-      return(
-        <div className="containerCheckout">
-        <Header/>
-        <h1 style ={{backgroundColor:"#000000"}}>Pickup Your Meal</h1>
-        <div className="form" style ={{backgroundColor:"#000000"}}>
-          <div className="fields fields--3">
-            <label className="field">
-              <span className="field__label" htmlFor="firstname">First name</span>
-              <input className="field__input" type="text" id="firstname" value={this.state.firstName} onChange={this.onChangeFirstName}/>
-            </label>
-            <label className="field">
-              <span className="field__label" htmlFor="lastname">Last name</span>
-              <input className="field__input" type="text" id="lastname" value={this.state.lastName} onChange={this.onChangeLastName}/>
-            </label>
-            <label className="field">
-              <span className="field__label" htmlFor="mobile">Mobile Number</span>
-              <input className="field__input" type="tel" id="mobile" value={this.state.mobile} placeholder="123-456-7890" pattern="[1-9]{3}-[0-9]{3}-[0-9]{3}" onChange={this.onChangeMobile} required/>
-            </label>
+  return (
+    <>
+      <Header />
+      <main className='checkout-page'>
+        <section className='checkout-shell'>
+          <div className='checkout-hero'>
+            <div>
+              <p className='checkout-kicker'>checkout console</p>
+              <h1>Lock the order.</h1>
+              <p>Choose delivery or pickup, add contact details, and send the ticket to the restaurant.</p>
+            </div>
+            <div className='checkout-hero__meter'>
+              <FaCheckCircle />
+              <span>{cartQuantity} item{cartQuantity === 1 ? '' : 's'} ready</span>
+            </div>
           </div>
-        </div>
-        <hr/>
-        {isLoggedIn
-        ? <button type="submit" className="button" onClick={this.submitCheckoutDetails.bind(this)}>
-          Checkout
-          </button>
-        : <button type="submit" className="button" onClick={this.routeToLogin.bind(this)}>
-          Login to Proceed
-          </button>
-        }
-      </div>
-      )
-    }
-    else{
-      return(
-        <div className="containerCheckout">
-        <Header/>
-        <h1>Pickup Your Meal</h1>
-        <div className="form">
-          <div className="fields fields--3">
-            <label className="field">
-              <span className="field__label" htmlFor="firstname">First name</span>
-              <input className="field__input" type="text" id="firstname" value={this.state.firstName} onChange={this.onChangeFirstName}/>
-            </label>
-            <label className="field">
-              <span className="field__label" htmlFor="lastname">Last name</span>
-              <input className="field__input" type="text" id="lastname" value={this.state.lastName} onChange={this.onChangeLastName}/>
-            </label>
-            <label className="field">
-              <span className="field__label" htmlFor="mobile">Mobile Number</span>
-              <input className="field__input" type="tel" id="mobile" value={this.state.mobile} placeholder="123-456-7890" pattern="[1-9]{3}-[0-9]{3}-[0-9]{3}" onChange={this.onChangeMobile} required/>
-            </label>
+
+          <div className='checkout-layout'>
+            <section className='checkout-card checkout-card--form'>
+              <div className='checkout-tabs' aria-label='Order type'>
+                <button
+                  type='button'
+                  className={orderType === 'Delivery' ? 'is-selected' : ''}
+                  onClick={() => setOrderType('Delivery')}
+                >
+                  <FaBicycle />
+                  Delivery
+                </button>
+                <button
+                  type='button'
+                  className={orderType === 'Pickup' ? 'is-selected' : ''}
+                  onClick={() => setOrderType('Pickup')}
+                >
+                  <FaStore />
+                  Pickup
+                </button>
+              </div>
+
+              <form className='checkout-form' onSubmit={submitCheckoutDetails}>
+                <div className='checkout-fields checkout-fields--split'>
+                  <label className='checkout-field'>
+                    <span>First name</span>
+                    <input name='firstName' type='text' value={form.firstName} onChange={updateField} />
+                  </label>
+                  <label className='checkout-field'>
+                    <span>Last name</span>
+                    <input name='lastName' type='text' value={form.lastName} onChange={updateField} />
+                  </label>
+                </div>
+
+                <label className='checkout-field'>
+                  <span>Mobile number</span>
+                  <input name='mobile' type='tel' value={form.mobile} placeholder='201-555-0198' onChange={updateField} />
+                </label>
+
+                {orderType === 'Delivery' && (
+                  <>
+                    <label className='checkout-field'>
+                      <span>Delivery address</span>
+                      <input name='address' type='text' value={form.address} onChange={updateField} />
+                    </label>
+                    <div className='checkout-fields checkout-fields--address'>
+                      <label className='checkout-field'>
+                        <span>City</span>
+                        <input name='city' type='text' value={form.city} onChange={updateField} />
+                      </label>
+                      <label className='checkout-field'>
+                        <span>State</span>
+                        <select name='stateVal' value={form.stateVal} onChange={updateField}>
+                          {STATES.map((state) => (
+                            <option key={state} value={state}>
+                              {state}
+                            </option>
+                          ))}
+                        </select>
+                      </label>
+                      <label className='checkout-field'>
+                        <span>Zip</span>
+                        <input name='zipcode' type='text' value={form.zipcode} onChange={updateField} />
+                      </label>
+                    </div>
+                  </>
+                )}
+
+                {isLoggedIn ? (
+                  <button className='checkout-button checkout-button--primary' type='submit' disabled={isSubmitting}>
+                    {isSubmitting ? 'Sending order' : 'Place order'}
+                  </button>
+                ) : (
+                  <button className='checkout-button checkout-button--primary' type='button' onClick={routeToLogin}>
+                    Login to proceed
+                  </button>
+                )}
+              </form>
+            </section>
+
+            <aside className='checkout-card checkout-summary'>
+              <p className='checkout-kicker'>order tape</p>
+              <h2>{orderType}</h2>
+              <div className='checkout-summary__icon'>
+                {orderType === 'Delivery' ? <FaMapMarkerAlt /> : <FaStore />}
+              </div>
+              <div className='checkout-summary__rows'>
+                {summaryRows.map(([label, value]) => (
+                  <React.Fragment key={label}>
+                    <span>{label}</span>
+                    <strong>{value}</strong>
+                  </React.Fragment>
+                ))}
+              </div>
+              <div className='checkout-items'>
+                <p className='checkout-kicker'>items</p>
+                {orderItems.map((item) => (
+                  <div className='checkout-items__row' key={item._id}>
+                    <span>{item.qty}x {item.name}</span>
+                    <strong>{formatCurrency(parseFloat(item.price || 0) * item.qty)}</strong>
+                  </div>
+                ))}
+              </div>
+              <Link className='checkout-button checkout-button--ghost' to='/cart'>
+                <FaReceipt />
+                Edit cart
+              </Link>
+            </aside>
           </div>
-        </div>
-        <hr/>
-        {isLoggedIn
-        ? <button type="submit" className="button" onClick={this.submitCheckoutDetails.bind(this)}>
-          Checkout
-          </button>
-        : <button type="submit" className="button" onClick={this.routeToLogin.bind(this)}>
-          Login to Proceed
-          </button>
-        }
-      </div>
-      )
-    }
-    }
-  }
-
-class Delivery extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      firstName: "",
-      lastName: "",
-      mobile: "",
-      address: "",
-      zipcode: "",
-      city: "",
-      stateVal: ""
-    };
-    this.onChangeFirstName = this.onChangeFirstName.bind(this);
-    this.onChangeLastName = this.onChangeLastName.bind(this);
-    this.onChangeMobile = this.onChangeMobile.bind(this);
-    this.onChangeAddress = this.onChangeAddress.bind(this);
-    this.onChangeZipcode = this.onChangeZipcode.bind(this);
-    this.onChangeCity = this.onChangeCity.bind(this);
-    this.onChangeStateVal = this.onChangeStateVal.bind(this);
-  }
-
-  onChangeFirstName(e){
-    const target = e.target;
-    const value = target.value;
-    // const name = target.name; 
-    this.setState({
-      firstName: value,
-    })
-  }
-  onChangeLastName(e){
-    const target = e.target;
-    const value = target.value;
-    // const name = target.name; 
-    this.setState({
-      lastName: value,
-    })
-  }
-
-  onChangeMobile(e){
-    const target = e.target;
-    const value = target.value;
-    // const name = target.name; 
-    this.setState({
-      mobile: value,
-    })
-  }
-
-  onChangeAddress(e){
-    const target = e.target;
-    const value = target.value;
-    // const name = target.name; 
-    this.setState({
-      address: value,
-    })
-  }
-
-  onChangeZipcode(e){
-    const target = e.target;
-    const value = target.value;
-    // const name = target.name; 
-    this.setState({
-      zipcode: value,
-    })
-  }
-
-  onChangeCity(e){
-    const target = e.target;
-    const value = target.value;
-    // const name = target.name; 
-    this.setState({
-      city: value,
-    })
-  }
-
-  onChangeStateVal(e){
-    const target = e.target;
-    const value = target.value;
-    // const name = target.name; 
-    this.setState({
-      stateVal: value,
-    })
-  }
-
-  async submitCheckoutDetails(e) {
-    e.preventDefault();
-    const orderDetails = {
-      firstName: this.state.firstName,
-      lastName: this.state.lastName,
-      mobile: this.state.mobile,
-      address: this.state.address,
-      zipcode: this.state.zipcode,
-      city: this.state.city,
-      stateVal: this.state.stateVal
-    }
-
-    if (orderDetails.firstName.length < 1 || orderDetails.firstName.trim() === ""){
-      await showNotification ("error", "Invalid Firstname")
-    }
-    else if (orderDetails.lastName.length < 1 || orderDetails.lastName.trim() === ""){
-      await showNotification ("error", "Invalid Lastname")
-    }
-    else if (orderDetails.mobile.length < 1 || orderDetails.mobile.trim() === "" || orderDetails.mobile.length !== 10){
-      await showNotification ("error", "Invalid Mobile Number")
-    }
-    else if (orderDetails.address.length < 1 || orderDetails.address.trim() === ""){
-      await showNotification ("error", "Invalid Address")
-    }
-    else if (orderDetails.zipcode.length < 1 || orderDetails.zipcode.trim() === "" || orderDetails.zipcode.length !== 5){
-      await showNotification ("error", "Invalid Zipcode")
-    }
-    else if (orderDetails.city.length < 1 || orderDetails.city.trim() === ""){
-      await showNotification ("error", "Invalid City")
-    }
-    else{
-      var userId = JSON.parse(window.sessionStorage.getItem("userDetails"))["_id"];
-      const currentResID = window.sessionStorage.getItem('resID');
-      const currentCartTotal = window.sessionStorage.getItem('cartTotal');
-      const currentCartItems = window.sessionStorage.getItem('cartItems');
-
-      var datetime = Date().toLocaleString();
-
-      const orderPostBody = {
-        restaurantId: currentResID,
-        userId: userId,
-        payment: currentCartTotal,
-        typeOfOrder: "Delivery",
-        timeOfOrder: datetime,
-        orderStatus: "atRestaurant",
-        orderItems : JSON.parse(currentCartItems)
-      }
-      await axios.post(dev_api + '/order/placeOrder', orderPostBody)
-      .then(function (response) {
-        console.log(response.data);
-      })
-      this.routeToOrderHistory();
-    }
-
-    this.setState({
-      firstName: "",
-      LastName: "",
-      mobile: "",
-      address: "",
-      zipcode: "",
-      city: "",
-      stateVal: ""
-    })
-  }
-  
-  async routeToOrderHistory(){
-    await showNotification ("success", "Successfully Placed Order!")
-    setTimeout(() => {
-      window.location = "/profile"
-    }, 1500)
-  }
-
-  routeToLogin(e){
-    e.preventDefault()
-    window.location = "/user"
-  }
-
-  render(){
-    var isLoggedIn = JSON.parse(window.sessionStorage.getItem("isLoggedIn"));
-    let mode = document.cookie.split('; ').find(row => row.startsWith('mode'))
-    mode = mode.split('=')[1]
-    if(mode==='light')
-      {
-      return(
-        <div className="containerCheckout">
-        <Header/>
-        <h1 style ={{backgroundColor:"#000000"}}>Checkout Your Meal</h1>
-        <div className="form" style ={{backgroundColor:"#000000"}}>
-          <div className="fields fields--3">
-            <label className="field">
-              <span className="field__label" htmlFor="firstname">First name</span>
-              <input className="field__input" type="text" id="firstname" value={this.state.firstName} onChange={this.onChangeFirstName}/>
-            </label>
-            <label className="field">
-              <span className="field__label" htmlFor="lastname">Last name</span>
-              <input className="field__input" type="text" id="lastname" value={this.state.lastName} onChange={this.onChangeLastName}/>
-            </label>
-            <label className="field">
-              <span className="field__label" htmlFor="mobile">Mobile Number</span>
-              <input className="field__input" type="tel" id="mobile" value={this.state.mobile} placeholder="123-456-7890" pattern="[1-9]{3}-[0-9]{3}-[0-9]{3}" onChange={this.onChangeMobile} required/>
-            </label>
-          </div>
-          <label className="field">
-            <span className="field__label" htmlFor="address">Address</span>
-            <input className="field__input" type="text" id="address"  value={this.state.address} onChange={this.onChangeAddress} />
-          </label>
-          <div className="fields fields--3">
-            <label className="field">
-              <span className="field__label" htmlFor="zipcode">Zip code</span>
-              <input className="field__input" type="text" id="zipcode" value={this.state.zipcode} onChange={this.onChangeZipcode}/>
-            </label>
-            <label className="field">
-              <span className="field__label" htmlFor="city">City</span>
-              <input className="field__input" type="text" id="city" value={this.state.city} onChange={this.onChangeCity} />
-            </label>
-            <label className="field">
-              <span className="field__label" htmlFor="state">State</span>
-              <select className="field__input" id="state" value={this.state.stateVal} onChange={this.onChangeStateVal}>
-                <option value=""></option>
-                <option value="AL">Alabama</option>
-                <option value="AK">Alaska</option>
-                <option value="AZ">Arizona</option>
-                <option value="AR">Arkansas</option>
-                <option value="CA">California</option>
-                <option value="CO">Colorado</option>
-                <option value="CT">Connecticut</option>
-                <option value="DE">Delaware</option>
-                <option value="DC">District Of Columbia</option>
-                <option value="FL">Florida</option>
-                <option value="GA">Georgia</option>
-                <option value="HI">Hawaii</option>
-                <option value="ID">Idaho</option>
-                <option value="IL">Illinois</option>
-                <option value="IN">Indiana</option>
-                <option value="IA">Iowa</option>
-                <option value="KS">Kansas</option>
-                <option value="KY">Kentucky</option>
-                <option value="LA">Louisiana</option>
-                <option value="ME">Maine</option>
-                <option value="MD">Maryland</option>
-                <option value="MA">Massachusetts</option>
-                <option value="MI">Michigan</option>
-                <option value="MN">Minnesota</option>
-                <option value="MS">Mississippi</option>
-                <option value="MO">Missouri</option>
-                <option value="MT">Montana</option>
-                <option value="NE">Nebraska</option>
-                <option value="NV">Nevada</option>
-                <option value="NH">New Hampshire</option>
-                <option value="NJ">New Jersey</option>
-                <option value="NM">New Mexico</option>
-                <option value="NY">New York</option>
-                <option value="NC">North Carolina</option>
-                <option value="ND">North Dakota</option>
-                <option value="OH">Ohio</option>
-                <option value="OK">Oklahoma</option>
-                <option value="OR">Oregon</option>
-                <option value="PA">Pennsylvania</option>
-                <option value="RI">Rhode Island</option>
-                <option value="SC">South Carolina</option>
-                <option value="SD">South Dakota</option>
-                <option value="TN">Tennessee</option>
-                <option value="TX">Texas</option>
-                <option value="UT">Utah</option>
-                <option value="VT">Vermont</option>
-                <option value="VA">Virginia</option>
-                <option value="WA">Washington</option>
-                <option value="WV">West Virginia</option>
-                <option value="WI">Wisconsin</option>
-                <option value="WY">Wyoming</option>
-              </select>
-            </label>
-          </div>
-        </div>
-        <hr/>
-        {isLoggedIn
-        ? <button type="submit" className="button" onClick={this.submitCheckoutDetails.bind(this)}>
-          Checkout
-          </button>
-        : <button type="submit" className="button" onClick={this.routeToLogin.bind(this)}>
-          Login to Proceed
-          </button>
-        }
-      </div>
-      )
-    }
-    else{
-      return(
-        <div className="containerCheckout">
-        <Header/>
-        <h1>Checkout Your Meal</h1>
-        <div className="form">
-          <div className="fields fields--3">
-            <label className="field">
-              <span className="field__label" htmlFor="firstname">First name</span>
-              <input className="field__input" type="text" id="firstname" value={this.state.firstName} onChange={this.onChangeFirstName}/>
-            </label>
-            <label className="field">
-              <span className="field__label" htmlFor="lastname">Last name</span>
-              <input className="field__input" type="text" id="lastname" value={this.state.lastName} onChange={this.onChangeLastName}/>
-            </label>
-            <label className="field">
-              <span className="field__label" htmlFor="mobile">Mobile Number</span>
-              <input className="field__input" type="tel" id="mobile" value={this.state.mobile} placeholder="123-456-7890" pattern="[1-9]{3}-[0-9]{3}-[0-9]{3}" onChange={this.onChangeMobile} required/>
-            </label>
-          </div>
-          <label className="field">
-            <span className="field__label" htmlFor="address">Address</span>
-            <input className="field__input" type="text" id="address"  value={this.state.address} onChange={this.onChangeAddress} />
-          </label>
-          <div className="fields fields--3">
-            <label className="field">
-              <span className="field__label" htmlFor="zipcode">Zip code</span>
-              <input className="field__input" type="text" id="zipcode" value={this.state.zipcode} onChange={this.onChangeZipcode}/>
-            </label>
-            <label className="field">
-              <span className="field__label" htmlFor="city">City</span>
-              <input className="field__input" type="text" id="city" value={this.state.city} onChange={this.onChangeCity} />
-            </label>
-            <label className="field">
-              <span className="field__label" htmlFor="state">State</span>
-              <select className="field__input" id="state" value={this.state.stateVal} onChange={this.onChangeStateVal}>
-                <option value=""></option>
-                <option value="AL">Alabama</option>
-                <option value="AK">Alaska</option>
-                <option value="AZ">Arizona</option>
-                <option value="AR">Arkansas</option>
-                <option value="CA">California</option>
-                <option value="CO">Colorado</option>
-                <option value="CT">Connecticut</option>
-                <option value="DE">Delaware</option>
-                <option value="DC">District Of Columbia</option>
-                <option value="FL">Florida</option>
-                <option value="GA">Georgia</option>
-                <option value="HI">Hawaii</option>
-                <option value="ID">Idaho</option>
-                <option value="IL">Illinois</option>
-                <option value="IN">Indiana</option>
-                <option value="IA">Iowa</option>
-                <option value="KS">Kansas</option>
-                <option value="KY">Kentucky</option>
-                <option value="LA">Louisiana</option>
-                <option value="ME">Maine</option>
-                <option value="MD">Maryland</option>
-                <option value="MA">Massachusetts</option>
-                <option value="MI">Michigan</option>
-                <option value="MN">Minnesota</option>
-                <option value="MS">Mississippi</option>
-                <option value="MO">Missouri</option>
-                <option value="MT">Montana</option>
-                <option value="NE">Nebraska</option>
-                <option value="NV">Nevada</option>
-                <option value="NH">New Hampshire</option>
-                <option value="NJ">New Jersey</option>
-                <option value="NM">New Mexico</option>
-                <option value="NY">New York</option>
-                <option value="NC">North Carolina</option>
-                <option value="ND">North Dakota</option>
-                <option value="OH">Ohio</option>
-                <option value="OK">Oklahoma</option>
-                <option value="OR">Oregon</option>
-                <option value="PA">Pennsylvania</option>
-                <option value="RI">Rhode Island</option>
-                <option value="SC">South Carolina</option>
-                <option value="SD">South Dakota</option>
-                <option value="TN">Tennessee</option>
-                <option value="TX">Texas</option>
-                <option value="UT">Utah</option>
-                <option value="VT">Vermont</option>
-                <option value="VA">Virginia</option>
-                <option value="WA">Washington</option>
-                <option value="WV">West Virginia</option>
-                <option value="WI">Wisconsin</option>
-                <option value="WY">Wyoming</option>
-              </select>
-            </label>
-          </div>
-        </div>
-        <hr/>
-        {isLoggedIn
-        ? <button type="submit" className="button" onClick={this.submitCheckoutDetails.bind(this)}>
-          Checkout
-          </button>
-        : <button type="submit" className="button" onClick={this.routeToLogin.bind(this)}>
-          Login to Proceed
-          </button>
-        }
-      </div>
-      )
-    }
-}
+        </section>
+      </main>
+    </>
+  );
 }
