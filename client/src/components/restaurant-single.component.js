@@ -3,320 +3,264 @@ import axios from 'axios';
 import './restaurant-single.component.css';
 import MapSection from '../Static/GoogleMaps';
 import StarRatings from 'react-star-ratings';
-import {NotificationManager} from 'react-notifications';
+import { NotificationManager } from 'react-notifications';
 import { Link } from 'react-router-dom';
-import $ from 'jquery'
+import { FaExternalLinkAlt, FaMapMarkerAlt, FaReceipt, FaRegCommentDots, FaStar } from 'react-icons/fa';
 import apiBaseUrl from '../config/api';
 
-
 const dev_api = apiBaseUrl;
+const dummyProfilePics = 'https://res.cloudinary.com/helpinghands101/image/upload/v1615598217/user_mcyfxd.png';
 
-var dummyProfilePics = "https://res.cloudinary.com/helpinghands101/image/upload/v1615598217/user_mcyfxd.png"
-var userObject = JSON.parse(window.sessionStorage.getItem("userDetails"));
-
-// This calls our notification handler
-async function showNotification (type, message){
-  const timer = 2000
-  if (type === "error"){
-    NotificationManager.error(message, "", timer);
-  }
-  else if (type === "success"){
-    NotificationManager.success(message, "", timer);
-  }
-  else if (type === "warning"){
-    NotificationManager.warning(message, "", timer);
+async function showNotification(type, message) {
+  const timer = 2000;
+  if (type === 'error') {
+    NotificationManager.error(message, '', timer);
+  } else if (type === 'success') {
+    NotificationManager.success(message, '', timer);
+  } else if (type === 'warning') {
+    NotificationManager.warning(message, '', timer);
   }
 }
 
 export default class RestaurantsPage extends React.Component {
   constructor(props) {
     super(props);
-    this.resID = ((window.location.pathname).split("/"))[2]
+    this.resID = ((window.location.pathname).split('/'))[2];
     this.state = {
       restaurantDetails: {},
       reviewsMap: [],
       rating: 0,
-      reviewString: "",
+      reviewString: '',
+      isReviewOpen: false,
+      isLoginOpen: false,
     };
-    this.openForm = this.openForm.bind(this);
-    this.closeForm = this.closeForm.bind(this);
-    this.openLoginForm = this.openLoginForm.bind(this);
-    this.closeLoginForm = this.closeLoginForm.bind(this);
-    this.routeToLogin = this.routeToLogin.bind(this);
     this.changeRating = this.changeRating.bind(this);
     this.submitRatingForm = this.submitRatingForm.bind(this);
     this.onChangeReview = this.onChangeReview.bind(this);
-    this.orderNow = this.orderNow.bind(this);
   }
 
   componentDidMount() {
     this.restauranListApiCall();
     this.reviewListApiCall();
-    let mode = document.cookie.split('; ').find(row => row.startsWith('mode'))
-    mode = mode.split('=')[1]
-    console.log(mode)
-    if (mode === "light"){
-      $("#blackslider").prop('checked',true);
-    }
-  }
-
-  openInNewTab = (url) => {
-    const newWindow = window.open(url, '_blank', 'noopener,noreferrer')
-    if (newWindow) newWindow.opener = null
   }
 
   restauranListApiCall() {
-    var self = this;
-    axios.get(dev_api + '/restaurant/'+self.resID)
-    .then(function (response) {
-      self.setState({ restaurantDetails: response.data });
-    })
+    axios.get(dev_api + '/restaurant/' + this.resID)
+      .then((response) => {
+        this.setState({ restaurantDetails: response.data || {} });
+      })
+      .catch((error) => console.log(error));
   }
 
   reviewListApiCall() {
-    var self = this;
-    axios.get(dev_api + '/review/restaurant/' + self.resID)
-    .then(function (response) {
-      self.setState({ reviewsMap: response.data });
-    })
+    axios.get(dev_api + '/review/restaurant/' + this.resID)
+      .then((response) => {
+        this.setState({ reviewsMap: response.data || [] });
+      })
+      .catch((error) => console.log(error));
   }
 
-  openForm(e) {
+  openReview = (e) => {
     e.preventDefault();
-    document.getElementById("myForm").style.display = "block";
-  }
-
-  closeForm(e) {
-    e.preventDefault();
-    document.getElementById("myForm").style.display = "none";
-  }
-
-  openLoginForm(e) {
-    e.preventDefault();
-    document.getElementById("myLoginForm").style.display = "block";
-  }
-
-  closeLoginForm(e) {
-    e.preventDefault();
-    document.getElementById("myLoginForm").style.display = "none";
-  }
-
-  routeToLogin(e){
-    e.preventDefault()
-    window.location = "/user"
-  }
-
-  changeRating( newRating ) {
+    const isLoggedIn = JSON.parse(window.sessionStorage.getItem('isLoggedIn'));
     this.setState({
-      rating: newRating
+      isReviewOpen: Boolean(isLoggedIn),
+      isLoginOpen: !isLoggedIn,
+    });
+  }
+
+  closePanels = (e) => {
+    if (e) e.preventDefault();
+    this.setState({
+      isReviewOpen: false,
+      isLoginOpen: false,
+    });
+  }
+
+  routeToLogin = (e) => {
+    e.preventDefault();
+    window.location = '/user';
+  }
+
+  changeRating(newRating) {
+    this.setState({
+      rating: newRating,
     });
   }
 
   async submitRatingForm(e) {
     e.preventDefault();
-    var self = this;
-    if (self.state.reviewString.length < 3){
-      await showNotification ("error", "Please Enter a Valid Review");
-    } else {
-      const reviewBody = {
-        restaurantId: self.resID,
-        userId: userObject["_id"],
-        reviewText: this.state.reviewString,
-        rating: self.state.rating
-      }
-      const response = await axios.post(dev_api + '/review/add', reviewBody);
-      console.log(response.data);
-      window.location.reload();
+    const userObject = JSON.parse(window.sessionStorage.getItem('userDetails'));
+
+    if (!userObject) {
+      this.setState({ isReviewOpen: false, isLoginOpen: true });
+      return;
     }
+
+    if (this.state.reviewString.trim().length < 3) {
+      await showNotification('error', 'Please enter a valid review.');
+      return;
+    }
+
+    const reviewBody = {
+      restaurantId: this.resID,
+      userId: userObject._id,
+      reviewText: this.state.reviewString,
+      rating: this.state.rating,
+    };
+
+    await axios.post(dev_api + '/review/add', reviewBody);
+    window.location.reload();
   }
 
-  onChangeReview(e){
-    const target = e.target;
-    const value = target.value;
+  onChangeReview(e) {
     this.setState({
-      reviewString: value
-    })
+      reviewString: e.target.value,
+    });
   }
 
-  orderNow(e){
-    e.preventDefault();
-    var self = this;
-    window.sessionStorage.setItem('resID', self.resID);
-    // window.location = "/orderItems/" + self.resID;
+  renderReviews() {
+    if (!this.state.reviewsMap.length) {
+      return (
+        <div className="detail-empty-review">
+          <FaRegCommentDots />
+          <p>No reviews yet. Be the first to leave a signal.</p>
+        </div>
+      );
+    }
+
+    return this.state.reviewsMap.map((item, index) => (
+      <article key={index} className="detail-review">
+        <div className="detail-review__person">
+          <img
+            src={item.userDetails.profile || dummyProfilePics}
+            alt={item.userDetails.name}
+          />
+          <div>
+            <strong>{item.userDetails.name}</strong>
+            <span>Rating {item.rating}/5</span>
+          </div>
+        </div>
+        <p>{item.reviewText}</p>
+      </article>
+    ));
   }
-  
-  render(){
-    var isLoggedIn = JSON.parse(window.sessionStorage.getItem("isLoggedIn"));
+
+  render() {
     const restaurant = this.state.restaurantDetails;
+    const hasLocation = restaurant.latitude && restaurant.longitude;
     const location = [{
       address: restaurant.name,
+      name: restaurant.name,
       lat: restaurant.latitude,
       lng: restaurant.longitude,
-    }]
-    const divStyle = {
-      height: '800px',
-    };
-    let mode = document.cookie.split('; ').find(row => row.startsWith('mode'))
-    mode = mode.split('=')[1]
-    if(mode==='light')
-    {
-    return(
-      <div className='homepage'>
-        <div className="card-wide" style = {{backgroundColor:"#000"}} id ="left">
-          <div id="inline"> 
-            <div className="one">
-              <h5 style = {{color:"#ffffff"}}>{restaurant.name}</h5>
-              <p className = "category" style = {{color:"#b4fffb"}}>{restaurant.category}</p>
-              <p style = {{color:"#b4fffb"}}>{restaurant.address}</p>
-              <p style = {{color:"#b4fffb"}}>{restaurant.city}, {restaurant.state} {restaurant.zip}</p>
-              <Link to={'/orderItems/'+this.resID}>
-                <div id="buttonplace"><input type="button" value="Order Now" className="fancybutton" />
-                </div>
-              </Link>
-            </div> 
-            <div className="two">
-              <div className="imgRes"><img className = "imgThumb" style = {{filter: "drop-shadow(5px 5px 5px #ffffff)"}} src={restaurant.thumbnail} alt={restaurant.name}/></div>
-            </div> 
-          </div> 
-          <br></br>
-          <MapSection className="singleMap" location={location} zoomLevel={17} />
-        </div>
-        <div className="card-wide"  style = {{backgroundColor:"#000000"}} id="right">
-          <h2 style = {{backgroundColor:"#000000"}}>Reviews</h2>
-          {this.state.reviewsMap.map((item, index) => (
-            <div key = {index} className = "reviews">
-              <div className = "card-full-dark">
-                <div className="reviewHeading">
-                  <div className="reviewerName">
-                    <div className="reviewerIcon">
-                      {item.userDetails["profile"]
-                        ? <img src={item.userDetails["profile"]} alt="Profile" className="profileIcon"/>
-                        : <img src={dummyProfilePics} alt="Profile" className="profileIcon"/>
-                      }
-                    </div>
-                    <h3 className = "p_inline">{item.userDetails["name"]}</h3>
-                  </div>
-                  <div className="reviewerRating">
-                    <h3 className = "rating">Rating: {item.rating}</h3>
-                  </div>
-                </div>
-                <p style = {{color:"#b4fffb"}} >{item.reviewText}</p>
+    }];
+    const reviewAverage = this.state.reviewsMap.length
+      ? (this.state.reviewsMap.reduce((total, item) => total + Number(item.rating || 0), 0) / this.state.reviewsMap.length).toFixed(1)
+      : 'new';
+
+    return (
+      <main className="restaurant-detail-page">
+        <section className="restaurant-detail-shell">
+          <div className="detail-hero">
+            <div className="detail-hero__copy">
+              <span className="detail-kicker">{restaurant.category || 'restaurant'}</span>
+              <h1>{restaurant.name || 'Loading restaurant...'}</h1>
+              <p>
+                {restaurant.address && (
+                  <>
+                    <FaMapMarkerAlt /> {restaurant.address}, {restaurant.city}, {restaurant.state} {restaurant.zip}
+                  </>
+                )}
+              </p>
+              <div className="detail-actions">
+                <Link to={'/orderItems/' + this.resID} className="detail-action detail-action--primary">
+                  <FaReceipt />
+                  order now
+                </Link>
+                {restaurant.website && (
+                  <button className="detail-action" type="button" onClick={() => window.open(/^https?:\/\//.test(restaurant.website) ? restaurant.website : 'https://' + restaurant.website, '_blank', 'noopener,noreferrer')}>
+                    <FaExternalLinkAlt />
+                    website
+                  </button>
+                )}
               </div>
             </div>
-          ))}
-        </div>
-        {isLoggedIn
-          ? <button className="open-button" onClick={this.openForm.bind(this)}>Post a Review</button>
-          : <button className="open-button" onClick={this.openLoginForm.bind(this)}>Post a Review</button>
-        }
-        <div className="form-popup-dark" id="myForm">
-          <h2>Post a Review</h2>
-            <form id="login-form" name ="loginForm" className="form-container">
-                <label>
-                    <input type="text" name="reviewText" id="reviewText" className = "inputFieldsDark"  placeholder="Enter your Review" value={this.state.reviewString} onChange={this.onChangeReview} required/>
-                </label>
-                <StarRatings
-                  rating={this.state.rating}
-                  starRatedColor="red"
-                  changeRating={this.changeRating.bind(this)}
-                  numberOfStars={5}
-                  name='rating'
-                  starHoverColor="yellow"
-                  starDimension= "40px"
-                />
-                <button type="submit" className="btnDark" onClick={this.submitRatingForm.bind(this)}>Post!</button>
-                <button type="button" className="btnDark cancel" onClick={this.closeForm.bind(this)}>Cancel</button>
-            </form>
-        </div>
-        <div className="form-popup-dark" id="myLoginForm">
-          <h2>Login to post a review!</h2>
-          <form id="login-form" name ="loginForm" className="form-container">
-            <button type="submit" className="btnDark" id="routeToLogin" onClick={this.routeToLogin.bind(this)}>Login</button>
-            <button type="button" className="btnDark cancel" onClick={this.closeLoginForm.bind(this)}>Cancel</button>
-          </form>
-        </div>
-      </div>
-    )
-  }
-  
-  else{
-    return(
-      <div className='homepage'>
-        <div className="card-wide" style = {{backgroundColor:"#fafafa"}} id ="left">
-          <div id="inline"> 
-            <div className="one">
-              <h5>{restaurant.name}</h5>
-              <p className = "category">{restaurant.category}</p>
-              <p>{restaurant.address}</p>
-              <p>{restaurant.city}, {restaurant.state} {restaurant.zip}</p>
-              <Link to={'/orderItems/'+this.resID}>
-                <div id="buttonplace"><input type="button" value="Order Now" className="fancybutton" />
-                </div>
-              </Link>
-            </div> 
-            <div className="two">
-              <div className="imgRes"><img className = "imgThumb" src={restaurant.thumbnail} alt={restaurant.name}/></div>
-            </div> 
-          </div> 
-          <br></br>
-          <MapSection className="singleMap" location={location} zoomLevel={17} />
-        </div>
-        <div className="card-wide" id="right">
-          <h2>Reviews</h2>
-          {this.state.reviewsMap.map((item, index) => (
-            <div key = {index} className = "reviews">
-              <div className = "card-full">
-                <div className="reviewHeading">
-                  <div className="reviewerName">
-                    <div className="reviewerIcon">
-                      {item.userDetails["profile"]
-                        ? <img src={item.userDetails["profile"]} alt="Profile" className="profileIcon"/>
-                        : <img src={dummyProfilePics} alt="Profile" className="profileIcon"/>
-                      }
-                    </div>
-                    <h3 className = "p_inline">{item.userDetails["name"]}</h3>
-                  </div>
-                  <div className="reviewerRating">
-                    <h3 className = "rating">Rating: {item.rating}</h3>
-                  </div>
-                </div>
-                <p>{item.reviewText}</p>
+
+            <div className="detail-hero__image">
+              {restaurant.thumbnail && <img src={restaurant.thumbnail} alt={restaurant.name} />}
+              <div className="detail-rating">
+                <FaStar />
+                <strong>{reviewAverage}</strong>
+                <span>{this.state.reviewsMap.length} reviews</span>
               </div>
             </div>
-          ))}
-        </div>
-        {isLoggedIn
-          ? <button className="open-button" onClick={this.openForm.bind(this)}>Post a Review</button>
-          : <button className="open-button" onClick={this.openLoginForm.bind(this)}>Post a Review</button>
-        }
-        <div className="form-popup" id="myForm">
-          <h2>Post a Review</h2>
-            <form id="login-form" name ="loginForm" className="form-container">
-                <label>
-                    <input type="text" name="reviewText" id="reviewText" className = "inputFields" placeholder="Enter your Review" value={this.state.reviewString} onChange={this.onChangeReview} required/>
-                </label>
-                <StarRatings
-                  rating={this.state.rating}
-                  starRatedColor="red"
-                  changeRating={this.changeRating.bind(this)}
-                  numberOfStars={5}
-                  name='rating'
-                  starHoverColor="yellow"
-                  starDimension= "40px"
-                />
-                <button type="submit" className="btn" onClick={this.submitRatingForm.bind(this)}>Post!</button>
-                <button type="button" className="btn cancel" onClick={this.closeForm.bind(this)}>Cancel</button>
+          </div>
+
+          <section className="detail-grid">
+            <div className="detail-panel detail-panel--map">
+              <div className="detail-panel__header">
+                <span>pickup map</span>
+                <strong>{restaurant.city || 'local'}</strong>
+              </div>
+              {hasLocation && <MapSection location={location} zoomLevel={15} />}
+            </div>
+
+            <aside className="detail-panel detail-panel--reviews">
+              <div className="detail-panel__header">
+                <span>review board</span>
+                <button type="button" onClick={this.openReview}>post review</button>
+              </div>
+              <div className="detail-reviews-list">
+                {this.renderReviews()}
+              </div>
+            </aside>
+          </section>
+        </section>
+
+        {this.state.isReviewOpen && (
+          <div className="detail-modal" role="dialog" aria-modal="true">
+            <form className="detail-modal__panel" onSubmit={this.submitRatingForm}>
+              <h2>Post a review</h2>
+              <input
+                type="text"
+                name="reviewText"
+                id="reviewText"
+                placeholder="What should people know?"
+                value={this.state.reviewString}
+                onChange={this.onChangeReview}
+                required
+              />
+              <StarRatings
+                rating={this.state.rating}
+                starRatedColor="#ff6b35"
+                changeRating={this.changeRating}
+                numberOfStars={5}
+                name="rating"
+                starHoverColor="#ffd84d"
+                starDimension="34px"
+              />
+              <div className="detail-modal__actions">
+                <button type="submit">post</button>
+                <button type="button" onClick={this.closePanels}>cancel</button>
+              </div>
             </form>
-        </div>
-        <div className="form-popup" id="myLoginForm">
-          <h2>Login to post a review!</h2>
-          <form id="login-form" name ="loginForm" className="form-container">
-            <button type="submit" className="btn" id="routeToLogin" onClick={this.routeToLogin.bind(this)}>Login</button>
-            <button type="button" className="btn cancel" onClick={this.closeLoginForm.bind(this)}>Cancel</button>
-          </form>
-        </div>
-      </div>
-    )
+          </div>
+        )}
+
+        {this.state.isLoginOpen && (
+          <div className="detail-modal" role="dialog" aria-modal="true">
+            <form className="detail-modal__panel" onSubmit={this.routeToLogin}>
+              <h2>Login to post a review</h2>
+              <p>Your review board needs a profile before posting.</p>
+              <div className="detail-modal__actions">
+                <button type="submit">login</button>
+                <button type="button" onClick={this.closePanels}>cancel</button>
+              </div>
+            </form>
+          </div>
+        )}
+      </main>
+    );
   }
-}
 }
