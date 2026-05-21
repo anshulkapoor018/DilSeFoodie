@@ -1,19 +1,112 @@
-.__dml.header {
-  float: right;
-}
-
-.__dml.header ul {
-  margin: 0;
-  padding: 0;
-  list-style-type: none;
+.order-nav {
+  position: sticky;
+  top: 92px;
+  z-index: 20;
   display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 18px;
+  width: min(1180px, 100%);
+  min-height: 72px;
+  border: 2px solid #1f1d18;
+  border-radius: 8px;
+  box-shadow: 6px 6px 0 #1f1d18;
+  background: #fdf8ec;
+  margin: 18px auto;
+  padding: 12px 14px;
 }
 
-.__dml.header ul li {
-  margin: 0;
-  padding: 0 1rem 0 0;
+.order-nav__brand {
+  display: flex;
+  flex-direction: column;
+  color: #1f1d18;
+  text-decoration: none;
 }
 
-.orderLink {
-  color: black;
+.order-nav__brand:hover,
+.order-nav__link:hover {
+  color: #1f1d18;
+  text-decoration: none;
+}
+
+.order-nav__brand span {
+  font-size: 1.15rem;
+  font-weight: 900;
+  line-height: 1;
+}
+
+.order-nav__brand small {
+  margin-top: 4px;
+  font-family: 'Courier New', monospace;
+  font-weight: 800;
+  text-transform: lowercase;
+}
+
+.order-nav__links {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.order-nav__link {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  min-height: 44px;
+  border: 2px solid #1f1d18;
+  border-radius: 6px;
+  box-shadow: 3px 3px 0 #1f1d18;
+  background: #f6d85b;
+  color: #1f1d18;
+  font-family: 'Courier New', monospace;
+  font-weight: 900;
+  padding: 0 14px;
+  text-transform: lowercase;
+  transition: transform 160ms ease, box-shadow 160ms ease;
+}
+
+.order-nav__link:hover {
+  transform: translate(2px, 2px);
+  box-shadow: 1px 1px 0 #1f1d18;
+}
+
+.order-nav__link:nth-child(2) {
+  background: #d8f875;
+}
+
+.order-nav__link--cart {
+  background: #8ddcff;
+}
+
+.order-nav__link--cart span {
+  display: inline-grid;
+  place-items: center;
+  min-width: 24px;
+  height: 24px;
+  border: 2px solid #1f1d18;
+  border-radius: 999px;
+  background: #fdf8ec;
+  font-size: 0.78rem;
+}
+
+@media (max-width: 700px) {
+  .order-nav {
+    align-items: stretch;
+    flex-direction: column;
+    top: 122px;
+    width: 100%;
+  }
+
+  .order-nav__links {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 8px;
+  }
+
+  .order-nav__link {
+    min-width: 0;
+    padding: 0 8px;
+    font-size: 0.8rem;
+  }
 }

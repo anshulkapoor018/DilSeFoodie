@@ -1,77 +1,48 @@
-import React, { useState, useContext } from 'react';
+import React, { useContext } from 'react';
+import { FaPlus, FaShoppingBag } from 'react-icons/fa';
 import CartContext from '../../cart/context';
 import { formatCurrency } from '../../modules/string';
 
 import './styles.css';
 
-export default function Product({
-  _id,
-  restaurantId,
-  name,
-  price,
-  imageUrl,
-  description
-}) {
-  const [hover, setHover] = useState(false);
+const fallbackImage =
+  'https://images.unsplash.com/photo-1543353071-10c8ba85a904?auto=format&fit=crop&w=900&q=80';
+
+export default function Product({ _id, name, price, imageUrl, description }) {
   const { addToCart } = useContext(CartContext);
-  let mode = document.cookie.split('; ').find(row => row.startsWith('mode'))
-  mode = mode.split('=')[1]
-  if(mode==='light')
-    {
-    return (
-      <div
-        className={`product ${hover && 'hover'}`}
-        onMouseEnter={() => setHover(true)}
-        style = {{backgroundColor:"#000000", color:"#91d8ff"}}
-        onMouseLeave={() => setHover(false)}>
-        {hover && (
-          <div
-            className='add-to-cart'
-            onClick={() =>
-              addToCart({
-                _id,
-                name,
-                price,
-                imageUrl
-              })
-            }>
-            +
-          </div>
-        )}
-        <div className='orderCard'>
-          <img src={imageUrl} alt={name} />
-          <div className='name'>{name}</div>
-          <div className='price'>Price: {formatCurrency(parseFloat(price))}</div>
+  const numericPrice = parseFloat(price);
+
+  const addItem = () =>
+    addToCart({
+      _id,
+      name,
+      price,
+      imageUrl: imageUrl || fallbackImage
+    });
+
+  return (
+    <article className='menu-item'>
+      <div className='menu-item__image'>
+        <img src={imageUrl || fallbackImage} alt={name} />
+        <span>
+          <FaShoppingBag />
+          order
+        </span>
+      </div>
+      <div className='menu-item__body'>
+        <div>
+          <p className='menu-item__label'>dish</p>
+          <h2>{name}</h2>
+          <p>{description}</p>
+        </div>
+        <div className='menu-item__footer'>
+          <strong>{Number.isNaN(numericPrice) ? price : formatCurrency(numericPrice)}</strong>
+          <button type='button' className='menu-button menu-button--add' onClick={addItem}>
+            <FaPlus />
+            Add
+          </button>
         </div>
       </div>
-    );
-  }
-  else{
-    return (
-      <div
-        className={`product ${hover && 'hover'}`}
-        onMouseEnter={() => setHover(true)}
-        onMouseLeave={() => setHover(false)}>
-        {hover && (
-          <div
-            className='add-to-cart'
-            onClick={() =>
-              addToCart({
-                _id,
-                name,
-                price,
-                imageUrl
-              })
-            }>
-            +
-          </div>
-        )}
-        <div className='orderCard'>
-          <img src={imageUrl} alt={name} />
-          <div className='name'>{name}</div>
-          <div className='price'>Price: {formatCurrency(parseFloat(price))}</div>
-        </div>
-      </div>
-    );
-  }
+    </article>
+  );
 }
