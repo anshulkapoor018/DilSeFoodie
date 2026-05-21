@@ -3,7 +3,8 @@ const path = require("path");
 // Multer config
 module.exports = multer({
   storage: multer.diskStorage({
-  destination: "./temp-images",
+    destination: "/tmp",
+  }),
   fileFilter: (req, file, cb) => {
     let ext = path.extname(file.originalname);
     if (ext !== ".jpg" && ext !== ".jpeg" && ext !== ".png") {
@@ -12,5 +13,4 @@ module.exports = multer({
     }
     cb(null, true);
   },
-})
 }).single("myImage");

@@ -2,12 +2,12 @@ import React, { Component } from 'react';
 import axios from 'axios';
 import "../styles/_loginSty.scss";
 import $ from 'jquery'
+import apiBaseUrl from '../config/api';
 
 // Notification imports
 import 'react-notifications/lib/notifications.css';
 import {NotificationManager} from 'react-notifications';
-const prod_api = 'https://dilsefoodie.herokuapp.com';
-const dev_api = "http://localhost:5000";
+const dev_api = apiBaseUrl;
 
 // This calls our notification handler
 async function showNotification (type, message){
@@ -170,7 +170,7 @@ class LoginBox extends React.Component {
       await showNotification ("error", "Invalid Password");
     }
     else{
-      const response = await axios.post(prod_api + '/user/login', user)
+      const response = await axios.post(dev_api + '/user/login', user)
       console.log(response.data.message)
       if (response.data.message){
         await showNotification ("error", "Wrong email or password");
@@ -376,7 +376,7 @@ class RegisterBox extends React.Component {
     }
    
     else{
-      const response = await axios.post(prod_api + '/user/signup', user)
+      const response = await axios.post(dev_api + '/user/signup', user)
       console.log(response.data.success)
       if(response.data.email_use === true){
         await showNotification ("error", "Sign up failed, Email Already Exists!")

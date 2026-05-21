@@ -2,13 +2,13 @@ import React, { Component } from 'react';
 import axios from 'axios';
 import Header from '../../layout/header';
 import './styles.css';
+import apiBaseUrl from '../../config/api';
 
 // Notification imports
 import 'react-notifications/lib/notifications.css';
 import {NotificationManager} from 'react-notifications';
 
-const prod_api = 'https://dilsefoodie.herokuapp.com';
-const dev_api = "http://localhost:5000";
+const dev_api = apiBaseUrl;
 
 // This calls our notification handler
 async function showNotification (type, message){
@@ -156,7 +156,7 @@ class Pickup extends React.Component {
         orderStatus: "atRestaurant",
         orderItems : JSON.parse(currentCartItems)
       }
-      await axios.post(prod_api + '/order/placeOrder', orderPostBody)
+      await axios.post(dev_api + '/order/placeOrder', orderPostBody)
       .then(function (response) {
         console.log(response.data);
       })
@@ -386,7 +386,7 @@ class Delivery extends React.Component {
         orderStatus: "atRestaurant",
         orderItems : JSON.parse(currentCartItems)
       }
-      await axios.post(prod_api + '/order/placeOrder', orderPostBody)
+      await axios.post(dev_api + '/order/placeOrder', orderPostBody)
       .then(function (response) {
         console.log(response.data);
       })

@@ -2,9 +2,9 @@ import './restaurant-all.component.css';
 import axios from 'axios';
 import React, { Component } from 'react';
 import MapContainer from '../Static/GoogleMapsPickup';
+import apiBaseUrl from '../config/api';
 
-const prod_api = 'https://dilsefoodie.herokuapp.com';
-const dev_api = "http://localhost:5000";
+const dev_api = apiBaseUrl;
 
 export default class RestaurantsAll extends Component {
   constructor(props) {
@@ -31,7 +31,7 @@ export default class RestaurantsAll extends Component {
   restauranListsApiCall() {
     var self = this;
     let markers = []
-    axios.get(prod_api + '/restaurant/all')
+    axios.get(dev_api + '/restaurant/all')
     .then(function (response) {
       response.data.forEach(rest => 
         markers.push({
@@ -103,7 +103,7 @@ class Restaurants extends React.Component {
 
   restauranListApiCall() {
     var self = this;
-    axios.get(prod_api + '/restaurant/all')
+    axios.get(dev_api + '/restaurant/all')
     .then(function (response) {
       self.setState({ restaurantList: response.data });
     })

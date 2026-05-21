@@ -1,6 +1,6 @@
 const Restaurant = require("../models/restaurant.model");
 const mongoose = require("mongoose");
-const uri = 'mongodb+srv://admin:2zFG0DD5vX8gHBPp@restaurant.gftqs.mongodb.net/capstone';
+const uri = process.env.MONGODB_URI || 'mongodb://127.0.0.1:27017/dilsefoodie';
 const chalk = require('chalk');
 
 const restaurant = [   

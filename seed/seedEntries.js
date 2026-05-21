@@ -7,7 +7,7 @@ const Order = require("../models/order.model");
 const mongoose = require("mongoose");
 const chalk = require('chalk');
 
-const uri = 'mongodb+srv://admin:2zFG0DD5vX8gHBPp@restaurant.gftqs.mongodb.net/capstone';
+const uri = process.env.MONGODB_URI || 'mongodb://127.0.0.1:27017/dilsefoodie';
 mongoose.connect(uri, { useNewUrlParser: true, useCreateIndex: true, useUnifiedTopology: true }
 );
 const connection = mongoose.connection;

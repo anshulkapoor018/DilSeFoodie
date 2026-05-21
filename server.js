@@ -1,12 +1,11 @@
 const express = require('express');
 const app = express();
-const bodyParser = require('body-parser');
 const cors = require('cors');
-const mongoose = require('mongoose');
 const PORT = process.env.PORT || 5000;
 const path = require('path');
 const session = require('express-session');
 const chalk = require('chalk');
+const connectDb = require('./config/db');
 require('dotenv').config();
 
 app.use(cors());
@@ -21,13 +20,11 @@ app.use(
   })
 );
 
-const uri = 'mongodb+srv://admin:2zFG0DD5vX8gHBPp@restaurant.gftqs.mongodb.net/capstone';
-
-mongoose.connect(process.env.MONGODB_URI || uri, { useNewUrlParser: true, useCreateIndex: true, useUnifiedTopology: true });
-const connection = mongoose.connection;
-connection.once('open', () => {
+connectDb().then(() => {
   console.log(`${chalk.green('✓')} ${chalk.blue('MongoDB Connected!')}`)
-})
+}).catch((error) => {
+  console.error(error);
+});
 
 const usersRouter = require('./routes/users');
 const ordersRouter = require('./routes/orders');
