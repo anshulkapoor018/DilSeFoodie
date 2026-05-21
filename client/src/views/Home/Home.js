@@ -1,241 +1,185 @@
-/* eslint-disable no-undef */
 import React from 'react';
 import axios from 'axios';
-import apiBaseUrl from '../../config/api';
-
-// Notification imports
+import { Link } from 'react-router-dom';
+import { FaMotorcycle, FaRegCommentDots, FaSearch, FaStore, FaUsers, FaUtensils } from 'react-icons/fa';
 import 'react-notifications/lib/notifications.css';
-import {NotificationManager} from 'react-notifications';
-import Alert from 'react-bootstrap/Alert'
-import Container from 'react-bootstrap/Container'
-import Row from 'react-bootstrap/Row'
-import Col from 'react-bootstrap/Col'
+import { NotificationManager } from 'react-notifications';
+import apiBaseUrl from '../../config/api';
+import './Home.css';
 
-// import './Home.css'
 const dev_api = apiBaseUrl;
 
-// This calls our notification handler
-async function showNotification (type, message){
-  const timer = 2000
-  if (type === "error"){
-    NotificationManager.error(message, "", timer);
-  }
-  else if (type === "success"){
-    NotificationManager.success(message, "", timer);
-  }
-  else if (type === "warning"){
-    NotificationManager.warning(message, "", timer);
+async function showNotification(type, message) {
+  const timer = 2000;
+  if (type === 'error') {
+    NotificationManager.error(message, '', timer);
+  } else if (type === 'success') {
+    NotificationManager.success(message, '', timer);
+  } else if (type === 'warning') {
+    NotificationManager.warning(message, '', timer);
   }
 }
 
 class Home extends React.PureComponent {
-  constructor(props){
+  constructor(props) {
     super(props);
-    this.state={
-      SearchString: "",
-      stats: [],
+    this.state = {
+      SearchString: '',
+      stats: {},
     };
     this.submitSearch = this.submitSearch.bind(this);
     this.onChangeSearch = this.onChangeSearch.bind(this);
   }
 
-  onChangeSearch(e){
-    const target = e.target;
-    const value = target.value;
+  async componentDidMount() {
+    try {
+      const response = await axios.post(dev_api + '/stats/all');
+      this.setState({ stats: response.data || {} });
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  onChangeSearch(e) {
     this.setState({
-      SearchString: value
-    })
+      SearchString: e.target.value,
+    });
   }
-  async componentDidMount(){
-    const response2 = await axios.post(dev_api + '/stats/all');
-    this.setState({stats: response2.data})
-  }
-  
+
   async submitSearch(e) {
     e.preventDefault();
 
     const search = {
-      SearchString: this.state.SearchString
+      SearchString: this.state.SearchString,
+    };
+
+    if (this.state.SearchString.trim() === '') {
+      await showNotification('error', 'Please enter something to search.');
+      return;
     }
 
-    // Blocker used to prevent unwanted requests to the server if the input is invalid
-    if(this.state.SearchString.trim() === ""){
-      await showNotification("error" ,"Please Enter Something to Search!")
-    }
-    else{
-      // Changed to Promises to Async (Refractored)
-      try{
-        const response = await axios.post(dev_api + '/restaurant/search', search)
-        console.log(response.data.restDetails)
-        if((response.data.restDetails).length !== 0){
-          await showNotification("success" ,"Search Found!")
-          // add a delay for 2 seconds 
-          setTimeout(() => {
-            window.location = "/search/" + String(search.SearchString)
-          }, 1500)
-        } 
-        else {
-          await showNotification("error" ,"No Search Results!")
-        }
+    try {
+      const response = await axios.post(dev_api + '/restaurant/search', search);
+      if (response.data.restDetails.length !== 0) {
+        await showNotification('success', 'Search found.');
+        setTimeout(() => {
+          window.location = '/search/' + String(search.SearchString);
+        }, 800);
+      } else {
+        await showNotification('error', 'No search results.');
       }
-      catch(err){
-        console.log(err);
-        window.location = "/home"
-      }
+    } catch (err) {
+      console.log(err);
+      await showNotification('error', 'Search is unavailable right now.');
     }
   }
 
   render() {
-    let mode = document.cookie.split('; ').find(row => row.startsWith('mode'))
-    mode = mode.split('=')[1]
-    // console.log(this.props.theme);
-    if(mode == "light"){
-      return (
-        <div className='homepage'>
-          <div className="search-card-center-dark">
-            <h1 style = {{backgroundColor:"#000000"}}>Welcome Foodies!</h1>
-            <p style = {{color:"#b4fffb"}}>Discover the best food and drinks in the Mile Square City</p>
-            <label>
-                <input id="search-bar" style={{background: "black", color: "#ffffff"}} type="text" name="search" className = "searchFields" placeholder="Search for a restaurant or cuisine" value={this.state.SearchString} onChange={this.onChangeSearch} />
-                <br></br>
-                <button type="submit" className="fancybuttonSearchDark"  style = {{color:"#e8e8e8"}} onClick={this.submitSearch.bind(this)}>Search</button>
-            </label>
-            <br/>
-          </div>
-          <br></br><br></br>
-        
-          <Container>
-            <Col>
-                <Alert variant="light" style={{background: "black", borderColor: '#2525a7'}}>      
-                  <h2 style = {{color:"#b4fffb"}}>
-                    What we do? 
-                  </h2>
-                </Alert>
-            </Col>
-            <Row>
-              <Col>
-                <Alert variant="primary">
-                  <p>
-                    We love our customers
-                  </p>
-                  <hr />
-                  <p className="mb-0">
-                    We have { this.state.stats.user1} + Users.
-                  </p>
-                </Alert>
-              </Col>
-              <Col>
-                <Alert variant="success">
-                  <p>
-                    We have multiple partnership 
-                  </p>
-                  <hr />
-                  <p className="mb-0">
-                    We have { this.state.stats.Allrestr} + Restaurants.
-                  </p>
-                </Alert>
-              </Col>
-              <Col>
-                <Alert variant="warning">
-                  <p>
-                    We Offer Pickup and Delivery options 
-                  </p>
-                  <hr />
-                  <p className="mb-0">
-                    We have done { this.state.stats.orders} + Orders.
-                  </p>
-                </Alert>
-              </Col>
-              <Col>
-                <Alert variant="dark">
-                  <p>
-                    We appreciate feedbacks always! 
-                  </p>
-                  <hr />
-                  <p className="mb-0">
-                    We have { this.state.stats.rev} + Reviews.
-                  </p>
-                </Alert>
-              </Col>
-            </Row>
-          </Container>
-        </div>
-      );
-  }
-  else{
+    const { stats } = this.state;
+    const statCards = [
+      {
+        label: 'Local diners',
+        value: stats.user1 || 0,
+        icon: <FaUsers />,
+        tone: 'yellow',
+      },
+      {
+        label: 'Restaurant partners',
+        value: stats.Allrestr || 0,
+        icon: <FaStore />,
+        tone: 'blue',
+      },
+      {
+        label: 'Orders handled',
+        value: stats.orders || 0,
+        icon: <FaMotorcycle />,
+        tone: 'red',
+      },
+      {
+        label: 'Community reviews',
+        value: stats.rev || 0,
+        icon: <FaRegCommentDots />,
+        tone: 'green',
+      },
+    ];
+
     return (
-      <div className='homepage'>
-        <div className="search-card-center">
-          <h1>Welcome Foodies!</h1>
-          <p>Discover the best food and drinks in the Mile Square City</p>
-          <label>
-              <input id="search-bar" type="text" name="search" className = "searchFields" placeholder="Search for a restaurant or cuisine" value={this.state.SearchString} onChange={this.onChangeSearch} />
-              <br></br>
-              <button type="submit" className="fancybuttonSearch" onClick={this.submitSearch.bind(this)}>Search</button>
-          </label>
-          <br/>
-        </div>
-        <br></br><br></br>
-      
-        <Container>
-          <Col>
-            <Alert variant="light">
-              <h2>
-                What we do?
-              </h2>
-            </Alert>
-          </Col>
-          <Row>
-            <Col>
-              <Alert variant="primary">
-                <p>
-                  We love our customers
-                </p>
-                <hr />
-                <p className="mb-0">
-                  We have { this.state.stats.user1} + Users.
-                </p>
-              </Alert>
-            </Col>
-            <Col>
-              <Alert variant="success">
-                <p>
-                  We have multiple partnership 
-                </p>
-                <hr />
-                <p className="mb-0">
-                  We have { this.state.stats.Allrestr} + Restaurants.
-                </p>
-              </Alert>
-            </Col>
-            <Col>
-              <Alert variant="warning">
-                <p>
-                  We Offer Pickup and Delivery options 
-                </p>
-                <hr />
-                <p className="mb-0">
-                  We have done { this.state.stats.orders} + Orders.
-                </p>
-              </Alert>
-            </Col>
-            <Col>
-              <Alert variant="dark">
-                <p>
-                  We appreciate feedbacks always! 
-                </p>
-                <hr />
-                <p className="mb-0">
-                  We have { this.state.stats.rev} + Reviews.
-                </p>
-              </Alert>
-            </Col>
-          </Row>
-        </Container>
-      </div>
+      <main className="home-page">
+        <section className="home-hero">
+          <div className="home-hero__rail">
+            <span>FOOD FINDER 01</span>
+            <span>JC / HOB</span>
+            <span>LIVE MENU</span>
+          </div>
+
+          <div className="home-hero__content">
+            <div className="home-hero__eyebrow">
+              <FaUtensils />
+              Jersey City + Hoboken
+            </div>
+            <h1>DilSeFoodie</h1>
+            <p>
+              A sharper way to scan local restaurants, compare cravings, and jump into food that feels close.
+            </p>
+
+            <form className="home-search" onSubmit={this.submitSearch}>
+              <label htmlFor="search-bar">search console</label>
+              <div className="home-search__control">
+                <FaSearch className="home-search__icon" />
+                <input
+                  id="search-bar"
+                  type="text"
+                  name="search"
+                  placeholder="pizza, indian, ramen..."
+                  value={this.state.SearchString}
+                  onChange={this.onChangeSearch}
+                />
+                <button type="submit">go</button>
+              </div>
+            </form>
+
+            <div className="home-actions">
+              <Link to="/restaurants" className="home-actions__primary">
+                browse all
+              </Link>
+              <Link to="/user" className="home-actions__secondary">
+                sign in
+              </Link>
+            </div>
+          </div>
+
+          <div className="home-hero__feature">
+            <div className="home-feature__screen">
+              <img src="/BG4.png" alt="Table spread with restaurant dishes" />
+              <span>today's plate</span>
+            </div>
+            <div className="home-feature__meters" aria-hidden="true">
+              <span className="meter meter--red" />
+              <span className="meter meter--yellow" />
+              <span className="meter meter--blue" />
+            </div>
+          </div>
+        </section>
+
+        <section className="home-stats" aria-label="DilSeFoodie activity">
+          {statCards.map((item) => (
+            <article className={'home-stat home-stat--' + item.tone} key={item.label}>
+              <span className="home-stat__icon">{item.icon}</span>
+              <strong>{item.value}+</strong>
+              <span>{item.label}</span>
+            </article>
+          ))}
+        </section>
+
+        <section className="home-shortcuts" aria-label="Food shortcuts">
+          <Link to="/restaurants">late night</Link>
+          <Link to="/restaurants">under 30 min</Link>
+          <Link to="/restaurants">date food</Link>
+          <Link to="/restaurants">comfort mode</Link>
+        </section>
+      </main>
     );
   }
-}
 }
 
 export default Home;

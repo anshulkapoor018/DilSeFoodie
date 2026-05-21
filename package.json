@@ -7,8 +7,8 @@
     "client-install": "cd client && npm install",
     "start": "node server.js",
     "build": "cd client && npm run build",
-    "server": "nodemon server.js",
-    "client": "cd client && REACT_APP_API_BASE_URL=http://localhost:5001 npm start",
+    "server": "PORT=5001 nodemon server.js",
+    "client": "cd client && PORT=3002 REACT_APP_API_BASE_URL=http://localhost:5001 NODE_OPTIONS=--openssl-legacy-provider npm start",
     "dev": "concurrently \"npm run server\" \"npm run client\"",
     "vercel-build": "cd client && npm install --legacy-peer-deps && CI=false NODE_OPTIONS=--openssl-legacy-provider npm run build",
     "heroku-postbuild": "npm run client-install && npm run build"

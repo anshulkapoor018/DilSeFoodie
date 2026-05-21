@@ -1,98 +1,145 @@
-.header {
-    background: #282c34;
-    display: flex;
-    flex-direction: row;
-    justify-content: flex-start;
-    padding: 1%;
-    background-color: transparent;
+.header.app-nav {
+  position: sticky;
+  top: 12px;
+  z-index: 20;
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  width: min(1240px, calc(100% - 40px));
+  margin: 12px auto 0;
+  padding: 10px;
+  border: 2px solid #141414;
+  border-radius: 8px;
+  background: #fff8e8;
+  box-shadow: 5px 5px 0 #141414;
+}
+
+.nav-title {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  color: #141414;
+  font-size: 1.05rem;
+  font-weight: 950;
+  text-decoration: none;
 }
 
 .nav-logo {
-    display:flex;
-    height: 50px;
-    width: 50px;
-    padding: 10%;
+  width: 44px;
+  height: 44px;
+  object-fit: contain;
 }
 
 .nav-items {
-    display:flex;
-    margin-left: auto;
-    margin-right: 5%;
-    align-items: center;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-left: auto;
 }
 
 .nav-link {
-    color: rgb(255, 255, 255);
-    padding: 14px 25px;
-    text-align: center;
-    text-decoration: none;
-    transition: 0.7s;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 42px;
+  padding: 0 14px;
+  border: 2px solid transparent;
+  border-radius: 6px;
+  color: #141414;
+  font-size: 0.92rem;
+  font-weight: 950;
+  text-align: center;
+  text-decoration: none;
+  text-transform: lowercase;
+  transition: transform 140ms ease, box-shadow 140ms ease, border-color 140ms ease;
 }
 
 .nav-link:hover {
-    background-color: #000000;
-    color: rgb(255, 255, 255);
+  border-color: #141414;
+  transform: translate(-2px, -2px);
+  box-shadow: 3px 3px 0 #141414;
 }
 
+.nav-link--account {
+  border-color: #141414;
+  background: #ff6b35;
+}
 
-/* Theme toggle */
 .switch {
-    position: relative;
-    display: inline-block;
-    width: 60px;
-    height: 34px;
-    margin-top:10px;
+  position: relative;
+  display: inline-grid;
+  grid-template-columns: 16px 48px 16px;
+  gap: 8px;
+  align-items: center;
+  min-height: 42px;
+  margin-left: 6px;
+  padding: 0 4px;
+}
+
+.switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.switch-icon {
+  color: #141414;
+  font-size: 0.9rem;
+}
+
+.slider {
+  position: absolute;
+  cursor: pointer;
+  top: 8px;
+  left: 24px;
+  width: 48px;
+  height: 26px;
+  border: 2px solid #141414;
+  background-color: #d8ff62;
+  transition: 160ms ease;
+}
+
+.slider:before {
+  position: absolute;
+  content: "";
+  height: 18px;
+  width: 18px;
+  left: 2px;
+  bottom: 2px;
+  border: 2px solid #141414;
+  background-color: #fff8e8;
+  transition: 160ms ease;
+}
+
+input:checked + .slider {
+  background-color: #5ee0ff;
+}
+
+input:checked + .slider:before {
+  transform: translateX(20px);
+}
+
+.slider.round,
+.slider.round:before {
+  border-radius: 999px;
+}
+
+@media (max-width: 760px) {
+  .header.app-nav {
+    top: 8px;
+    width: min(100% - 24px, 620px);
+    align-items: flex-start;
+    flex-direction: column;
+    box-shadow: 4px 4px 0 #141414;
   }
-  
-  .switch input { 
-    opacity: 0;
-    width: 0;
-    height: 0;
+
+  .nav-items {
+    width: 100%;
+    flex-wrap: wrap;
+    margin-left: 0;
   }
-  
-  .slider {
-    position: absolute;
-    cursor: pointer;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background-color: #ccc;
-    -webkit-transition: .4s;
-    transition: .4s;
+
+  .nav-link {
+    flex: 1 1 auto;
   }
-  
-  .slider:before {
-    position: absolute;
-    content: "";
-    height: 26px;
-    width: 26px;
-    left: 4px;
-    bottom: 4px;
-    background-color: white;
-    -webkit-transition: .4s;
-    transition: .4s;
-  }
-  
-  input:checked + .slider {
-    background-color: black;
-  }
-  
-  input:focus + .slider {
-    box-shadow: 0 0 1px black;
-  }
-  
-  input:checked + .slider:before {
-    -webkit-transform: translateX(26px);
-    -ms-transform: translateX(26px);
-    transform: translateX(26px);
-  }
-  
-  /* Rounded sliders */
-  .slider.round {
-    border-radius: 34px;
-  }
-  
-  .slider.round:before {
-    border-radius: 50%;
-  }
+}

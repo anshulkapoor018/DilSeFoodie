@@ -23,10 +23,8 @@ import $ from 'jquery'
 
 const StyledApp = styled.div`
   color: ${(props) => props.theme.fontColor};
-  background-image:  url('${props => props.theme.background}');
-  background-size: cover;
-  background-attachment:fixed;
-  min-height: 300vh;
+  background: ${(props) => props.theme.background};
+  min-height: 100vh;
   `;
 
 function App(props) {

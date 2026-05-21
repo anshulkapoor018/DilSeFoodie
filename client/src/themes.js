@@ -1,18 +1,14 @@
 import {createGlobalStyle} from 'styled-components';
-import BGE3 from './assets/BG3.jpg'; // Tell webpack this JS file uses this image
-import Dark_BG from './assets/Dark-BG.jpeg'; // Tell webpack this JS file uses this image
-
-
 export const lightTheme = {
-    body: '#fff',
-    fontColor: '#000',
-    background: BGE3,
+    body: '#f3ead8',
+    fontColor: '#161616',
+    background: '#f3ead8',
 };
 
 export const darkTheme = {
-    body: "#000",
-    fontColor: '#fff',
-    background: Dark_BG,
+    body: '#151515',
+    fontColor: '#f8f1e4',
+    background: '#191816',
 };
 
 
